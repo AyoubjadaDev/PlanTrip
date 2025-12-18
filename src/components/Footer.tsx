@@ -17,7 +17,7 @@ export default function Footer() {
           <div className="col-span-1 md:col-span-2">
             <Link href={`/${locale}`} className="flex items-center space-x-2 mb-4">
               <span className="text-2xl">✈️</span>
-              <span className="text-xl font-bold">AI Trip Planner</span>
+              <span className="text-xl font-bold">PlanYourNextTravel</span>
             </Link>
             <p className="text-gray-400 mb-4">{t('tagline')}</p>
           </div>
@@ -63,7 +63,7 @@ export default function Footer() {
         </div>
 
         <div className="border-t border-gray-800 mt-8 pt-8 text-center text-gray-400">
-          <p>© {new Date().getFullYear()} AI Trip Planner. {t('rights')}</p>
+          <p>© {new Date().getFullYear()} PlanYourNextTravel. {t('rights')}</p>
         </div>
       </div>
     </footer>

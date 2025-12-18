@@ -55,7 +55,7 @@ export default function SignInPage() {
         <div className="text-center mb-8">
           <Link href={`/${locale}`} className="inline-flex items-center gap-2 mb-4">
             <span className="text-3xl">✈️</span>
-            <span className="text-2xl font-bold text-primary-600">AI Trip Planner</span>
+            <span className="text-2xl font-bold text-primary-600">PlanYourNextTravel</span>
           </Link>
           <h2 className="text-3xl font-bold text-gray-900">Sign In</h2>
         </div>

@@ -22,11 +22,11 @@ const cairo = Cairo({
 export const metadata = {
   metadataBase: new URL(process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:5200'),
   title: {
-    default: 'PlanYourNextTravel - AI-Powered Trip Planner & Itinerary Generator',
+    default: 'PlanYourNextTravel - AI-Powered Travel Itinerary Generator',
     template: '%s | PlanYourNextTravel',
   },
   description: 'Create personalized travel itineraries with AI. Get budget estimates, activities, and day-by-day plans for your perfect trip. Free, multilingual, and instant results.',
-  keywords: 'AI trip planner, travel itinerary generator, vacation planner, travel planning, AI travel assistant, budget travel, itinerary maker, travel recommendations, personalized travel, free trip planner, travel guide, trip organizer',
+  keywords: 'travel planner, itinerary generator, vacation planner, travel planning, AI travel assistant, budget travel, itinerary maker, travel recommendations, personalized travel, trip planner, travel guide, trip organizer',
   authors: [{ name: 'PlanYourNextTravel', url: 'https://planyournexttravel.com' }],
   creator: 'PlanYourNextTravel',
   publisher: 'PlanYourNextTravel',
@@ -85,7 +85,8 @@ export default async function RootLayout({
     <html lang={locale} dir={isRTL ? 'rtl' : 'ltr'} className={`${inter.variable} ${cairo.variable}`}>
       <head>
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <link rel="icon" href="/favicon.ico" />
+        <link rel="icon" href="/favicon-new.svg" type="image/svg+xml" />
+        <link rel="alternate icon" href="/favicon.ico" />
       </head>
       <body>
         <SessionProvider>
