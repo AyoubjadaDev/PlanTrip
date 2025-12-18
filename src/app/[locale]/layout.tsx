@@ -19,10 +19,6 @@ const cairo = Cairo({
   display: 'swap',
 });
 
-export function generateStaticParams() {
-  return locales.map((locale) => ({ locale }));
-}
-
 export const metadata = {
   metadataBase: new URL(process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:5200'),
   title: {
