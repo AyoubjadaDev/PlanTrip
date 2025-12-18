@@ -1,9 +1,9 @@
+'use client';
+
 import { useEffect, useState } from 'react';
 import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 import { AdminDashboardWrapper } from '@/components/AdminDashboardSimple';
-
-'use client';
 
 interface User {
   id: string;
