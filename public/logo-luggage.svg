@@ -1,0 +1,46 @@
+<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="luggageGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#3b82f6;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#8b5cf6;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  
+  <!-- Background -->
+  <circle cx="100" cy="100" r="95" fill="#f0f9ff" stroke="url(#luggageGrad)" stroke-width="2"/>
+  
+  <!-- Suitcase/Luggage -->
+  <g transform="translate(100, 100)">
+    <!-- Main suitcase body -->
+    <rect x="-28" y="-15" width="56" height="45" fill="url(#luggageGrad)" stroke="#1e40af" stroke-width="2" rx="3"/>
+    
+    <!-- Suitcase handle -->
+    <path d="M -18 -15 Q -18 -28 0 -28 Q 18 -28 18 -15" fill="none" stroke="url(#luggageGrad)" stroke-width="2.5" stroke-linecap="round"/>
+    
+    <!-- Suitcase divider line -->
+    <line x1="-28" y1="8" x2="28" y2="8" stroke="#1e40af" stroke-width="1.5" opacity="0.5"/>
+    
+    <!-- Luggage details - straps -->
+    <rect x="-24" y="5" width="4" height="20" fill="#1e40af" opacity="0.6" rx="2"/>
+    <rect x="20" y="5" width="4" height="20" fill="#1e40af" opacity="0.6" rx="2"/>
+    
+    <!-- Travel stickers/destination markers -->
+    <circle cx="-12" cy="15" r="4" fill="#ef4444" opacity="0.8"/>
+    <circle cx="5" cy="20" r="3.5" fill="#f97316" opacity="0.8"/>
+    <circle cx="15" cy="12" r="3" fill="#ec4899" opacity="0.8"/>
+    
+    <!-- Wheels at bottom -->
+    <circle cx="-16" cy="32" r="2.5" fill="#1e40af" opacity="0.7"/>
+    <circle cx="16" cy="32" r="2.5" fill="#1e40af" opacity="0.7"/>
+  </g>
+  
+  <!-- Airplane accent (small) -->
+  <g transform="translate(155, 55) rotate(-20)" opacity="0.6">
+    <ellipse cx="0" cy="0" rx="3" ry="7" fill="url(#luggageGrad)"/>
+    <rect x="-8" y="-1.5" width="16" height="3" rx="1" fill="url(#luggageGrad)"/>
+  </g>
+  
+  <!-- Text -->
+  <text x="100" y="165" font-family="Arial, sans-serif" font-size="16" font-weight="bold" 
+        text-anchor="middle" fill="#1e40af">PlanYourNextTravel</text>
+</svg>
