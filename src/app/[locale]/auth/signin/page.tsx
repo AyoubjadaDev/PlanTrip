@@ -3,7 +3,6 @@
 import { useState } from 'react';
 import { signIn } from 'next-auth/react';
 import { useRouter, useParams } from 'next/navigation';
-import { useTranslations } from 'next-intl';
 import Link from 'next/link';
 import { FiMail, FiLock } from 'react-icons/fi';
 import { FcGoogle } from 'react-icons/fc';
@@ -11,8 +10,6 @@ import { FcGoogle } from 'react-icons/fc';
 export const dynamic = "force-dynamic";
 
 export default function SignInPage() {
-  const t = useTranslations('auth');
-  const tErrors = useTranslations('errors');
   const router = useRouter();
   const params = useParams();
   const locale = params.locale as string;
@@ -37,12 +34,12 @@ export default function SignInPage() {
       });
 
       if (result?.error) {
-        setError(tErrors('generic'));
+        setError('Invalid email or password');
       } else {
         router.push(`/${locale}/dashboard`);
       }
     } catch (err) {
-      setError(tErrors('generic'));
+      setError('An error occurred. Please try again.');
     } finally {
       setLoading(false);
     }
@@ -60,7 +57,7 @@ export default function SignInPage() {
             <span className="text-3xl">✈️</span>
             <span className="text-2xl font-bold text-primary-600">AI Trip Planner</span>
           </Link>
-          <h2 className="text-3xl font-bold text-gray-900">{t('signIn')}</h2>
+          <h2 className="text-3xl font-bold text-gray-900">Sign In</h2>
         </div>
 
         {error && (
@@ -72,7 +69,7 @@ export default function SignInPage() {
         <form onSubmit={handleSubmit} className="space-y-6">
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-2">
-              {t('email')}
+              Email
             </label>
             <div className="relative">
               <FiMail className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
@@ -88,7 +85,7 @@ export default function SignInPage() {
 
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-2">
-              {t('password')}
+              Password
             </label>
             <div className="relative">
               <FiLock className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
@@ -107,7 +104,7 @@ export default function SignInPage() {
             disabled={loading}
             className="w-full bg-primary-600 text-white py-3 rounded-lg font-semibold hover:bg-primary-700 disabled:bg-gray-400 disabled:cursor-not-allowed transition"
           >
-            {loading ? t('signingIn') : t('signIn')}
+            {loading ? 'Signing In...' : 'Sign In'}
           </button>
         </form>
 
@@ -117,7 +114,7 @@ export default function SignInPage() {
               <div className="w-full border-t border-gray-300"></div>
             </div>
             <div className="relative flex justify-center text-sm">
-              <span className="px-2 bg-white text-gray-500">{t('orContinueWith')}</span>
+              <span className="px-2 bg-white text-gray-500">Or continue with</span>
             </div>
           </div>
 
@@ -126,14 +123,14 @@ export default function SignInPage() {
             className="mt-4 w-full flex items-center justify-center gap-3 bg-white border border-gray-300 py-3 rounded-lg font-semibold hover:bg-gray-50 transition"
           >
             <FcGoogle size={20} />
-            {t('google')}
+            Google
           </button>
         </div>
 
         <p className="mt-6 text-center text-sm text-gray-600">
-          {t('noAccount')}{' '}
+          Don't have an account?{' '}
           <Link href={`/${locale}/auth/signup`} className="text-primary-600 hover:text-primary-700 font-semibold">
-            {t('signUp')}
+            Sign Up
           </Link>
         </p>
       </div>
