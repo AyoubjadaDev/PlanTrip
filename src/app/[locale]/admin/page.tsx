@@ -1,5 +1,7 @@
 'use client';
 
+export const dynamic = 'force-dynamic';
+
 import { useEffect, useState } from 'react';
 import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
@@ -50,8 +52,6 @@ interface Stats {
   travelTypeDistribution: { travelType: string; count: number }[];
   topActivities: { activity: string; count: number }[];
 }
-
-export const dynamic = "force-dynamic";
 
 export default function AdminPage({ params }: { params: { locale: string } }) {
   const { data: session, status } = useSession();
