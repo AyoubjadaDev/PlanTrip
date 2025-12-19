@@ -77,7 +77,10 @@ export default function SignUpPage() {
   };
 
   const handleGoogleSignIn = () => {
-    signIn('google', { callbackUrl: `/${locale}/dashboard` });
+    signIn('google', { 
+      callbackUrl: `/${locale}/dashboard`,
+      redirect: true
+    });
   };
 
   return (

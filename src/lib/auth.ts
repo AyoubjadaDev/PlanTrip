@@ -79,6 +79,18 @@ export const authOptions: NextAuthOptions = {
       }
       return session;
     },
+    async redirect({ url, baseUrl }) {
+      // If the url is a relative path, redirect to dashboard with default locale
+      if (url.startsWith('/')) {
+        return `${baseUrl}/en/dashboard`;
+      }
+      // If the url is the base URL, redirect to dashboard
+      if (url === baseUrl) {
+        return `${baseUrl}/en/dashboard`;
+      }
+      // Otherwise allow redirect
+      return baseUrl;
+    },
   },
   secret: process.env.NEXTAUTH_SECRET,
 };
