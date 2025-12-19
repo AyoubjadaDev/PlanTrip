@@ -205,7 +205,7 @@ export default function TripGeneratorWizard() {
   };
 
   return (
-    <div className="max-w-4xl mx-auto">
+    <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
       {/* Progress Steps */}
       <div className="mb-8">
         <div className="flex items-center justify-between relative">
@@ -245,7 +245,7 @@ export default function TripGeneratorWizard() {
       </div>
 
       {/* Card Container */}
-      <div className="bg-white rounded-2xl shadow-xl p-8 border border-gray-100">
+      <div className="bg-white rounded-2xl shadow-xl p-6 sm:p-8 border border-gray-100">
         {error && (
           <div className="mb-6 p-4 bg-red-50 border-l-4 border-red-500 text-red-700 rounded-lg flex items-start gap-3">
             <FiAlertCircle className="w-5 h-5 flex-shrink-0 mt-0.5" />
@@ -260,10 +260,10 @@ export default function TripGeneratorWizard() {
               <div className="inline-flex items-center justify-center w-20 h-20 bg-gradient-to-br from-blue-500 via-purple-500 to-pink-500 rounded-3xl mb-6 shadow-2xl">
                 <FiMapPin className="w-10 h-10 text-white" />
               </div>
-              <h2 className="text-4xl font-black bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 bg-clip-text text-transparent mb-3">
+              <h2 className="text-2xl sm:text-3xl md:text-4xl font-black bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 bg-clip-text text-transparent mb-3">
                 {steps[0].title}
               </h2>
-              <p className="text-lg text-gray-600 font-medium">{steps[0].description}</p>
+              <p className="text-sm sm:text-base md:text-lg text-gray-600 font-medium">{steps[0].description}</p>
             </div>
 
             {/* Destination Input */}
@@ -331,7 +331,7 @@ export default function TripGeneratorWizard() {
               {dateMode === 'calendar' && (
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   {/* Start Date Picker */}
-                  <div className="space-y-2">
+                  <div className="space-y-2 relative">
                     <label className="text-xs font-semibold text-gray-700 uppercase tracking-wide">Start Date</label>
                     <button
                       type="button"
@@ -356,7 +356,7 @@ export default function TripGeneratorWizard() {
                     </button>
 
                     {showCalendar === 'start' && (
-                      <div className="absolute z-50 mt-2 bg-white border-3 border-green-200 rounded-2xl p-4 shadow-2xl">
+                      <div className="absolute z-50 top-full mt-2 left-0 bg-white border-3 border-green-200 rounded-2xl p-4 shadow-2xl max-w-xs overflow-auto">
                         <DayPicker
                           mode="single"
                           selected={formData.startDate ? new Date(formData.startDate) : undefined}
@@ -383,7 +383,7 @@ export default function TripGeneratorWizard() {
                   </div>
 
                   {/* End Date Picker */}
-                  <div className="space-y-2">
+                  <div className="space-y-2 relative">
                     <label className="text-xs font-semibold text-gray-700 uppercase tracking-wide">End Date</label>
                     <button
                       type="button"
@@ -411,7 +411,7 @@ export default function TripGeneratorWizard() {
                     </button>
 
                     {showCalendar === 'end' && formData.startDate && (
-                      <div className="absolute z-50 mt-2 bg-white border-3 border-orange-200 rounded-2xl p-4 shadow-2xl">
+                      <div className="absolute z-50 top-full mt-2 left-0 bg-white border-3 border-orange-200 rounded-2xl p-4 shadow-2xl max-w-xs overflow-auto">
                         <DayPicker
                           mode="single"
                           selected={formData.endDate ? new Date(formData.endDate) : undefined}
@@ -493,10 +493,10 @@ export default function TripGeneratorWizard() {
               <div className="inline-flex items-center justify-center w-20 h-20 bg-gradient-to-br from-green-500 via-emerald-500 to-teal-500 rounded-3xl mb-6 shadow-2xl">
                 <FiDollarSign className="w-10 h-10 text-white" />
               </div>
-              <h2 className="text-4xl font-black bg-gradient-to-r from-green-600 via-emerald-600 to-teal-600 bg-clip-text text-transparent mb-3">
+              <h2 className="text-2xl sm:text-3xl md:text-4xl font-black bg-gradient-to-r from-green-600 via-emerald-600 to-teal-600 bg-clip-text text-transparent mb-3">
                 {steps[1].title}
               </h2>
-              <p className="text-lg text-gray-600 font-medium">{steps[1].description}</p>
+              <p className="text-sm sm:text-base md:text-lg text-gray-600 font-medium">{steps[1].description}</p>
             </div>
 
             <div>
@@ -659,11 +659,11 @@ export default function TripGeneratorWizard() {
               <div className="inline-flex items-center justify-center w-20 h-20 bg-gradient-to-br from-orange-500 via-red-500 to-pink-500 rounded-3xl mb-6 shadow-2xl animate-pulse-slow">
                 <FiHeart className="w-10 h-10 text-white" />
               </div>
-              <h2 className="text-4xl font-black bg-gradient-to-r from-orange-600 via-red-600 to-pink-600 bg-clip-text text-transparent mb-3">
+              <h2 className="text-2xl sm:text-3xl md:text-4xl font-black bg-gradient-to-r from-orange-600 via-red-600 to-pink-600 bg-clip-text text-transparent mb-3">
                 {steps[2].title}
               </h2>
-              <p className="text-lg text-gray-600 font-medium">{steps[2].description}</p>
-              <p className="text-sm text-gray-500 mt-2">Select all that apply ✨</p>
+              <p className="text-sm sm:text-base md:text-lg text-gray-600 font-medium">{steps[2].description}</p>
+              <p className="text-xs sm:text-sm text-gray-500 mt-2">Select all that apply ✨</p>
             </div>
 
             <div>
@@ -717,10 +717,10 @@ export default function TripGeneratorWizard() {
               <div className="inline-flex items-center justify-center w-20 h-20 bg-gradient-to-br from-indigo-500 via-purple-500 to-pink-500 rounded-3xl mb-6 shadow-2xl">
                 <FiCheckCircle className="w-10 h-10 text-white" />
               </div>
-              <h2 className="text-4xl font-black bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 bg-clip-text text-transparent mb-3">
+              <h2 className="text-2xl sm:text-3xl md:text-4xl font-black bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 bg-clip-text text-transparent mb-3">
                 {steps[3].title}
               </h2>
-              <p className="text-lg text-gray-600 font-medium">{steps[3].description}</p>
+              <p className="text-sm sm:text-base md:text-lg text-gray-600 font-medium">{steps[3].description}</p>
             </div>
 
             <div className="space-y-4">

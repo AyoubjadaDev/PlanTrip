@@ -223,7 +223,7 @@ export default function Home({ params: { locale } }: { params: { locale: string 
                   <FiAward className="w-4 h-4 text-yellow-400" />
                 </div>
 
-                <h1 className="text-5xl md:text-7xl font-black leading-tight">
+                <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-7xl font-black leading-tight">
                   <span className="text-white">Your Next</span>
                   <br />
                   <span className="bg-gradient-to-r from-blue-400 via-purple-400 to-pink-400 bg-clip-text text-transparent">
@@ -231,7 +231,7 @@ export default function Home({ params: { locale } }: { params: { locale: string 
                   </span>
                 </h1>
 
-                <p className="text-xl text-gray-300 leading-relaxed max-w-lg">
+                <p className="text-base sm:text-lg md:text-xl text-gray-300 leading-relaxed max-w-lg">
                   ✨ AI-powered itineraries tailored just for you. <br className="hidden sm:block" />
                   From budget travel to luxury escapes.
                 </p>
@@ -240,34 +240,34 @@ export default function Home({ params: { locale } }: { params: { locale: string 
                 <div className="flex flex-col sm:flex-row gap-4">
                   <a
                     href="#generator"
-                    className="group inline-flex items-center justify-center gap-3 bg-gradient-to-r from-blue-500 to-purple-600 text-white px-8 py-4 rounded-2xl font-bold text-lg hover:from-blue-600 hover:to-purple-700 transition-all shadow-2xl hover:scale-105"
+                    className="group inline-flex items-center justify-center gap-2 sm:gap-3 bg-gradient-to-r from-blue-500 to-purple-600 text-white px-6 sm:px-8 py-3 sm:py-4 rounded-2xl font-bold text-sm sm:text-lg hover:from-blue-600 hover:to-purple-700 transition-all shadow-2xl hover:scale-105"
                   >
-                    <FiZap className="w-5 h-5" />
+                    <FiZap className="w-4 sm:w-5 h-4 sm:h-5" />
                     <span>Start Planning Free</span>
-                    <FiArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                    <FiArrowRight className="w-4 sm:w-5 h-4 sm:h-5 group-hover:translate-x-1 transition-transform" />
                   </a>
 
                   <Link
                     href={`/${locale}/blog`}
-                    className="inline-flex items-center justify-center gap-3 bg-white/10 backdrop-blur-xl border-2 border-white/30 text-white px-8 py-4 rounded-2xl font-bold text-lg hover:bg-white/20 transition-all shadow-xl"
+                    className="inline-flex items-center justify-center gap-2 sm:gap-3 bg-white/10 backdrop-blur-xl border-2 border-white/30 text-white px-6 sm:px-8 py-3 sm:py-4 rounded-2xl font-bold text-sm sm:text-lg hover:bg-white/20 transition-all shadow-xl"
                   >
                     <span>Explore Guides</span>
-                    <FiGlobe className="w-5 h-5" />
+                    <FiGlobe className="w-4 sm:w-5 h-4 sm:h-5" />
                   </Link>
                 </div>
 
                 {/* Stats */}
-                <div className="grid grid-cols-3 gap-4 pt-8">
-                  <div className="bg-white/10 backdrop-blur-xl rounded-xl p-4 border border-white/20">
-                    <div className="text-3xl font-black text-white mb-1">50K+</div>
+                <div className="grid grid-cols-3 gap-2 sm:gap-4 pt-8">
+                  <div className="bg-white/10 backdrop-blur-xl rounded-xl p-3 sm:p-4 border border-white/20">
+                    <div className="text-2xl sm:text-3xl font-black text-white mb-1">50K+</div>
                     <div className="text-xs text-white/80 font-semibold">Happy Travelers</div>
                   </div>
-                  <div className="bg-white/10 backdrop-blur-xl rounded-xl p-4 border border-white/20">
-                    <div className="text-3xl font-black text-white mb-1">150+</div>
+                  <div className="bg-white/10 backdrop-blur-xl rounded-xl p-3 sm:p-4 border border-white/20">
+                    <div className="text-2xl sm:text-3xl font-black text-white mb-1">150+</div>
                     <div className="text-xs text-white/80 font-semibold">Countries</div>
                   </div>
-                  <div className="bg-white/10 backdrop-blur-xl rounded-xl p-4 border border-white/20">
-                    <div className="text-3xl font-black text-white mb-1">4.9★</div>
+                  <div className="bg-white/10 backdrop-blur-xl rounded-xl p-3 sm:p-4 border border-white/20">
+                    <div className="text-2xl sm:text-3xl font-black text-white mb-1">4.9★</div>
                     <div className="text-xs text-white/80 font-semibold">User Rating</div>
                   </div>
                 </div>
