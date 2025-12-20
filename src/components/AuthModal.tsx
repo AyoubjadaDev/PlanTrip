@@ -63,7 +63,7 @@ export default function AuthModal({ isOpen, onClose, mode: initialMode, onSwitch
 
     try {
       // Validate CAPTCHA for signup and forgot-password
-      if ((view === 'signup' || view === 'forgot-password') && view !== 'reset-code') {
+      if (view === 'signup' || view === 'forgot-password') {
         const correctAnswer = captcha.num1 + captcha.num2;
         if (parseInt(captcha.answer) !== correctAnswer) {
           setError('Incorrect CAPTCHA. Please try again.');
@@ -312,7 +312,7 @@ export default function AuthModal({ isOpen, onClose, mode: initialMode, onSwitch
                 </div>
               )}
 
-              {(view === 'signup' || view === 'forgot-password') && view !== 'reset-code' && (
+              {(view === 'signup' || view === 'forgot-password') && (
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-2">
                     Security Check: {captcha.num1} + {captcha.num2} = ?
