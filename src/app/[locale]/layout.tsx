@@ -30,7 +30,7 @@ export const metadata = {
   authors: [{ name: 'PlanMyNextTravel', url: 'https://planmynexttravel.com' }],
   creator: 'PlanMyNextTravel',
   publisher: 'PlanMyNextTravel',
-  verification: {
+  verification2: {
     google: 'heDb981JNpGgoZZ81wdl4xLka2o4iek6OFdEl2IISfk',
   },
   formatDetection: {
