@@ -37,7 +37,7 @@ export default function AuthModal({ isOpen, onClose, mode: initialMode, onSwitch
     setView(initialMode);
     setError('');
     setSuccess(false);
-    setFormData({ name: '', email: '', password: '' });
+    setFormData({ name: '', email: '', password: '', newPassword: '', resetCode: '' });
   }, [initialMode]);
 
   if (!isOpen) return null;
