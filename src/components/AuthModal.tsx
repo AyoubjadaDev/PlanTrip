@@ -155,14 +155,14 @@ export default function AuthModal({ isOpen, onClose, mode: initialMode, onSwitch
   const handleSwitchMode = () => {
     setError('');
     setSuccess(false);
-    setFormData({ name: '', email: '', password: '' });
+    setFormData({ name: '', email: '', password: '', newPassword: '', resetCode: '' });
     setView(view === 'signin' ? 'signup' : 'signin');
   };
 
   const handleForgotPassword = () => {
     setError('');
     setSuccess(false);
-    setFormData({ name: '', email: '', password: '' });
+    setFormData({ name: '', email: '', password: '', newPassword: '', resetCode: '' });
     setView('forgot-password');
   };
 
