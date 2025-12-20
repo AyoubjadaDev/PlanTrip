@@ -63,7 +63,7 @@
     }
   },
   "features": {
-    "title": "لماذا تختار PlanYourNextTravel",
+    "title": "لماذا تختار PlanMyNextTravel",
     "subtitle": "كل ما تحتاجه لتخطيط عطلة مثالية",
     "ai": {
       "title": "مدعوم بالذكاء الاصطناعي",
@@ -135,7 +135,7 @@
   },
   "cta": {
     "title": "هل أنت مستعد لتخطيط مغامرتك القادمة؟",
-    "subtitle": "انضم إلى آلاف المسافرين الذين يثقون في PlanYourNextTravel",
+    "subtitle": "انضم إلى آلاف المسافرين الذين يثقون في PlanMyNextTravel",
     "button": "ابدأ مجاناً"
   },
   "footer": {

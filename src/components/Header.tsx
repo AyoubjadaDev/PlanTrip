@@ -42,7 +42,7 @@ export default function Header() {
           {/* Logo */}
           <Link href={`/${currentLocale}`} className="flex items-center space-x-2">
             <span className="text-2xl">✈️</span>
-            <span className="text-xl font-bold text-primary-600">PlanYourNextTravel</span>
+            <span className="text-xl font-bold text-primary-600">PlanMyNextTravel</span>
           </Link>
 
           {/* Desktop Navigation */}

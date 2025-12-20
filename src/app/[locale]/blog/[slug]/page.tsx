@@ -27,12 +27,12 @@ export async function generateMetadata({ params }: BlogPostPageProps): Promise<M
   const articleUrl = `${baseUrl}/${params.locale}/blog/${params.slug}`;
 
   return {
-    title: `${post.title} | PlanYourNextTravel Blog`,
+    title: `${post.title} | PlanMyNextTravel Blog`,
     description: post.excerpt,
     keywords: post.tags?.join(', ') || 'travel, trip planning, vacation',
     authors: [{ name: post.author }],
     creator: post.author,
-    publisher: 'PlanYourNextTravel',
+    publisher: 'PlanMyNextTravel',
     robots: {
       index: true,
       follow: true,

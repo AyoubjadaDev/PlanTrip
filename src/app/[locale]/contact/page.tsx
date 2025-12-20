@@ -9,15 +9,15 @@ export async function generateMetadata({ params }: { params: { locale: string } 
   const pageUrl = `${baseUrl}/${params.locale}/contact`;
 
   return {
-    title: 'Contact Us - PlanYourNextTravel | Get Support & Help',
-    description: 'Have questions about trip planning? Contact PlanYourNextTravel for support, feedback, or partnership inquiries. 24/7 online support available.',
+    title: 'Contact Us - PlanMyNextTravel | Get Support & Help',
+    description: 'Have questions about trip planning? Contact PlanMyNextTravel for support, feedback, or partnership inquiries. 24/7 online support available.',
     keywords: 'contact us, support, customer service, help, feedback, business inquiries',
     robots: {
       index: true,
       follow: true,
     },
     openGraph: {
-      title: 'Contact PlanYourNextTravel',
+      title: 'Contact PlanMyNextTravel',
       description: 'Get in touch with our team for support, feedback, or partnership inquiries.',
       url: pageUrl,
       type: 'website',

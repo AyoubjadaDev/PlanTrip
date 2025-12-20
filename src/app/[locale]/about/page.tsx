@@ -8,15 +8,15 @@ export async function generateMetadata({ params }: { params: { locale: string } 
   const pageUrl = `${baseUrl}/${params.locale}/about`;
 
   return {
-    title: 'About Us - PlanYourNextTravel | AI-Powered Trip Planning',
-    description: 'Learn about PlanYourNextTravel, the AI-powered travel planning platform that creates personalized itineraries. Free, multilingual, and instant trip planning for travelers worldwide.',
-    keywords: 'about us, travel planning, PlanYourNextTravel, company information, mission, vision',
+    title: 'About Us - PlanMyNextTravel | AI-Powered Trip Planning',
+    description: 'Learn about PlanMyNextTravel, the AI-powered travel planning platform that creates personalized itineraries. Free, multilingual, and instant trip planning for travelers worldwide.',
+    keywords: 'about us, travel planning, PlanMyNextTravel, company information, mission, vision',
     robots: {
       index: true,
       follow: true,
     },
     openGraph: {
-      title: 'About PlanYourNextTravel',
+      title: 'About PlanMyNextTravel',
       description: 'AI-powered travel planning platform creating personalized itineraries for travelers worldwide.',
       url: pageUrl,
       type: 'website',
@@ -36,11 +36,11 @@ export default function AboutPage() {
       <main className="flex-1 bg-gray-50 py-12">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="bg-white rounded-2xl shadow-sm p-8">
-            <h1 className="text-4xl font-bold text-gray-900 mb-6">About PlanYourNextTravel</h1>
+            <h1 className="text-4xl font-bold text-gray-900 mb-6">About PlanMyNextTravel</h1>
             
             <div className="prose max-w-none space-y-6">
               <p className="text-lg text-gray-700">
-                PlanYourNextTravel is your intelligent travel companion, designed to make trip planning effortless and enjoyable. Using advanced artificial intelligence, we create personalized, detailed travel itineraries tailored to your preferences, budget, and travel style.
+                PlanMyNextTravel is your intelligent travel companion, designed to make trip planning effortless and enjoyable. Using advanced artificial intelligence, we create personalized, detailed travel itineraries tailored to your preferences, budget, and travel style.
               </p>
 
               <h2 className="text-2xl font-semibold text-gray-900 mt-8 mb-4">Our Mission</h2>

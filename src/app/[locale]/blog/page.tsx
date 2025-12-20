@@ -13,9 +13,9 @@ export async function generateMetadata({ params }: { params: { locale: string } 
   const pageUrl = `${baseUrl}/${params.locale}/blog`;
 
   const titles: Record<string, string> = {
-    en: 'Travel Blog - Expert Guides, Tips & Inspiration | PlanYourNextTravel',
-    fr: 'Blog Voyage - Guides d\'Expert, Conseils & Inspiration | PlanYourNextTravel',
-    ar: 'مدونة السفر - أدلة الخبراء والنصائح والإلهام | PlanYourNextTravel',
+    en: 'Travel Blog - Expert Guides, Tips & Inspiration | PlanMyNextTravel',
+    fr: 'Blog Voyage - Guides d\'Expert, Conseils & Inspiration | PlanMyNextTravel',
+    ar: 'مدونة السفر - أدلة الخبراء والنصائح والإلهام | PlanMyNextTravel',
   };
 
   const descriptions: Record<string, string> = {
@@ -43,7 +43,7 @@ export async function generateMetadata({ params }: { params: { locale: string } 
       title: titles[params.locale] || titles.en,
       description: descriptions[params.locale] || descriptions.en,
       url: pageUrl,
-      siteName: 'PlanYourNextTravel',
+      siteName: 'PlanMyNextTravel',
       type: 'website',
       locale: params.locale,
     },
@@ -51,7 +51,7 @@ export async function generateMetadata({ params }: { params: { locale: string } 
       card: 'summary_large_image',
       title: titles[params.locale] || titles.en,
       description: descriptions[params.locale] || descriptions.en,
-      creator: '@planyournexttravel',
+      creator: '@planmynexttravel',
     },
     alternates: {
       canonical: pageUrl,
@@ -90,7 +90,7 @@ export default function BlogPage({ params }: { params: { locale: string } }) {
     url: `${baseUrl}/${params.locale}/blog`,
     publisher: {
       '@type': 'Organization',
-      name: 'PlanYourNextTravel',
+      name: 'PlanMyNextTravel',
       logo: {
         '@type': 'ImageObject',
         url: `${baseUrl}/logo.png`,

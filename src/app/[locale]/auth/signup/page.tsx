@@ -7,7 +7,6 @@ import { signIn } from 'next-auth/react';
 import { useRouter, useParams } from 'next/navigation';
 import Link from 'next/link';
 import { FiMail, FiLock, FiUser } from 'react-icons/fi';
-import { FcGoogle } from 'react-icons/fc';
 
 export default function SignUpPage() {
   const router = useRouter();
@@ -76,20 +75,13 @@ export default function SignUpPage() {
     }
   };
 
-  const handleGoogleSignIn = () => {
-    signIn('google', { 
-      callbackUrl: `/${locale}/dashboard`,
-      redirect: true
-    });
-  };
-
   return (
     <div className="min-h-screen bg-gradient-to-br from-primary-50 to-blue-100 flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-md w-full bg-white rounded-2xl shadow-xl p-8">
         <div className="text-center mb-8">
           <Link href={`/${locale}`} className="inline-flex items-center gap-2 mb-4">
             <span className="text-3xl">✈️</span>
-            <span className="text-2xl font-bold text-primary-600">PlanYourNextTravel</span>
+            <span className="text-2xl font-bold text-primary-600">PlanMyNextTravel</span>
           </Link>
           <h2 className="text-3xl font-bold text-gray-900">Sign Up</h2>
         </div>
@@ -176,30 +168,13 @@ export default function SignUpPage() {
         </form>
 
         <div className="mt-6">
-          <div className="relative">
-            <div className="absolute inset-0 flex items-center">
-              <div className="w-full border-t border-gray-300"></div>
-            </div>
-            <div className="relative flex justify-center text-sm">
-              <span className="px-2 bg-white text-gray-500">Or continue with</span>
-            </div>
-          </div>
-
-          <button
-            onClick={handleGoogleSignIn}
-            className="mt-4 w-full flex items-center justify-center gap-3 bg-white border border-gray-300 py-3 rounded-lg font-semibold hover:bg-gray-50 transition"
-          >
-            <FcGoogle size={20} />
-            Google
-          </button>
+          <p className="text-center text-sm text-gray-600">
+            Already have an account?{' '}
+            <Link href={`/${locale}/auth/signin`} className="text-primary-600 hover:text-primary-700 font-semibold">
+              Sign In
+            </Link>
+          </p>
         </div>
-
-        <p className="mt-6 text-center text-sm text-gray-600">
-          Already have an account?{' '}
-          <Link href={`/${locale}/auth/signin`} className="text-primary-600 hover:text-primary-700 font-semibold">
-            Sign In
-          </Link>
-        </p>
       </div>
     </div>
   );

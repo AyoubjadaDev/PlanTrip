@@ -1,6 +1,5 @@
 import { NextAuthOptions } from 'next-auth';
 import CredentialsProvider from 'next-auth/providers/credentials';
-import GoogleProvider from 'next-auth/providers/google';
 import { DrizzleAdapter } from '@auth/drizzle-adapter';
 import { db } from '@/db';
 import { users } from '@/db/schema';
@@ -17,10 +16,6 @@ export const authOptions: NextAuthOptions = {
     // signUp: '/auth/signup', // Not supported by NextAuth.js
   },
   providers: [
-    GoogleProvider({
-      clientId: process.env.GOOGLE_CLIENT_ID || '',
-      clientSecret: process.env.GOOGLE_CLIENT_SECRET || '',
-    }),
     CredentialsProvider({
       name: 'credentials',
       credentials: {
@@ -80,16 +75,23 @@ export const authOptions: NextAuthOptions = {
       return session;
     },
     async redirect({ url, baseUrl }) {
-      // If the url is a relative path, redirect to dashboard with default locale
+      // If it's a valid URL that starts with the baseUrl, allow it
+      if (url.startsWith(baseUrl)) {
+        return url;
+      }
+      // If it's a relative path, check if it has locale prefix
       if (url.startsWith('/')) {
-        return `${baseUrl}/en/dashboard`;
+        const locales = ['en', 'ar', 'fr'];
+        const pathParts = url.split('/').filter(Boolean);
+        // If it already has a valid locale prefix, return as is
+        if (locales.includes(pathParts[0])) {
+          return `${baseUrl}${url}`;
+        }
+        // Otherwise add en locale prefix
+        return `${baseUrl}/en${url}`;
       }
-      // If the url is the base URL, redirect to dashboard
-      if (url === baseUrl) {
-        return `${baseUrl}/en/dashboard`;
-      }
-      // Otherwise allow redirect
-      return baseUrl;
+      // Default redirect to en/dashboard with locale
+      return `${baseUrl}/en/dashboard`;
     },
   },
   secret: process.env.NEXTAUTH_SECRET,

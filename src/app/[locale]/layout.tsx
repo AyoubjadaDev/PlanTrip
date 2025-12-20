@@ -22,14 +22,14 @@ const cairo = Cairo({
 export const metadata = {
   metadataBase: new URL(process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:5200'),
   title: {
-    default: 'PlanYourNextTravel - AI-Powered Travel Itinerary Generator',
-    template: '%s | PlanYourNextTravel',
+    default: 'PlanMyNextTravel - AI-Powered Travel Itinerary Generator',
+    template: '%s | PlanMyNextTravel',
   },
   description: 'Create personalized travel itineraries with AI. Get budget estimates, activities, and day-by-day plans for your perfect trip. Free, multilingual, and instant results.',
   keywords: 'travel planner, itinerary generator, vacation planner, travel planning, AI travel assistant, budget travel, itinerary maker, travel recommendations, personalized travel, trip planner, travel guide, trip organizer',
-  authors: [{ name: 'PlanYourNextTravel', url: 'https://planyournexttravel.com' }],
-  creator: 'PlanYourNextTravel',
-  publisher: 'PlanYourNextTravel',
+  authors: [{ name: 'PlanMyNextTravel', url: 'https://planmynexttravel.com' }],
+  creator: 'PlanMyNextTravel',
+  publisher: 'PlanMyNextTravel',
   formatDetection: {
     email: false,
     address: false,
@@ -48,16 +48,16 @@ export const metadata = {
   },
   openGraph: {
     type: 'website',
-    siteName: 'PlanYourNextTravel',
-    title: 'PlanYourNextTravel - AI-Powered Trip Planner & Itinerary Generator',
+    siteName: 'PlanMyNextTravel',
+    title: 'PlanMyNextTravel - AI-Powered Trip Planner & Itinerary Generator',
     description: 'Create personalized travel itineraries with AI. Get budget estimates, activities, and day-by-day plans for your perfect trip.',
     images: ['/og-image.jpg'],
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'PlanYourNextTravel - AI-Powered Trip Planner',
+    title: 'PlanMyNextTravel - AI-Powered Trip Planner',
     description: 'Create personalized travel itineraries with AI. Free, multilingual, and instant results.',
-    creator: '@planyournexttravel',
+    creator: '@planmynexttravel',
     images: ['/og-image.jpg'],
   },
   icons: {

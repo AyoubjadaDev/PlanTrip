@@ -1,10 +1,11 @@
 'use client';
 
 import { useState } from 'react';
+import React from 'react';
 import { signIn } from 'next-auth/react';
+import { useParams } from 'next/navigation';
 import { useTranslations } from 'next-intl';
-import { FiX, FiMail, FiLock, FiUser, FiLoader } from 'react-icons/fi';
-import { FcGoogle } from 'react-icons/fc';
+import { FiX, FiMail, FiLock, FiUser, FiLoader, FiArrowLeft } from 'react-icons/fi';
 
 type AuthModalProps = {
   isOpen: boolean;
@@ -13,15 +14,31 @@ type AuthModalProps = {
   onSwitchMode: () => void;
 };
 
-export default function AuthModal({ isOpen, onClose, mode, onSwitchMode }: AuthModalProps) {
+  type ViewType = 'signin' | 'signup' | 'forgot-password' | 'reset-code';
+
+export default function AuthModal({ isOpen, onClose, mode: initialMode, onSwitchMode }: AuthModalProps) {
   const t = useTranslations();
+  const params = useParams();
+  const locale = (params.locale as string) || 'en';
+  const [view, setView] = useState<ViewType>(initialMode);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
+  const [success, setSuccess] = useState(false);
   const [formData, setFormData] = useState({
     name: '',
     email: '',
     password: '',
+    newPassword: '',
+    resetCode: '',
   });
+
+  // Update view when initialMode (mode prop) changes
+  React.useEffect(() => {
+    setView(initialMode);
+    setError('');
+    setSuccess(false);
+    setFormData({ name: '', email: '', password: '' });
+  }, [initialMode]);
 
   if (!isOpen) return null;
 
@@ -31,7 +48,7 @@ export default function AuthModal({ isOpen, onClose, mode, onSwitchMode }: AuthM
     setLoading(true);
 
     try {
-      if (mode === 'signup') {
+      if (view === 'signup') {
         const res = await fetch('/api/auth/register', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
@@ -62,7 +79,7 @@ export default function AuthModal({ isOpen, onClose, mode, onSwitchMode }: AuthM
         onClose();
         // Refresh the page to show linked trips in dashboard
         window.location.reload();
-      } else {
+      } else if (view === 'signin') {
         const result = await signIn('credentials', {
           email: formData.email,
           password: formData.password,
@@ -92,6 +109,41 @@ export default function AuthModal({ isOpen, onClose, mode, onSwitchMode }: AuthM
         onClose();
         // Refresh the page to show linked trips in dashboard
         window.location.reload();
+      } else if (view === 'forgot-password') {
+        const response = await fetch('/api/auth/forgot-password', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email: formData.email }),
+        });
+
+        const data = await response.json();
+
+        if (!response.ok) {
+          throw new Error(data.error || 'An error occurred');
+        }
+
+        // Move to code entry view
+        setView('reset-code');
+        setFormData(prev => ({ ...prev, resetCode: '' }));
+      } else if (view === 'reset-code') {
+        const response = await fetch('/api/auth/verify-reset-code', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ 
+            email: formData.email,
+            code: formData.resetCode,
+            newPassword: formData.newPassword
+          }),
+        });
+
+        const data = await response.json();
+
+        if (!response.ok) {
+          throw new Error(data.error || 'An error occurred');
+        }
+
+        setSuccess(true);
+        setFormData({ name: '', email: '', password: '', newPassword: '', resetCode: '' });
       }
     } catch (err: any) {
       setError(err.message);
@@ -100,8 +152,25 @@ export default function AuthModal({ isOpen, onClose, mode, onSwitchMode }: AuthM
     }
   };
 
-  const handleGoogleSignIn = () => {
-    signIn('google', { callbackUrl: '/' });
+  const handleSwitchMode = () => {
+    setError('');
+    setSuccess(false);
+    setFormData({ name: '', email: '', password: '' });
+    setView(view === 'signin' ? 'signup' : 'signin');
+  };
+
+  const handleForgotPassword = () => {
+    setError('');
+    setSuccess(false);
+    setFormData({ name: '', email: '', password: '' });
+    setView('forgot-password');
+  };
+
+  const handleBackToSignIn = () => {
+    setError('');
+    setSuccess(false);
+    setFormData({ name: '', email: '', password: '', newPassword: '', resetCode: '' });
+    setView('signin');
   };
 
   return (
@@ -116,10 +185,10 @@ export default function AuthModal({ isOpen, onClose, mode, onSwitchMode }: AuthM
             <FiX size={24} />
           </button>
           <h2 className="text-2xl font-bold text-gray-900">
-            {mode === 'signin' ? t('auth.signIn.title') : t('auth.signUp.title')}
+            {view === 'signin' ? t('auth.signIn.title') : view === 'signup' ? t('auth.signUp.title') : view === 'forgot-password' ? 'Reset Password' : 'Enter Reset Code'}
           </h2>
           <p className="text-gray-600 mt-1">
-            {mode === 'signin' ? t('auth.signIn.subtitle') : t('auth.signUp.subtitle')}
+            {view === 'signin' ? t('auth.signIn.subtitle') : view === 'signup' ? t('auth.signUp.subtitle') : view === 'forgot-password' ? 'Enter your email to receive a reset code' : 'Check your email for the 6-digit code'}
           </p>
         </div>
 
@@ -131,102 +200,178 @@ export default function AuthModal({ isOpen, onClose, mode, onSwitchMode }: AuthM
             </div>
           )}
 
-          {/* Google Sign In */}
-          <button
-            onClick={handleGoogleSignIn}
-            className="w-full flex items-center justify-center gap-3 px-4 py-3 border-2 border-gray-200 rounded-lg hover:bg-gray-50 transition font-medium"
-          >
-            <FcGoogle size={24} />
-            {mode === 'signin' ? t('auth.continueWithGoogle') : t('auth.signUpWithGoogle')}
-          </button>
+          {success && view === 'forgot-password' && (
+            <div className="mb-4 p-3 bg-green-50 border border-green-200 text-green-700 rounded-lg text-sm">
+              Check your email for the reset code
+            </div>
+          )}
 
-          <div className="relative my-6">
-            <div className="absolute inset-0 flex items-center">
-              <div className="w-full border-t border-gray-200"></div>
+          {success && view === 'reset-code' && (
+            <div className="mb-4 p-3 bg-green-50 border border-green-200 text-green-700 rounded-lg text-sm">
+              Password reset successfully! You can now sign in with your new password.
             </div>
-            <div className="relative flex justify-center text-sm">
-              <span className="px-4 bg-white text-gray-500">{t('auth.orContinueWith')}</span>
-            </div>
-          </div>
+          )}
 
           {/* Form */}
-          <form onSubmit={handleSubmit} className="space-y-4">
-            {mode === 'signup' && (
+          {!success || view !== 'forgot-password' ? (
+            <form onSubmit={handleSubmit} className="space-y-4">
+              {view === 'signup' && (
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    {t('auth.name')}
+                  </label>
+                  <div className="relative">
+                    <FiUser className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
+                    <input
+                      type="text"
+                      required
+                      value={formData.name}
+                      onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                      className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+                      placeholder={t('auth.namePlaceholder')}
+                    />
+                  </div>
+                </div>
+              )}
+
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">
-                  {t('auth.name')}
+                  {t('auth.email')}
                 </label>
                 <div className="relative">
-                  <FiUser className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
+                  <FiMail className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
                   <input
-                    type="text"
+                    type="email"
                     required
-                    value={formData.name}
-                    onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                    value={formData.email}
+                    onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                     className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
-                    placeholder={t('auth.namePlaceholder')}
+                    placeholder={t('auth.emailPlaceholder')}
                   />
                 </div>
               </div>
-            )}
 
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                {t('auth.email')}
-              </label>
-              <div className="relative">
-                <FiMail className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
-                <input
-                  type="email"
-                  required
-                  value={formData.email}
-                  onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                  className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
-                  placeholder={t('auth.emailPlaceholder')}
-                />
-              </div>
+              {view !== 'forgot-password' && (
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    {t('auth.password')}
+                  </label>
+                  <div className="relative">
+                    <FiLock className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
+                    <input
+                      type="password"
+                      required
+                      value={view === 'reset-code' ? formData.newPassword : formData.password}
+                      onChange={(e) => setFormData({ ...formData, [view === 'reset-code' ? 'newPassword' : 'password']: e.target.value })}
+                      className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+                      placeholder={view === 'reset-code' ? 'Enter new password' : t('auth.passwordPlaceholder')}
+                      minLength={6}
+                    />
+                  </div>
+                </div>
+              )}
+
+              {view === 'reset-code' && (
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    Reset Code (6 digits)
+                  </label>
+                  <input
+                    type="text"
+                    placeholder="000000"
+                    required
+                    value={formData.resetCode}
+                    onChange={(e) => setFormData({ ...formData, resetCode: e.target.value.replace(/\D/g, '').slice(0, 6) })}
+                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent text-center text-xl tracking-widest"
+                    maxLength={6}
+                  />
+                </div>
+              )}
+
+              <button
+                type="submit"
+                disabled={loading}
+                className="w-full bg-gradient-to-r from-primary-600 to-blue-600 text-white py-3 rounded-lg font-semibold hover:from-primary-700 hover:to-blue-700 transition disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+              >
+                {loading && <FiLoader className="animate-spin" />}
+                {view === 'signin' ? t('auth.signInButton') : view === 'signup' ? t('auth.signUpButton') : view === 'forgot-password' ? 'Send Reset Code' : 'Reset Password'}
+              </button>
+            </form>
+          ) : null}
+
+          {/* Success State for Forgot Password */}
+          {success && view === 'reset-code' && (
+            <div className="text-center space-y-4">
+              <p className="text-gray-600">
+                Your password has been reset successfully. You can now sign in with your new password.
+              </p>
+              <button
+                onClick={handleBackToSignIn}
+                className="w-full bg-primary-600 text-white py-3 rounded-lg font-semibold hover:bg-primary-700 transition flex items-center justify-center gap-2"
+              >
+                <FiArrowLeft size={18} />
+                Return to Sign In
+              </button>
             </div>
+          )}
 
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                {t('auth.password')}
-              </label>
-              <div className="relative">
-                <FiLock className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
-                <input
-                  type="password"
-                  required
-                  value={formData.password}
-                  onChange={(e) => setFormData({ ...formData, password: e.target.value })}
-                  className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
-                  placeholder={t('auth.passwordPlaceholder')}
-                  minLength={6}
-                />
-              </div>
-            </div>
-
-            <button
-              type="submit"
-              disabled={loading}
-              className="w-full bg-gradient-to-r from-primary-600 to-blue-600 text-white py-3 rounded-lg font-semibold hover:from-primary-700 hover:to-blue-700 transition disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
-            >
-              {loading && <FiLoader className="animate-spin" />}
-              {mode === 'signin' ? t('auth.signInButton') : t('auth.signUpButton')}
-            </button>
-          </form>
-
-          {/* Switch Mode */}
+          {/* Switch Mode / Navigation */}
           <div className="mt-6 text-center text-sm">
-            <span className="text-gray-600">
-              {mode === 'signin' ? t('auth.noAccount') : t('auth.haveAccount')}
-            </span>
-            {' '}
-            <button
-              onClick={onSwitchMode}
-              className="text-primary-600 font-semibold hover:text-primary-700"
-            >
-              {mode === 'signin' ? t('auth.signUpLink') : t('auth.signInLink')}
-            </button>
+            {view === 'signin' && !success && (
+              <>
+                <button
+                  type="button"
+                  onClick={handleForgotPassword}
+                  className="text-primary-600 hover:text-primary-700 font-semibold block mb-4"
+                >
+                  Forgot Password?
+                </button>
+                <span className="text-gray-600">
+                  {t('auth.noAccount')}
+                </span>
+                {' '}
+                <button
+                  onClick={handleSwitchMode}
+                  className="text-primary-600 font-semibold hover:text-primary-700"
+                >
+                  {t('auth.signUpLink')}
+                </button>
+              </>
+            )}
+            {view === 'signup' && !success && (
+              <>
+                <span className="text-gray-600">
+                  {t('auth.haveAccount')}
+                </span>
+                {' '}
+                <button
+                  onClick={handleSwitchMode}
+                  className="text-primary-600 font-semibold hover:text-primary-700"
+                >
+                  {t('auth.signInLink')}
+                </button>
+              </>
+            )}
+            {view === 'forgot-password' && !success && (
+              <button
+                type="button"
+                onClick={handleBackToSignIn}
+                className="text-primary-600 hover:text-primary-700 font-semibold flex items-center justify-center gap-1 mx-auto"
+              >
+                <FiArrowLeft size={16} />
+                Back to Sign In
+              </button>
+            )}
+            {view === 'reset-code' && !success && (
+              <button
+                type="button"
+                onClick={() => setView('forgot-password')}
+                className="text-primary-600 hover:text-primary-700 font-semibold flex items-center justify-center gap-1 mx-auto"
+              >
+                <FiArrowLeft size={16} />
+                Back to Email
+              </button>
+            )}
           </div>
         </div>
       </div>

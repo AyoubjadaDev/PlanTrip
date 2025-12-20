@@ -63,7 +63,7 @@
     }
   },
   "features": {
-    "title": "Why Choose PlanYourNextTravel",
+    "title": "Why Choose PlanMyNextTravel",
     "subtitle": "Everything you need to plan the perfect vacation",
     "ai": {
       "title": "AI-Powered",
@@ -135,7 +135,7 @@
   },
   "cta": {
     "title": "Ready to Plan Your Next Adventure?",
-    "subtitle": "Join thousands of travelers who trust PlanYourNextTravel",
+    "subtitle": "Join thousands of travelers who trust PlanMyNextTravel",
     "button": "Get Started Free"
   },
   "footer": {

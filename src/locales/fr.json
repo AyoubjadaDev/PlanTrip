@@ -63,7 +63,7 @@
     }
   },
   "features": {
-    "title": "Pourquoi choisir PlanYourNextTravel",
+    "title": "Pourquoi choisir PlanMyNextTravel",
     "subtitle": "Tout ce dont vous avez besoin pour planifier des vacances parfaites",
     "ai": {
       "title": "Propulsé par l'IA",
@@ -135,7 +135,7 @@
   },
   "cta": {
     "title": "Prêt à planifier votre prochaine aventure?",
-    "subtitle": "Rejoignez des milliers de voyageurs qui font confiance à PlanYourNextTravel",
+    "subtitle": "Rejoignez des milliers de voyageurs qui font confiance à PlanMyNextTravel",
     "button": "Commencer gratuitement"
   },
   "footer": {
