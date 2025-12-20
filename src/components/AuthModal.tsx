@@ -31,6 +31,19 @@ export default function AuthModal({ isOpen, onClose, mode: initialMode, onSwitch
     newPassword: '',
     resetCode: '',
   });
+  const [captcha, setCaptcha] = useState({ num1: 0, num2: 0, answer: '' });
+
+  // Generate random math CAPTCHA
+  const generateCaptcha = () => {
+    const num1 = Math.floor(Math.random() * 10) + 1;
+    const num2 = Math.floor(Math.random() * 10) + 1;
+    setCaptcha({ num1, num2, answer: '' });
+  };
+
+  // Initialize CAPTCHA on mount
+  React.useEffect(() => {
+    generateCaptcha();
+  }, []);
 
   // Update view when initialMode (mode prop) changes
   React.useEffect(() => {
@@ -38,6 +51,7 @@ export default function AuthModal({ isOpen, onClose, mode: initialMode, onSwitch
     setError('');
     setSuccess(false);
     setFormData({ name: '', email: '', password: '', newPassword: '', resetCode: '' });
+    generateCaptcha();
   }, [initialMode]);
 
   if (!isOpen) return null;
@@ -48,6 +62,16 @@ export default function AuthModal({ isOpen, onClose, mode: initialMode, onSwitch
     setLoading(true);
 
     try {
+      // Validate CAPTCHA for signup and forgot-password
+      if ((view === 'signup' || view === 'forgot-password') && view !== 'reset-code') {
+        const correctAnswer = captcha.num1 + captcha.num2;
+        if (parseInt(captcha.answer) !== correctAnswer) {
+          setError('Incorrect CAPTCHA. Please try again.');
+          generateCaptcha();
+          setLoading(false);
+          return;
+        }
+      }
       if (view === 'signup') {
         const res = await fetch('/api/auth/register', {
           method: 'POST',
@@ -284,6 +308,22 @@ export default function AuthModal({ isOpen, onClose, mode: initialMode, onSwitch
                     onChange={(e) => setFormData({ ...formData, resetCode: e.target.value.replace(/\D/g, '').slice(0, 6) })}
                     className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent text-center text-xl tracking-widest"
                     maxLength={6}
+                  />
+                </div>
+              )}
+
+              {(view === 'signup' || view === 'forgot-password') && view !== 'reset-code' && (
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    Security Check: {captcha.num1} + {captcha.num2} = ?
+                  </label>
+                  <input
+                    type="number"
+                    placeholder="Answer"
+                    required
+                    value={captcha.answer}
+                    onChange={(e) => setCaptcha({ ...captcha, answer: e.target.value })}
+                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
                   />
                 </div>
               )}
