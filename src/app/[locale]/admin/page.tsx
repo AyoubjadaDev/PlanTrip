@@ -5,60 +5,27 @@ export const dynamic = 'force-dynamic';
 import { useEffect, useState } from 'react';
 import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
-import { AdminDashboardWrapper } from '@/components/AdminDashboardSimple';
+import { AnalyticsDashboard } from '@/components/AnalyticsDashboard';
+import { BlogManagement } from '@/components/BlogManagement';
+import { ContactMessagesManager } from '@/components/ContactMessagesManager';
+import { AdvancedReporting } from '@/components/AdvancedReporting';
+import { ApiKeyManagement } from '@/components/ApiKeyManagement';
 
-interface User {
-  id: string;
-  email: string;
-  name: string | null;
-  isAdmin: boolean;
-  createdAt: string;
-}
+type TabType = 'analytics' | 'blog' | 'contacts' | 'reports' | 'api-keys';
 
-interface Trip {
-  id: string;
-  destination: string;
-  startDate: string;
-  endDate: string;
-  budget: string;
-  travelType: string;
-  activities: string[];
-  language: string;
-  createdAt: string;
-  user: {
-    id: string | null;
-    email: string | null;
-    name: string | null;
-  } | null;
-}
-
-interface Subscriber {
-  id: string;
-  email: string;
-  subscribedAt: string;
-  isActive: boolean;
-}
-
-interface Stats {
-  totalUsers: number;
-  totalTrips: number;
-  totalSubscribers: number;
-  recentUsers: User[];
-  recentTrips: Trip[];
-  recentSubscribers: Subscriber[];
-  tripsPerDay: { date: string; count: number }[];
-  topDestinations: { destination: string; count: number }[];
-  budgetDistribution: { budget: string; count: number }[];
-  travelTypeDistribution: { travelType: string; count: number }[];
-  topActivities: { activity: string; count: number }[];
-}
+const TABS: { id: TabType; label: string; icon: string }[] = [
+  { id: 'analytics', label: 'Analytics Dashboard', icon: '📊' },
+  { id: 'blog', label: 'Blog Management', icon: '📝' },
+  { id: 'contacts', label: 'Contact Messages', icon: '📧' },
+  { id: 'reports', label: 'Advanced Reporting', icon: '📈' },
+  { id: 'api-keys', label: 'API Keys', icon: '🔑' },
+];
 
 export default function AdminPage({ params }: { params: { locale: string } }) {
   const { data: session, status } = useSession();
   const router = useRouter();
-  const [stats, setStats] = useState<Stats | null>(null);
+  const [activeTab, setActiveTab] = useState<TabType>('analytics');
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     if (status === 'loading') return;
@@ -68,9 +35,10 @@ export default function AdminPage({ params }: { params: { locale: string } }) {
       return;
     }
 
-    const fetchStats = async () => {
+    // Check if user is admin
+    const checkAdmin = async () => {
       try {
-        const response = await fetch('/api/admin/stats');
+        const response = await fetch('/api/admin/analytics');
         
         if (response.status === 401) {
           router.push(`/${params.locale}/auth/signin`);
@@ -81,23 +49,15 @@ export default function AdminPage({ params }: { params: { locale: string } }) {
           router.push(`/${params.locale}`);
           return;
         }
-
-        if (!response.ok) {
-          throw new Error('Failed to fetch admin statistics');
-        }
-
-        const data = await response.json();
-        setStats(data);
       } catch (err) {
-        console.error('Error fetching admin stats:', err);
-        setError('Failed to load admin dashboard');
+        console.error('Error checking admin access:', err);
       } finally {
         setLoading(false);
       }
     };
 
     if (status === 'authenticated') {
-      fetchStats();
+      checkAdmin();
     }
   }, [status, router, params.locale]);
 
@@ -106,25 +66,53 @@ export default function AdminPage({ params }: { params: { locale: string } }) {
       <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 via-purple-50 to-pink-50">
         <div className="text-center">
           <div className="w-16 h-16 border-4 border-blue-500 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
-          <p className="text-gray-600 text-lg">Loading admin dashboard...</p>
+          <p className="text-gray-600 text-lg">Loading admin panel...</p>
         </div>
       </div>
     );
   }
 
-  if (error) {
-    return (
-      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 via-purple-50 to-pink-50">
-        <div className="text-center">
-          <p className="text-red-600 text-lg">{error}</p>
+  return (
+    <div className="min-h-screen bg-gray-50">
+      {/* Header */}
+      <div className="bg-white border-b border-gray-200 sticky top-0 z-50">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+          <h1 className="text-3xl font-bold text-gray-900">Admin Dashboard</h1>
+          <p className="text-gray-600 mt-1">Manage your platform, content, and analytics</p>
         </div>
       </div>
-    );
-  }
 
-  if (!stats) {
-    return null;
-  }
+      {/* Tabs Navigation */}
+      <div className="bg-white border-b border-gray-200 sticky top-24 z-40">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <nav className="flex gap-1 overflow-x-auto" role="tablist">
+            {TABS.map(tab => (
+              <button
+                key={tab.id}
+                onClick={() => setActiveTab(tab.id)}
+                role="tab"
+                aria-selected={activeTab === tab.id}
+                className={`px-4 py-4 font-medium border-b-2 transition whitespace-nowrap ${
+                  activeTab === tab.id
+                    ? 'text-blue-600 border-blue-600'
+                    : 'text-gray-600 border-transparent hover:text-gray-900'
+                }`}
+              >
+                {tab.icon} {tab.label}
+              </button>
+            ))}
+          </nav>
+        </div>
+      </div>
 
-  return <AdminDashboardWrapper locale={params.locale} stats={stats} />;
+      {/* Content */}
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        {activeTab === 'analytics' && <AnalyticsDashboard />}
+        {activeTab === 'blog' && <BlogManagement />}
+        {activeTab === 'contacts' && <ContactMessagesManager />}
+        {activeTab === 'reports' && <AdvancedReporting />}
+        {activeTab === 'api-keys' && <ApiKeyManagement />}
+      </div>
+    </div>
+  );
 }

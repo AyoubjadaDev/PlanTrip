@@ -7,6 +7,7 @@ import { FiCopy, FiDownload, FiSave, FiCalendar, FiMapPin } from 'react-icons/fi
 import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 
+
 interface TripDisplayProps {
   trip: Trip;
   locale: string;
@@ -65,17 +66,306 @@ export default function TripDisplay({ trip, locale }: TripDisplayProps) {
   };
 
   const handleExportPDF = () => {
-    // Simple fallback: download as text file
-    const text = generateTextContent();
-    const blob = new Blob([text], { type: 'text/plain' });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = `trip-${trip.destination}-${new Date().toISOString().split('T')[0]}.txt`;
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
-    URL.revokeObjectURL(url);
+    // Create a professional PDF layout with logo and design
+    const html = `
+    <html>
+    <head>
+      <meta charset="utf-8">
+      <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { 
+          font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+          line-height: 1.8; 
+          color: #333; 
+          background: #f9fafb;
+        }
+        .container { max-width: 900px; margin: 0 auto; background: white; }
+        
+        /* Header with Logo */
+        .header {
+          background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+          color: white;
+          padding: 40px;
+          text-align: center;
+          border-bottom: 5px solid #764ba2;
+        }
+        
+        .logo-section {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          margin-bottom: 15px;
+        }
+        
+        .logo-icon {
+          font-size: 48px;
+          margin-right: 15px;
+        }
+        
+        .logo-text {
+          font-size: 32px;
+          font-weight: bold;
+          letter-spacing: 1px;
+        }
+        
+        .tagline {
+          font-size: 14px;
+          opacity: 0.9;
+          margin-top: 10px;
+          font-style: italic;
+        }
+        
+        /* Trip Title Section */
+        .trip-header {
+          background: linear-gradient(135deg, #667eea15 0%, #764ba215 100%);
+          padding: 30px;
+          margin: 20px;
+          border-left: 5px solid #667eea;
+          border-radius: 8px;
+        }
+        
+        .trip-title {
+          font-size: 28px;
+          font-weight: bold;
+          color: #667eea;
+          margin-bottom: 15px;
+        }
+        
+        .trip-details {
+          display: grid;
+          grid-template-columns: repeat(2, 1fr);
+          gap: 15px;
+          font-size: 14px;
+        }
+        
+        .detail-item {
+          display: flex;
+          align-items: center;
+          gap: 10px;
+        }
+        
+        .detail-label {
+          font-weight: bold;
+          color: #764ba2;
+        }
+        
+        /* Sections */
+        .section {
+          padding: 30px;
+          margin: 20px;
+        }
+        
+        .section h2 {
+          color: #667eea;
+          font-size: 24px;
+          margin-bottom: 15px;
+          padding-bottom: 10px;
+          border-bottom: 3px solid #667eea;
+        }
+        
+        .section p {
+          color: #555;
+          margin-bottom: 15px;
+          text-align: justify;
+        }
+        
+        /* Day Sections */
+        .day-section {
+          margin: 25px 0;
+          padding: 20px;
+          background: #f9fafb;
+          border-left: 4px solid #667eea;
+          border-radius: 8px;
+          page-break-inside: avoid;
+        }
+        
+        .day-title {
+          font-size: 18px;
+          font-weight: bold;
+          color: #764ba2;
+          margin-bottom: 15px;
+        }
+        
+        .activity {
+          margin-bottom: 15px;
+        }
+        
+        .activity-time {
+          font-weight: bold;
+          color: #667eea;
+          margin-bottom: 5px;
+          font-size: 16px;
+        }
+        
+        .activity-content {
+          color: #555;
+          margin-left: 15px;
+          line-height: 1.6;
+        }
+        
+        /* Tips Sections */
+        .tips-section {
+          display: grid;
+          grid-template-columns: repeat(3, 1fr);
+          gap: 20px;
+          margin: 20px;
+        }
+        
+        .tip-box {
+          background: linear-gradient(135deg, #667eea15 0%, #764ba215 100%);
+          padding: 20px;
+          border-radius: 8px;
+          border-left: 4px solid #667eea;
+        }
+        
+        .tip-box h3 {
+          color: #764ba2;
+          font-size: 16px;
+          margin-bottom: 10px;
+        }
+        
+        .tip-item {
+          margin-bottom: 10px;
+          color: #555;
+          font-size: 13px;
+          line-height: 1.5;
+        }
+        
+        .tip-item:before {
+          content: "✓ ";
+          color: #667eea;
+          font-weight: bold;
+          margin-right: 5px;
+        }
+        
+        /* Footer */
+        .footer {
+          background: #f3f4f6;
+          padding: 20px;
+          text-align: center;
+          border-top: 2px solid #e5e7eb;
+          font-size: 12px;
+          color: #888;
+          margin-top: 30px;
+        }
+        
+        .footer-logo {
+          font-size: 20px;
+          margin-bottom: 5px;
+        }
+        
+        /* Print adjustments */
+        @media print {
+          body { background: white; }
+          .container { box-shadow: none; }
+          page { margin: 0; }
+        }
+      </style>
+    </head>
+    <body>
+      <div class="container">
+        <!-- Header with Logo -->
+        <div class="header">
+          <div class="logo-section">
+            <div class="logo-icon">✈️</div>
+            <div class="logo-text">PlanMyNextTravel</div>
+          </div>
+          <div class="tagline">AI-Powered Travel Itinerary Generator</div>
+        </div>
+        
+        <!-- Trip Header -->
+        <div class="trip-header">
+          <div class="trip-title">${itinerary.title}</div>
+          <div class="trip-details">
+            <div class="detail-item">
+              <span class="detail-label">📍 Destination:</span>
+              <span>${trip.destination}</span>
+            </div>
+            <div class="detail-item">
+              <span class="detail-label">💰 Budget:</span>
+              <span style="text-transform: capitalize;">${trip.budget}</span>
+            </div>
+            <div class="detail-item">
+              <span class="detail-label">📅 Duration:</span>
+              <span>${new Date(trip.startDate).toLocaleDateString(locale)} - ${new Date(trip.endDate).toLocaleDateString(locale)}</span>
+            </div>
+            <div class="detail-item">
+              <span class="detail-label">🎒 Travel Type:</span>
+              <span style="text-transform: capitalize;">${trip.travelType}</span>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Overview -->
+        <div class="section">
+          <h2>${t('overview')}</h2>
+          <p>${itinerary.overview}</p>
+        </div>
+        
+        <!-- Day by Day Itinerary -->
+        <div class="section">
+          <h2>📋 Day-by-Day Itinerary</h2>
+          ${itinerary.days.map((day: any) => `
+            <div class="day-section">
+              <div class="day-title">Day ${day.day} - ${day.date}</div>
+              <div class="activity">
+                <div class="activity-time">☀️ Morning</div>
+                <div class="activity-content">${day.morning}</div>
+              </div>
+              <div class="activity">
+                <div class="activity-time">🌤️ Afternoon</div>
+                <div class="activity-content">${day.afternoon}</div>
+              </div>
+              <div class="activity">
+                <div class="activity-time">🌙 Evening</div>
+                <div class="activity-content">${day.evening}</div>
+              </div>
+            </div>
+          `).join('')}
+        </div>
+        
+        <!-- Tips Sections -->
+        <div class="tips-section">
+          <div class="tip-box">
+            <h3>💰 Budget Tips</h3>
+            ${itinerary.budgetTips?.map((tip: string) => `<div class="tip-item">${tip}</div>`).join('') || ''}
+          </div>
+          
+          <div class="tip-box">
+            <h3>🏛️ Local Advice</h3>
+            ${itinerary.localAdvice?.map((advice: string) => `<div class="tip-item">${advice}</div>`).join('') || ''}
+          </div>
+          
+          <div class="tip-box">
+            <h3>🛡️ Safety Tips</h3>
+            ${itinerary.safetyTips?.map((tip: string) => `<div class="tip-item">${tip}</div>`).join('') || ''}
+          </div>
+        </div>
+        
+        <!-- Footer -->
+        <div class="footer">
+          <div class="footer-logo">✈️ PlanMyNextTravel</div>
+          <p>Generated on ${new Date().toLocaleDateString(locale)} at ${new Date().toLocaleTimeString(locale)}</p>
+          <p>Explore the world with AI-powered travel planning</p>
+        </div>
+      </div>
+    </body>
+    </html>
+    `;
+
+    // Open print dialog with professional styling
+    const printWindow = window.open('', '', 'height=800,width=1000');
+    printWindow?.document.write(html);
+    printWindow?.document.close();
+    
+    // Update the filename to include website name and city
+    const fileName = `PlanMyNextTravel-${trip.destination}`;
+    
+    // Wait a moment then print
+    setTimeout(() => {
+      printWindow?.print();
+      // After print dialog opens, the user can save as PDF with the proper name
+    }, 250);
   };
 
   return (
@@ -126,8 +416,10 @@ export default function TripDisplay({ trip, locale }: TripDisplayProps) {
         </div>
       </div>
 
+
       {/* Content */}
       <div className="p-8">
+
         {/* Overview */}
         <section className="mb-8">
           <h2 className="text-2xl font-bold text-gray-900 mb-4">{t('overview')}</h2>

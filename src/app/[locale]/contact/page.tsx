@@ -48,8 +48,8 @@ export default function ContactPage() {
                 <div className="flex flex-col items-center text-center p-6 bg-gray-50 rounded-lg">
                   <FiMail className="text-4xl text-primary-600 mb-3" />
                   <h3 className="font-semibold text-gray-900 mb-2">Email</h3>
-                  <a href="mailto:support@aitripplanner.com" className="text-primary-600 hover:text-primary-700">
-                    support@aitripplanner.com
+                  <a href="mailto:contact@planyournexttravel.com" className="text-primary-600 hover:text-primary-700">
+                    contact@planyournexttravel.com
                   </a>
                 </div>
 

@@ -30,9 +30,11 @@ export const metadata = {
   authors: [{ name: 'PlanMyNextTravel', url: 'https://planmynexttravel.com' }],
   creator: 'PlanMyNextTravel',
   publisher: 'PlanMyNextTravel',
-  verification2: {
+  // Google AdSense site verification
+  verification: {
     google: 'heDb981JNpGgoZZ81wdl4xLka2o4iek6OFdEl2IISfk',
   },
+  
   formatDetection: {
     email: false,
     address: false,
@@ -69,9 +71,7 @@ export const metadata = {
     apple: '/apple-touch-icon.png',
   },
   manifest: '/site.webmanifest',
-  verification: {
-    google: 'google-site-verification-code-here',
-  },
+  // (moved above)
 };
 
 export default async function RootLayout({
@@ -90,6 +90,22 @@ export default async function RootLayout({
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon-new.svg" type="image/svg+xml" />
         <link rel="alternate icon" href="/favicon.ico" />
+        {/* Google Analytics (gtag.js) */}
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-WN2JH15RL9"></script>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              window.dataLayer = window.dataLayer || [];
+              function gtag(){dataLayer.push(arguments);}
+              gtag('js', new Date());
+              gtag('config', 'G-WN2JH15RL9');
+            `,
+          }}
+        />
+        {/* Google AdSense Site Verification */}
+        <meta name="google-site-verification" content="heDb981JNpGgoZZ81wdl4xLka2o4iek6OFdEl2IISfk" />
+        {/* Google AdSense Script */}
+        <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8771708725446959" crossOrigin="anonymous"></script>
       </head>
       <body>
         <SessionProvider>

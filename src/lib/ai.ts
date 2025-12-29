@@ -1,9 +1,5 @@
 import Groq from 'groq-sdk';
 
-const groq = new Groq({
-  apiKey: process.env.GROQ_API_KEY,
-});
-
 export interface TripParams {
   destination: string;
   startDate: Date;
@@ -37,7 +33,11 @@ const LANGUAGE_NAMES: Record<string, string> = {
   ar: 'Arabic',
 };
 
-export async function generateItinerary(params: TripParams): Promise<TripItinerary> {
+export async function generateItinerary(params: TripParams, apiKey?: string): Promise<TripItinerary> {
+  const groq = new Groq({
+    apiKey: apiKey || process.env.GROQ_API_KEY,
+  });
+
   const { destination, startDate, endDate, budget, travelType, activities, language } = params;
 
   // Calculate number of days
@@ -108,13 +108,13 @@ Return ONLY the JSON object, no additional text.`;
 
   try {
     console.log('=== Groq API Call ===');
-    console.log('API Key exists:', !!process.env.GROQ_API_KEY);
-    console.log('API Key length:', process.env.GROQ_API_KEY?.length);
+    console.log('API Key exists:', !!apiKey || !!process.env.GROQ_API_KEY);
+    console.log('Using rotated API key from admin panel');
     console.log('Model:', 'llama-3.3-70b-versatile');
     console.log('Language:', languageName);
     console.log('Days:', days);
     
-    if (!process.env.GROQ_API_KEY) {
+    if (!apiKey && !process.env.GROQ_API_KEY) {
       throw new Error('GROQ_API_KEY is not configured');
     }
     

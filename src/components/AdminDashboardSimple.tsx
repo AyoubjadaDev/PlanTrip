@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { FiUsers, FiMap, FiTrendingUp, FiCalendar, FiMail, FiClock, FiDollarSign, FiDownload, FiActivity, FiMapPin, FiHeart } from 'react-icons/fi';
 import Link from 'next/link';
 
@@ -50,13 +50,111 @@ interface Stats {
   topActivities: { activity: string; count: number }[];
 }
 
+interface GroqApiKey {
+  id: string;
+  key: string;
+  createdAt: string;
+  isActive: boolean;
+  usageCount: number;
+}
+
+interface ApiKeyTestResult {
+  id: string;
+  status: 'VALID' | 'INVALID' | 'ERROR' | 'TESTING' | null;
+  message: string;
+}
+
 interface AdminDashboardWrapperProps {
   locale: string;
   stats: Stats;
 }
 
 export function AdminDashboardWrapper({ locale, stats }: AdminDashboardWrapperProps) {
-  const [activeTab, setActiveTab] = useState<'analytics' | 'users' | 'trips' | 'subscribers'>('analytics');
+  const [activeTab, setActiveTab] = useState<'analytics' | 'users' | 'trips' | 'subscribers' | 'groq'>('analytics');
+  const [groqKeys, setGroqKeys] = useState<GroqApiKey[]>([]);
+  const [newKey, setNewKey] = useState('');
+  const [loadingKeys, setLoadingKeys] = useState(false);
+  const [testResults, setTestResults] = useState<Record<string, ApiKeyTestResult>>({});
+
+  useEffect(() => {
+    if (activeTab === 'groq') {
+      fetchGroqKeys();
+    }
+  }, [activeTab]);
+
+  async function fetchGroqKeys() {
+    setLoadingKeys(true);
+    const res = await fetch('/api/admin/groq-keys');
+    if (res.ok) {
+      const data = await res.json();
+      setGroqKeys(data);
+    }
+    setLoadingKeys(false);
+  }
+
+  async function addGroqKey() {
+    if (!newKey) return;
+    await fetch('/api/admin/groq-keys', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ key: newKey }),
+    });
+    setNewKey('');
+    fetchGroqKeys();
+  }
+
+  async function removeGroqKey(id: string) {
+    await fetch('/api/admin/groq-keys', {
+      method: 'DELETE',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ id }),
+    });
+    fetchGroqKeys();
+  }
+
+  async function testApiKey(keyId: string) {
+    setTestResults(prev => ({
+      ...prev,
+      [keyId]: { id: keyId, status: 'TESTING', message: 'Testing...' }
+    }));
+
+    try {
+      const response = await fetch('/api/admin/api-keys/test', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ apiKeyId: keyId }),
+      });
+
+      const result = await response.json();
+      
+      setTestResults(prev => ({
+        ...prev,
+        [keyId]: {
+          id: keyId,
+          status: result.status,
+          message: result.message
+        }
+      }));
+
+      // Auto-clear result after 5 seconds
+      setTimeout(() => {
+        setTestResults(prev => {
+          const newResults = { ...prev };
+          delete newResults[keyId];
+          return newResults;
+        });
+      }, 5000);
+    } catch (error) {
+      setTestResults(prev => ({
+        ...prev,
+        [keyId]: {
+          id: keyId,
+          status: 'ERROR',
+          message: 'Failed to test API key'
+        }
+      }));
+    }
+  }
 
   const exportToCSV = (data: any[], filename: string) => {
     if (data.length === 0) return;
@@ -187,7 +285,7 @@ export function AdminDashboardWrapper({ locale, stats }: AdminDashboardWrapperPr
         {/* Tabs */}
         <div className="bg-white rounded-2xl shadow-xl overflow-hidden">
           <div className="flex border-b border-gray-200">
-            {(['analytics', 'users', 'trips', 'subscribers'] as const).map((tab) => (
+            {(['analytics', 'users', 'trips', 'subscribers', 'groq'] as const).map((tab) => (
               <button
                 key={tab}
                 onClick={() => setActiveTab(tab)}
@@ -197,10 +295,97 @@ export function AdminDashboardWrapper({ locale, stats }: AdminDashboardWrapperPr
                     : 'text-gray-500 hover:text-gray-700 hover:bg-gray-50'
                 }`}
               >
-                {tab.charAt(0).toUpperCase() + tab.slice(1)}
+                {tab === 'groq' ? 'Groq API Keys' : tab.charAt(0).toUpperCase() + tab.slice(1)}
               </button>
             ))}
           </div>
+            {/* Groq API Keys Tab */}
+            {activeTab === 'groq' && (
+              <div className="p-8">
+                <h3 className="text-2xl font-bold text-gray-800 mb-6">Groq API Keys</h3>
+                <div className="mb-4 flex gap-2">
+                  <input
+                    type="text"
+                    value={newKey}
+                    onChange={e => setNewKey(e.target.value)}
+                    placeholder="Enter new Groq API key..."
+                    className="px-4 py-2 border rounded-lg w-96"
+                  />
+                  <button
+                    onClick={addGroqKey}
+                    className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
+                  >
+                    Add Key
+                  </button>
+                </div>
+                {loadingKeys ? (
+                  <p>Loading keys...</p>
+                ) : (
+                  <table className="w-full">
+                    <thead>
+                      <tr className="border-b-2 border-gray-200">
+                        <th className="text-left py-3 px-4 font-semibold text-gray-700">Key</th>
+                        <th className="text-left py-3 px-4 font-semibold text-gray-700">Created At</th>
+                        <th className="text-left py-3 px-4 font-semibold text-gray-700">Requests</th>
+                        <th className="text-left py-3 px-4 font-semibold text-gray-700">Status</th>
+                        <th className="text-left py-3 px-4 font-semibold text-gray-700">Test</th>
+                        <th className="text-left py-3 px-4 font-semibold text-gray-700">Actions</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {groqKeys.map(key => {
+                        const testResult = testResults[key.id];
+                        return (
+                          <tr key={key.id} className="border-b border-gray-100 hover:bg-gray-50">
+                            <td className="py-3 px-4 font-mono text-xs">{key.key}</td>
+                            <td className="py-3 px-4 text-gray-600">{new Date(key.createdAt).toLocaleString()}</td>
+                            <td className="py-3 px-4">
+                              <span className="px-3 py-1 bg-blue-100 text-blue-700 rounded-full text-sm font-semibold">
+                                {key.usageCount} requests
+                              </span>
+                            </td>
+                            <td className="py-3 px-4">
+                              {key.isActive ? (
+                                <span className="px-3 py-1 bg-green-100 text-green-700 rounded-full text-sm font-semibold">Active</span>
+                              ) : (
+                                <span className="px-3 py-1 bg-gray-100 text-gray-700 rounded-full text-sm">Inactive</span>
+                              )}
+                            </td>
+                            <td className="py-3 px-4">
+                              {testResult ? (
+                                <span className={`px-3 py-1 rounded-full text-xs font-semibold ${
+                                  testResult.status === 'VALID' ? 'bg-green-100 text-green-700' :
+                                  testResult.status === 'INVALID' ? 'bg-red-100 text-red-700' :
+                                  testResult.status === 'ERROR' ? 'bg-yellow-100 text-yellow-700' :
+                                  'bg-blue-100 text-blue-700'
+                                }`}>
+                                  {testResult.status === 'TESTING' ? 'Testing...' : testResult.message}
+                                </span>
+                              ) : (
+                                <button
+                                  onClick={() => testApiKey(key.id)}
+                                  className="px-3 py-1 bg-purple-500 text-white rounded-lg hover:bg-purple-600 text-sm font-medium"
+                                >
+                                  Test
+                                </button>
+                              )}
+                            </td>
+                            <td className="py-3 px-4">
+                              <button
+                                onClick={() => removeGroqKey(key.id)}
+                                className="px-3 py-1 bg-red-500 text-white rounded-lg hover:bg-red-600 text-sm"
+                              >
+                                Remove
+                              </button>
+                            </td>
+                          </tr>
+                        );
+                      })}
+                    </tbody>
+                  </table>
+                )}
+              </div>
+            )}
 
           <div className="p-8">
             {/* Analytics Tab */}

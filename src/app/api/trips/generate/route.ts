@@ -4,6 +4,7 @@ import { authOptions } from '@/lib/auth';
 import { db } from '@/db';
 import { trips } from '@/db/schema';
 import { generateItinerary } from '@/lib/ai';
+import { getNextGroqApiKey } from '@/lib/groq-key-rotation';
 import { checkAnonymousLimit, incrementAnonymousUsage, getClientIP } from '@/lib/usage';
 import { z } from 'zod';
 
@@ -43,8 +44,9 @@ export async function POST(request: NextRequest) {
       }
     }
 
-    // Generate itinerary using AI
+    // Generate itinerary using AI with rotated API key
     console.log('Calling generateItinerary...');
+    const apiKey = await getNextGroqApiKey();
     const itinerary = await generateItinerary({
       destination: validatedData.destination,
       startDate: new Date(validatedData.startDate),
@@ -53,7 +55,7 @@ export async function POST(request: NextRequest) {
       travelType: validatedData.travelType,
       activities: validatedData.activities,
       language: validatedData.language,
-    });
+    }, apiKey);
     console.log('Itinerary generated successfully');
 
     // Get IP address for anonymous users

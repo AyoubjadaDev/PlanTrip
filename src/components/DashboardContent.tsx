@@ -38,6 +38,8 @@ export default function DashboardContent({ trips, locale, userName, isAdmin }: D
     }
   };
 
+
+
   return (
     <div>
       <div className="mb-8 flex items-center justify-between">

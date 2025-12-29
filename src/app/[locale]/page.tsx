@@ -1,5 +1,5 @@
 import { Metadata } from 'next';
-import { useTranslations } from 'next-intl';
+import { getTranslations } from 'next-intl/server';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import TripGeneratorWizard from '@/components/TripGeneratorWizard';
@@ -26,6 +26,7 @@ export async function generateMetadata({ params }: { params: { locale: string } 
     fr: 'Créez des itinéraires de voyage personnalisés jour par jour instantanément avec l\'IA. Obtenez des estimations budgétaires, des activités et des recommandations pour vos vacances de rêve. Gratuit, multilingue et alimenté par une IA avancée.',
     ar: 'أنشئ برامج رحلات مخصصة يومًا بعد يوم على الفور باستخدام الذكاء الاصطناعي. احصل على تقديرات الميزانية والأنشطة والتوصيات لعطلة أحلامك. مجاني ومتعدد اللغات ومدعوم بالذكاء الاصطناعي المتقدم.',
   };
+
 
   return {
     title: titles[params.locale] || titles.en,
@@ -82,44 +83,20 @@ export async function generateMetadata({ params }: { params: { locale: string } 
   };
 }
 
-export default function Home({ params: { locale } }: { params: { locale: string } }) {
-  const t = useTranslations();
-  
+
+export default async function Home({ params: { locale } }: { params: { locale: string } }) {
+  const t = await getTranslations({ locale });
   // Get first 6 blog posts for the locale
   const allPosts = getBlogPosts(locale);
   const featuredPosts = allPosts.slice(0, 6);
 
   const features = [
-    {
-      icon: <FiZap className="w-8 h-8" />,
-      title: t('features.ai.title'),
-      description: t('features.ai.description'),
-    },
-    {
-      icon: <FiClock className="w-8 h-8" />,
-      title: t('features.instant.title'),
-      description: t('features.instant.description'),
-    },
-    {
-      icon: <FiGlobe className="w-8 h-8" />,
-      title: t('features.multilingual.title'),
-      description: t('features.multilingual.description'),
-    },
-    {
-      icon: <FiCheckCircle className="w-8 h-8" />,
-      title: t('features.detailed.title'),
-      description: t('features.detailed.description'),
-    },
-    {
-      icon: <FiDollarSign className="w-8 h-8" />,
-      title: t('features.budget.title'),
-      description: t('features.budget.description'),
-    },
-    {
-      icon: <FiStar className="w-8 h-8" />,
-      title: t('features.free.title'),
-      description: t('features.free.description'),
-    },
+    { icon: 'zap', title: t('features.ai.title'), description: t('features.ai.description') },
+    { icon: 'clock', title: t('features.instant.title'), description: t('features.instant.description') },
+    { icon: 'globe', title: t('features.multilingual.title'), description: t('features.multilingual.description') },
+    { icon: 'check', title: t('features.detailed.title'), description: t('features.detailed.description') },
+    { icon: 'dollar', title: t('features.budget.title'), description: t('features.budget.description') },
+    { icon: 'star', title: t('features.free.title'), description: t('features.free.description') }
   ];
 
   const faqs = [
@@ -128,7 +105,7 @@ export default function Home({ params: { locale } }: { params: { locale: string 
     { q: t('faq.q3.question'), a: t('faq.q3.answer') },
     { q: t('faq.q4.question'), a: t('faq.q4.answer') },
     { q: t('faq.q5.question'), a: t('faq.q5.answer') },
-    { q: t('faq.q6.question'), a: t('faq.q6.answer') },
+    { q: t('faq.q6.question'), a: t('faq.q6.answer') }
   ];
 
   const baseUrl = process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:5200';
@@ -144,13 +121,13 @@ export default function Home({ params: { locale } }: { params: { locale: string 
     contactPoint: {
       '@type': 'ContactPoint',
       contactType: 'Customer Service',
-      email: 'support@planyournexttravel.com',
+      email: 'support@planyournexttravel.com'
     },
     sameAs: [
       'https://twitter.com/planyournexttravel',
       'https://facebook.com/planyournexttravel',
-      'https://instagram.com/planyournexttravel',
-    ],
+      'https://instagram.com/planyournexttravel'
+    ]
   };
 
   const websiteJsonLd = {
@@ -161,8 +138,8 @@ export default function Home({ params: { locale } }: { params: { locale: string 
     potentialAction: {
       '@type': 'SearchAction',
       target: `${baseUrl}/search?q={search_term_string}`,
-      'query-input': 'required name=search_term_string',
-    },
+      'query-input': 'required name=search_term_string'
+    }
   };
 
   const faqJsonLd = {
@@ -173,9 +150,9 @@ export default function Home({ params: { locale } }: { params: { locale: string 
       name: faq.q,
       acceptedAnswer: {
         '@type': 'Answer',
-        text: faq.a,
-      },
-    })),
+        text: faq.a
+      }
+    }))
   };
 
   return (
@@ -390,7 +367,7 @@ export default function Home({ params: { locale } }: { params: { locale: string 
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {[
+              {[ 
                 { ...features[0], gradient: 'from-yellow-400 to-orange-500', bg: 'bg-gradient-to-br from-yellow-50 to-orange-50' },
                 { ...features[1], gradient: 'from-green-400 to-cyan-500', bg: 'bg-gradient-to-br from-green-50 to-cyan-50' },
                 { ...features[2], gradient: 'from-blue-400 to-indigo-500', bg: 'bg-gradient-to-br from-blue-50 to-indigo-50' },
@@ -398,6 +375,51 @@ export default function Home({ params: { locale } }: { params: { locale: string 
                 { ...features[4], gradient: 'from-red-400 to-rose-500', bg: 'bg-gradient-to-br from-red-50 to-rose-50' },
                 { ...features[5], gradient: 'from-teal-400 to-emerald-500', bg: 'bg-gradient-to-br from-teal-50 to-emerald-50' },
               ].map((feature, index) => (
+                        {/* Testimonials Section */}
+                        <section className="py-24 bg-gradient-to-br from-purple-50 via-blue-50 to-pink-50">
+                          <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+                            <div className="text-center mb-16">
+                              <h2 className="text-4xl md:text-5xl font-black bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent mb-6">
+                                What Our Users Say
+                              </h2>
+                              <p className="text-xl text-gray-700 font-medium max-w-2xl mx-auto">
+                                Real travelers. Real experiences. See why thousands trust PlanYourNextTravel for their adventures!
+                              </p>
+                            </div>
+                            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+                              {/* Testimonial 1 */}
+                              <div className="bg-white rounded-2xl shadow-lg p-8 flex flex-col items-center text-center">
+                                <img src="https://randomuser.me/api/portraits/women/44.jpg" alt="User" className="w-20 h-20 rounded-full mb-4 border-4 border-blue-200" />
+                                <h3 className="font-bold text-lg text-gray-900 mb-1">Emily R.</h3>
+                                <p className="text-gray-600 mb-3 text-sm">London, UK</p>
+                                <p className="text-gray-700 text-base italic mb-2">“I planned my entire honeymoon in minutes! The AI suggestions were spot on and saved us so much time.”</p>
+                                <div className="flex gap-1 justify-center">
+                                  {[...Array(5)].map((_, i) => <FiStar key={i} className="text-yellow-400" />)}
+                                </div>
+                              </div>
+                              {/* Testimonial 2 */}
+                              <div className="bg-white rounded-2xl shadow-lg p-8 flex flex-col items-center text-center">
+                                <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="User" className="w-20 h-20 rounded-full mb-4 border-4 border-purple-200" />
+                                <h3 className="font-bold text-lg text-gray-900 mb-1">Carlos M.</h3>
+                                <p className="text-gray-600 mb-3 text-sm">Barcelona, Spain</p>
+                                <p className="text-gray-700 text-base italic mb-2">“The itinerary was detailed and perfectly matched my interests. Highly recommend for solo travelers!”</p>
+                                <div className="flex gap-1 justify-center">
+                                  {[...Array(5)].map((_, i) => <FiStar key={i} className="text-yellow-400" />)}
+                                </div>
+                              </div>
+                              {/* Testimonial 3 */}
+                              <div className="bg-white rounded-2xl shadow-lg p-8 flex flex-col items-center text-center">
+                                <img src="https://randomuser.me/api/portraits/women/68.jpg" alt="User" className="w-20 h-20 rounded-full mb-4 border-4 border-pink-200" />
+                                <h3 className="font-bold text-lg text-gray-900 mb-1">Aisha K.</h3>
+                                <p className="text-gray-600 mb-3 text-sm">Dubai, UAE</p>
+                                <p className="text-gray-700 text-base italic mb-2">“I love how easy it is to use and how much money I saved. My family trip was unforgettable!”</p>
+                                <div className="flex gap-1 justify-center">
+                                  {[...Array(5)].map((_, i) => <FiStar key={i} className="text-yellow-400" />)}
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </section>
                 <div
                   key={index}
                   className={`${feature.bg} p-8 rounded-2xl shadow-xl hover:shadow-2xl transition-all hover:scale-105 border-2 border-white/50`}
@@ -428,25 +450,32 @@ export default function Home({ params: { locale } }: { params: { locale: string 
               </p>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-12">
-              {featuredPosts.map((post, index) => (
-                <Link
-                  key={post.id}
-                  href={`/${locale}/blog/${post.slug}`}
-                  className="group bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all hover:scale-105"
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+              {[
+                { ...features[0], gradient: 'from-yellow-400 to-orange-500', bg: 'bg-gradient-to-br from-yellow-50 to-orange-50' },
+                { ...features[1], gradient: 'from-green-400 to-cyan-500', bg: 'bg-gradient-to-br from-green-50 to-cyan-50' },
+                { ...features[2], gradient: 'from-blue-400 to-indigo-500', bg: 'bg-gradient-to-br from-blue-50 to-indigo-50' },
+                { ...features[3], gradient: 'from-purple-400 to-pink-500', bg: 'bg-gradient-to-br from-purple-50 to-pink-50' },
+                { ...features[4], gradient: 'from-red-400 to-rose-500', bg: 'bg-gradient-to-br from-red-50 to-rose-50' },
+                { ...features[5], gradient: 'from-teal-400 to-emerald-500', bg: 'bg-gradient-to-br from-teal-50 to-emerald-50' },
+              ].map((feature, index) => (
+                <div
+                  key={index}
+                  className={`rounded-2xl shadow-lg p-8 flex flex-col items-center text-center ${feature.bg}`}
                 >
-                  <div className="relative h-48 overflow-hidden">
-                    <Image
-                      src={post.image}
-                      alt={post.title}
-                      width={800}
-                      height={400}
-                      className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
-                      priority={index < 3}
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-br from-blue-500/20 to-purple-600/20"></div>
-                    <div className="absolute top-4 left-4 px-3 py-1 bg-white/90 backdrop-blur-sm rounded-full text-xs font-bold text-gray-800">
-                      {post.category}
+                  <div className={`mb-4 p-4 rounded-full bg-gradient-to-br ${feature.gradient} text-white`}>
+                    {feature.icon === 'zap' && <FiZap className="w-8 h-8" />}
+                    {feature.icon === 'clock' && <FiClock className="w-8 h-8" />}
+                    {feature.icon === 'globe' && <FiGlobe className="w-8 h-8" />}
+                    {feature.icon === 'check' && <FiCheckCircle className="w-8 h-8" />}
+                    {feature.icon === 'dollar' && <FiDollarSign className="w-8 h-8" />}
+                    {feature.icon === 'star' && <FiStar className="w-8 h-8" />}
+                  </div>
+                  <h3 className="font-bold text-xl text-gray-900 mb-2">{feature.title}</h3>
+                  <p className="text-gray-600 text-base">{feature.description}</p>
+                </div>
+              ))}
+            </div>
                     </div>
                   </div>
                   <div className="p-6">
