@@ -41,7 +41,7 @@ export default function Header() {
         <div className="flex justify-between items-center h-16">
           {/* Logo (icon + text) */}
           <Link href={`/${currentLocale}`} className="flex items-center space-x-2">
-            <img src="/logo_travel.png" alt="PlanYourNextTravel Logo" className="h-10 w-10" />
+            <img src="/logo_Travel.png" alt="PlanYourNextTravel Logo" className="h-10 w-10" />
             <span className="text-xl font-extrabold bg-gradient-to-r from-orange-600 via-red-600 to-pink-600 bg-clip-text text-transparent drop-shadow-sm animate-gradient-x">
               PlanMyNextTravel
             </span>
