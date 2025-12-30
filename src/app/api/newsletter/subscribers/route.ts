@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import { db } from '@/db';
 import { subscribers } from '@/db/schema';
+import { eq, desc } from 'drizzle-orm';
 
 export async function GET() {
   try {
@@ -11,8 +12,8 @@ export async function GET() {
         subscribedAt: subscribers.subscribedAt,
       })
       .from(subscribers)
-      .where(subscribers.isActive.eq(true))
-      .orderBy(subscribers.subscribedAt.desc());
+      .where(eq(subscribers.isActive, true))
+      .orderBy(desc(subscribers.subscribedAt));
     return NextResponse.json({ subscribers: allSubscribers });
   } catch (error) {
     return NextResponse.json({ error: 'Failed to fetch subscribers' }, { status: 500 });

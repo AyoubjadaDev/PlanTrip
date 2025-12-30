@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import { db } from '@/db';
 import { siteSettings } from '@/db/schema';
+import { eq } from 'drizzle-orm';
 
 export async function GET() {
   try {
@@ -24,7 +25,7 @@ export async function POST(request: Request) {
           googleSearchConsoleMeta: data.googleSearchConsoleMeta,
           updatedAt: new Date(),
         })
-        .where(siteSettings.id.eq(existing[0].id));
+          .where(eq(siteSettings.id, existing[0].id));
     } else {
       await db.insert(siteSettings).values({
         googleAnalyticsId: data.googleAnalyticsId,

@@ -133,6 +133,7 @@ export const blogPosts: Record<string, BlogPost[]> = {
     },
     {
       id: '10',
+      slug: 'asia-on-a-budget-2-week-itinerary',
       title: 'Asia on a Budget: 2-Week Itinerary',
       excerpt: 'Explore the wonders of Southeast Asia for under $1000 with this detailed budget itinerary.',
       content: 'Southeast Asia is one of the world\'s most budget-friendly regions for travelers. Days 1-3: Start in Bangkok, Thailand. Explore temples like Wat Arun, visit the Grand Palace, and enjoy street food in neighborhoods like Chinatown. Stay in hostels in Khao San Road or Sukhumvit areas. Days 4-7: Take a night bus to Chiang Mai. Visit temples, enjoy elephant sanctuaries, participate in cooking classes, and explore night markets. Days 8-10: Fly budget airlines to Siem Reap, Cambodia. Explore the magnificent Angkor Wat temples, visit local artisan markets, and experience Cambodian cuisine. Days 11-14: Travel to Vietnam—Hanoi or Ho Chi Minh City. Explore Old Quarter, enjoy pho and street food, visit museums, and take day trips to natural wonders like Ha Long Bay or Mekong Delta. Budget breakdown: Flights under $100, accommodation $5-10 per night, meals $1-5, activities $5-15. Use budget airlines like AirAsia, stay in hostels, eat at local restaurants, and use buses for transportation. This itinerary immerses you in diverse cultures, landscapes, and cuisines without excessive spending.',
@@ -145,6 +146,7 @@ export const blogPosts: Record<string, BlogPost[]> = {
     },
     {
       id: '11',
+      slug: 'luxury-travel-5-star-experiences-worth-the-splurge',
       title: 'Luxury Travel: 5-Star Experiences Worth the Splurge',
       excerpt: 'Indulge in the world\'s most exclusive resorts, hotels, and experiences that redefine luxury.',
       content: 'Luxury travel creates unforgettable experiences through exceptional service, exclusive amenities, and access to unique opportunities. The Maldives offers overwater bungalows with direct ocean access and world-class snorkeling. Swiss Alps luxury resorts provide pristine snow, Michelin-starred dining, and spa facilities with mountain views. Abu Dhabi\'s Emirates Palace combines Arabian luxury with contemporary comfort and impeccable service. Japanese kaiseki experiences offer multi-course dinners of exquisite crafted dishes. Luxury safari lodges in Kenya and Tanzania provide intimate wildlife encounters with gourmet dining and expert guides. Parisian palace hotels offer timeless elegance in iconic locations. Thai spa experiences provide rejuvenation through ancient therapies and modern treatments. Private yacht charters offer complete freedom with crew service. Luxury train journeys combine travel with fine dining and sleeping car comfort. Michelin-starred restaurants across the globe offer culinary masterpieces. Luxury travel isn\'t always about excessive spending—it\'s about quality, exclusivity, and experiences that money can\'t ordinarily buy, like private performances, exclusive access, or once-in-a-lifetime adventures. Budget wisely by choosing one or two luxury experiences rather than upgrading everything, creating perfect balance between comfort and value.',
@@ -157,6 +159,7 @@ export const blogPosts: Record<string, BlogPost[]> = {
     },
     {
       id: '12',
+      slug: 'beach-paradise-top-20-tropical-islands',
       title: 'Beach Paradise: Top 20 Tropical Islands',
       excerpt: 'Crystal-clear waters and white sandy beaches await at these stunning tropical destinations.',
       content: 'Tropical islands offer paradise escapes with stunning beaches and vibrant marine life. Bora Bora, French Polynesia features iconic overwater bungalows and turquoise lagoons. The Maldives provides luxury resorts and pristine coral reefs teeming with tropical fish. Bali, Indonesia combines beaches with rice paddies, temples, and cultural richness. Fiji offers authentic island experience with friendly locals and excellent diving. Seychelles provides luxury backdrop with unique wildlife and white sand beaches. Palau features incredible diving with diverse marine ecosystems. Samoa offers authentic Polynesian culture and beautiful beaches. Vanuatu provides adventure and cultural immersion. Turks and Caicos offer Caribbean beauty and water sports. Key West, Florida provides American Caribbean character. Tonga features untouched beaches and whale watching. Samoa combines culture with paradise. Belize offers Caribbean beaches with Mayan history. Puerto Rico blends island life with U.S. convenience. Virgin Islands offer multiple island options. Zanzibar, Tanzania provides African island culture. Mauritius combines beaches with multi-cultural experiences. Aruba ensures year-round sunshine. Cook Islands offer uncrowded paradise. Each island offers unique combinations of luxury, adventure, culture, and natural beauty to suit different preferences and budgets.',
@@ -169,6 +172,7 @@ export const blogPosts: Record<string, BlogPost[]> = {
     },
     {
       id: '13',
+      slug: 'winter-wonderland-best-ski-resorts-2024',
       title: 'Winter Wonderland: Best Ski Resorts 2024',
       excerpt: 'Hit the slopes at these world-class ski resorts perfect for beginners and experts alike.',
       content: 'Winter skiing combines athletic challenge with stunning mountain scenery and alpine hospitality. Switzerland\'s Zermatt offers challenging terrain with iconic Matterhorn views and extensive trail networks. Chamonix, France provides legendary skiing with diverse terrain and mountain railway rides. Austria\'s St. Anton combines excellent skiing with vibrant après-ski culture. Italy\'s Cortina d\'Ampezzo offers beautiful scenery and high-altitude trails. Banff and Lake Louise, Canada provide vast terrain and pristine snow. Whistler Blackcomb, Canada offers North America\'s largest ski resort. Jackson Hole, Wyoming provides challenging terrain for expert skiers. Colorado\'s Aspen combines world-class skiing with upscale village amenities. Gstaad, Switzerland offers luxury and excellent family-friendly slopes. New Zealand\'s Coronet Peak provides summer skiing for Southern Hemisphere travelers. Japan\'s Niseko offers Asian hospitality and powder snow. Les 3 Vallées, France provides interconnected valley skiing. Verbier, Switzerland offers challenging terrain and scenic beauty. Val d\'Aosta, Italy provides affordable European skiing. When choosing ski resorts, consider your skill level, terrain variety, snow conditions, accommodations, and après-ski activities. Many resorts offer lessons for beginners. Plan trips during peak season (December-February in Northern Hemisphere, June-August in Southern Hemisphere).',
@@ -181,6 +185,7 @@ export const blogPosts: Record<string, BlogPost[]> = {
     },
     {
       id: '14',
+      slug: 'city-breaks-48-hours-in-major-cities',
       title: 'City Breaks: 48 Hours in Major Cities',
       excerpt: 'Make the most of a weekend getaway with our intensive city break guides.',
       content: 'Weekend city breaks maximize limited time through strategic planning. Paris: Start at the Louvre, enjoy Seine riverside walking, visit Notre-Dame cathedral, climb Eiffel Tower at sunset, dine in Latin Quarter. Rome: Explore Colosseum, Vatican Museums, and St. Peter\'s Basilica. Toss coins in Trevi Fountain, enjoy pasta in charming neighborhoods. Madrid: Visit Prado Museum, relax in Retiro Park, explore tapas bars in La Latina neighborhood. Amsterdam: Cycle through canals, visit Anne Frank House, explore Van Gogh Museum, enjoy Dutch pancakes. Barcelona: Gaudí\'s Sagrada Família, Park Güell, Las Ramblas, Gothic Quarter medieval streets. London: Big Ben, Tower of London, British Museum, theater in West End. New York: Times Square, Central Park, museums like MoMA, Broadway shows. Tokyo: Shibuya Crossing, temples, fish markets, neon-lit streets. Dublin: Literary pubs, Temple Bar, Trinity College, Irish whiskey. Dubai: Modern architecture, desert safaris, shopping malls, beautiful beaches. For successful city breaks, prioritize must-see attractions, use public transportation, eat at local restaurants, stay in central locations, and plan strategically to avoid excessive walking or commuting between attractions.',
@@ -193,6 +198,7 @@ export const blogPosts: Record<string, BlogPost[]> = {
     },
     {
       id: '15',
+      slug: 'wildlife-safari-best-national-parks-in-africa',
       title: 'Wildlife Safari: Best National Parks in Africa',
       excerpt: 'Experience the thrill of spotting the Big Five in Africa\'s most spectacular safari destinations.',
       content: 'African safaris offer extraordinary wildlife encounters and immersive nature experiences. Serengeti National Park, Tanzania provides the most dramatic wildlife concentration with massive wildebeest migrations. Masai Mara, Kenya offers Big Five viewing, exceptional guiding, and dramatic river crossings. Kruger National Park, South Africa combines abundant wildlife with excellent infrastructure and various accommodation options. Okavango Delta, Botswana provides unique water-based safaris with incredible bird watching and diverse ecosystems. Hwange National Park, Zimbabwe offers intimate safari experiences with excellent elephant viewing. Amboseli National Park, Kenya provides Kilimanjaro backdrop with diverse wildlife and traditional Maasai culture. Chobe National Park, Botswana offers diverse wildlife and boat safari opportunities. Queen Elizabeth National Park, Uganda combines tree-climbing lions with diverse ecosystems. Lake Nakuru, Kenya focuses on bird watching with over 450 species. Safari tips: Visit during dry seasons (June-October in East Africa) for better wildlife visibility. Choose reputable operators with experienced guides. Early morning and evening game drives offer best sightings. Bring binoculars and camera telephoto lenses. Be patient—safaris require time and luck. Respect wildlife by maintaining distance and following park guidelines. Consider multi-park safaris to experience different ecosystems and maximize wildlife encounters.',
@@ -205,6 +211,7 @@ export const blogPosts: Record<string, BlogPost[]> = {
     },
     {
       id: '16',
+      slug: 'essential-packing-tips-for-different-climates',
       title: 'Essential Packing Tips for Different Climates',
       excerpt: 'Pack smart for any destination with our comprehensive climate-specific packing guides.',
       content: 'Smart packing maximizes comfort while minimizing luggage weight. Tropical destinations: Pack lightweight, breathable clothing, quick-dry fabrics, sunscreen SPF 50+, wide-brimmed hat, sunglasses, minimal shoes (flip-flops and walking shoes), reef-safe sunscreen, and lightweight rain jacket. Cold climates: Layer with thermal underwear, sweaters, insulated jackets, warm hat, gloves, scarves, thermal socks, and waterproof boots. Desert destinations: Lightweight long sleeves protect from sun, loose-fitting pants, head covering, sunscreen, sunglasses, and light jacket for evening cool temperatures. Mixed climates: Pack versatile pieces that work in different seasons, mix and match capabilities, and lightweight layers. General tips: Roll clothes instead of folding to save space. Wear bulky items during travel. Pack electronics chargers and adapters. Bring medications and prescriptions. Use packing cubes for organization. Only pack items you\'ll actually use. Consider doing laundry mid-trip to reduce quantity. Wear comfortable shoes during travel. Leave room in luggage for purchases. Check airline baggage allowances. Pack essential items in carry-on. Wear your bulkiest shoes while traveling. Consider compression bags for extra space. Think about destination laundry facilities. Successful packing balances comfort, practicality, and minimalism for hassle-free travel.',
@@ -217,6 +224,7 @@ export const blogPosts: Record<string, BlogPost[]> = {
     },
     {
       id: '17',
+      slug: 'flight-booking-hacks-save-money-on-airfare',
       title: 'Flight Booking Hacks: Save Money on Airfare',
       excerpt: 'Master the art of finding cheap flights with insider tricks and booking strategies.',
       content: 'Booking flights strategically saves hundreds of dollars. Timing matters: Book flights 1-3 months in advance for best prices. Tuesday and Wednesday typically offer cheaper fares than weekends. Red-eye flights cost less but save accommodation costs. Use flight comparison sites like Google Flights, Kayak, and Skyscanner to compare prices across airlines and dates. Search incognito mode to avoid price increases from cookies. Be flexible with dates—flying mid-week is cheaper than weekends. Consider flying into different airports; secondary airports often have lower fares. Set up price alerts for your desired routes. Use airline miles and credit card points accumulated through everyday spending. Book one-way tickets separately sometimes cost less than round trips. Consider budget airlines but watch for hidden fees for baggage and seats. Fly during off-peak seasons for better deals. Look for flash sales from airlines via email newsletters. Sometimes flying through connecting cities costs less than direct routes. Use VPN to check prices in different countries where fares vary. Clear your browser cache when searching multiple times. Sign up for airline loyalty programs for discounts and free upgrades. Consider multi-city tickets for complex itineraries. Book accommodation and flights separately for flexibility. Package deals aren\'t always cheaper—compare separately. Patience and flexibility with dates and times yield significant savings on airfare.',
@@ -229,6 +237,7 @@ export const blogPosts: Record<string, BlogPost[]> = {
     },
     {
       id: '18',
+      slug: 'accommodation-guide-where-to-sleep-around-the-world',
       title: 'Accommodation Guide: Where to Sleep Around the World',
       excerpt: 'Explore diverse lodging options from luxury resorts to budget hostels and everything in between.',
       content: 'Accommodation choices significantly impact travel experiences and budgets. Luxury hotels: Offer premium amenities, impeccable service, prime locations, and unforgettable experiences. Best for those seeking comfort and convenience. Mid-range hotels: Balance comfort and affordability. Usually include essential amenities and good locations. Budget hostels: Provide social atmospheres, budget-friendly options, and opportunities to meet other travelers. Perfect for solo travelers and those on tight budgets. Airbnb and vacation rentals: Offer local living experiences, kitchens for cooking, and space for families. Can be more economical for longer stays. Guesthouses and homestays: Provide authentic local experiences, home-cooked meals, and personal hospitality. Boutique hotels: Combine personalized service with unique character and local flavor. Resorts: All-inclusive options with comprehensive amenities, activities, and meals. Perfect for relaxation-focused trips. Camping and glamping: Connect with nature while camping or enjoying luxury camping experiences. When choosing accommodation, consider location safety, distance to attractions, reviews, cancellation policies, included amenities, and price value. Read recent reviews. Check location on maps relative to attractions. Verify amenities match your needs. Consider booking directly with properties sometimes costs less. Look for package deals. Many sites offer free cancellation. For longer stays, negotiate better rates. Balance budget with comfort and location quality for optimal travel experiences.',
@@ -241,6 +250,7 @@ export const blogPosts: Record<string, BlogPost[]> = {
     },
     {
       id: '19',
+      slug: 'travel-insurance-what-you-need-to-know',
       title: 'Travel Insurance: What You Need to Know',
       excerpt: 'Understand travel insurance options and protect yourself from unexpected travel disruptions.',
       content: 'Travel insurance provides essential protection against unforeseen circumstances. Trip cancellation insurance reimburses prepaid costs if you must cancel before departure due to illness, injury, or emergencies. Medical coverage ensures healthcare access abroad, particularly important for expensive countries. Emergency evacuation insurance covers costs of helicopter rescue or medical evacuation from remote locations. Baggage insurance replaces lost, delayed, or damaged luggage and contents. Coverage varies significantly, making comparison essential. Key coverage considerations: Maximum coverage amounts, deductibles, covered situations, exclusions, and claim procedures. Pre-existing conditions may or may not be covered. Adventure activities sometimes require additional insurance. Always read policy fine print. When to buy: Purchase within 14 days of initial trip deposit for best coverage. Consider annual travel insurance if traveling frequently. Evaluate whether credit card travel insurance meets your needs. Compare multiple insurers including World Nomads, Allianz, AXA, and local providers. Understand what\'s already covered by credit cards and health insurance. For long-term travel, annual policies offer better value than single-trip insurance. Expensive trips with non-refundable bookings warrant comprehensive coverage. Never skip insurance—a medical emergency abroad can cost tens of thousands of dollars. Medical evacuation from remote locations costs $100,000+. One bag delay or loss can ruin a trip. Travel insurance provides essential financial protection and peace of mind for all travelers, making adventures worry-free.',
@@ -253,6 +263,7 @@ export const blogPosts: Record<string, BlogPost[]> = {
     },
     {
       id: '20',
+      slug: 'seasonal-travel-guide-best-times-to-visit-destinations',
       title: 'Seasonal Travel Guide: Best Times to Visit Destinations',
       excerpt: 'Discover the optimal travel times for major destinations to maximize experiences and minimize costs.',
       content: 'Seasonal timing dramatically affects travel experiences, costs, and conditions. Europe: Spring (April-May) and fall (September-October) offer pleasant weather and fewer crowds. Summer (June-August) has best weather but highest prices and most tourists. Winter offers snow in mountains and lower prices but cold temperatures. Southeast Asia: Dry season (November-February) provides best weather and visibility. Rainy season (May-October) brings lush landscapes, lower prices, and fewer tourists. South America: Southern regions suit Southern Hemisphere summer (December-February). Northern regions work better April-October. Caribbean: Dry season (December-March) offers perfect weather but peak prices. Rainy season (September-November) brings lower prices and still decent weather. Africa: Dry season (June-October) offers best safari wildlife viewing. Green season (November-May) provides cheaper prices and lush landscapes. Middle East: Winter (November-March) offers comfortable temperatures. Summer (June-September) brings extreme heat and closed outdoor activities. Asia: Varies dramatically by region. Monsoon seasons differ between Southeast, South, and East Asia. Consider weather preferences, crowd tolerance, budget flexibility, and activity requirements. Off-season travel offers lower prices, better service attention, and authentic experiences without mass tourism. Peak season provides guaranteed good weather but requires higher budgets and patience with crowds. Shoulder seasons balance decent weather with reasonable prices. Plan around local festivals and holidays that affect pricing and availability.',
@@ -265,6 +276,7 @@ export const blogPosts: Record<string, BlogPost[]> = {
     },
     {
       id: '21',
+      slug: 'visa-requirements-and-travel-documents-explained',
       title: 'Visa Requirements and Travel Documents Explained',
       excerpt: 'Navigate visa policies and document requirements for hassle-free international travel.',
       content: 'Visa requirements vary dramatically by citizenship and destination. Understanding requirements prevents costly problems. Visa-free entry: Citizens of countries like Germany and Singapore enjoy visa-free access to 190+ destinations. Check your passport power—websites track visa-free country access by citizenship. Tourist visas: Most countries grant automatic temporary visas upon arrival or require advance applications. Typical validity: 30-90 days. Requirements usually include passport validity (6 months minimum), return ticket, accommodation proof, and financial proof. Business visas: Required for business activities in some countries. Usually requires sponsoring company letters. Student visas: Require education institution letters and financial proof. Work visas: Required for employment and usually sponsored by employers. Long-term residence visas: For extended stays and often require financial investments. E-visas: Many countries offer electronic visa applications, faster than traditional methods. Obtain months before travel if advance applications required. Register with your government\'s travel registry for emergency notifications. Carry physical passport copies separate from original. Store digital copies in cloud storage. Check visa expiration during travel—many require 6 months validity beyond travel dates. Certain passports receive visa-on-arrival in more destinations. Some countries require vaccination proofs. Research thoroughly before booking—visa requirements and costs vary significantly. Allow adequate processing time; some visas take weeks. Visa agencies can expedite for fees. Never overstay visas—consequences include fines, entry bans, and deportation. Proper documentation planning prevents expensive complications during travel.',
@@ -277,6 +289,7 @@ export const blogPosts: Record<string, BlogPost[]> = {
     },
     {
       id: '22',
+      slug: 'cultural-etiquette-respecting-local-customs-worldwide',
       title: 'Cultural Etiquette: Respecting Local Customs Worldwide',
       excerpt: 'Learn essential cultural etiquette to show respect and enhance interactions in any destination.',
       content: 'Cultural respect enriches travels and creates positive interactions with local communities. Dress appropriately: Conservative clothing in religious regions—covered shoulders, knees, and sometimes heads. Bikinis on beaches but modest elsewhere. Footwear: Remove shoes when entering homes, temples, and some restaurants. Avoid stepping on religious symbols or elderly-oriented seating. Greetings: Learn local greetings and basic phrases in local languages. Shows effort and respect. Some cultures have specific greeting rituals—handshakes, bows, or kisses. Dining etiquette: Use utensils appropriately—forks and knives versus chopsticks or hands. Accept offered food graciously, or politely decline with cultural sensitivity. Avoid eating with left hand in some cultures where it\'s considered disrespectful. Photography: Always ask before photographing people or in sacred spaces. Respect if refused. Avoid photographing tribal people for profit. Photography fees sometimes apply. Gender interactions: Some cultures have strict gender interaction rules. Respect personal space and boundaries. Women should dress more conservatively in conservative regions. Religious sites: Cover appropriately, speak quietly, remove shoes, and follow site-specific rules. Religious practices deserve respect and silent observation. Pointing and gestures: Some hand gestures are offensive in specific cultures. Thumbs up, pointing, or certain finger combinations can be rude. Use open hands for directions. Punctuality: Interpret time differently across cultures. Some cultures value punctuality strictly; others have flexible time concepts. Sacred animals: Cows are sacred in India, certain birds in other regions. Respect beliefs affecting interaction with animals. Markets and bargaining: Haggling expected in some markets, insulting in others. Understand expectations beforehand. Tipping: Varies dramatically—tips mandatory in some places, offensive in others. Understand local customs. Sacred items: Never touch or step on religious items. Respect artifacts and symbols. Generally, approach unfamiliar cultures with curiosity, humility, and willingness to learn. Mistakes happen—locals appreciate genuine respect efforts and willingness to learn from corrections.',
@@ -289,6 +302,7 @@ export const blogPosts: Record<string, BlogPost[]> = {
     },
     {
       id: '23',
+      slug: 'health-and-safety-stay-well-while-traveling',
       title: 'Health and Safety: Stay Well While Traveling',
       excerpt: 'Essential health and safety tips to protect yourself and stay healthy throughout your travels.',
       content: 'Travel health and safety protect well-being and prevent serious complications. Pre-trip health: Visit doctors for vaccinations and health checks. Get prescription refills in advance. Carry prescriptions in original bottles. Check if medications are legal in destinations—some common medications are prohibited in specific countries. Travel insurance covers medical emergencies. Water safety: Drink bottled or purified water in regions with questionable water quality. Avoid ice from tap water. Brush teeth with bottled water if needed. Bottled water is cheap in risky areas—never risk disease. Food safety: Eat hot, freshly cooked foods. Avoid raw foods unless from reputable restaurants. Street food is usually safe if hot and prepared in front of you. Avoid buffet foods left at room temperature. Wash fruits and vegetables or peel them. Illness prevention: Practice frequent handwashing. Use hand sanitizer. Avoid touching face. Maintain personal space from sick people. Get adequate sleep. Insect protection: Use DEET or picaridin insect repellent in malaria/dengue regions. Sleep under bed nets. Wear long clothing during dawn/dusk. Vaccinate against yellow fever or dengue when recommended. Mosquito safety particularly important in tropical regions. Accidents prevention: Avoid dangerous activities when tired. Use seatbelts in vehicles. Choose registered transportation. Avoid driving at night in unfamiliar areas. Stay aware of surroundings. Emergency contacts: Register with embassy before travel. Keep embassy contact information. Have emergency contacts with family. Know nearest hospital locations. Travel with basic first-aid kit. Altitude sickness: Ascend gradually at high altitudes. Stay hydrated. Avoid alcohol initially. Medication like acetazolamide helps. Know symptoms—headache, nausea, shortness of breath. Most importantly: Travel sensibly, follow local advice, seek medical attention promptly, and prioritize health over experiences.',
@@ -301,6 +315,7 @@ export const blogPosts: Record<string, BlogPost[]> = {
     },
     {
       id: '24',
+      slug: 'money-matters-currency-exchange-and-budgeting-abroad',
       title: 'Money Matters: Currency Exchange and Budgeting Abroad',
       excerpt: 'Master currency exchange, budgeting strategies, and financial management while traveling.',
       content: 'Smart financial management enables longer travels within budget constraints. Currency exchange: Avoid airport exchanges—worst rates available. Use ATMs for better exchange rates and local currency. Bank ATMs usually better than private money changers. Credit cards offer competitive rates but charge fees. Carry some local currency before arrival. Exchange money before traveling to remote areas. Understand exchange rate timing—rates fluctuate daily. Compare options before major exchanges. International credit cards avoid cash handling. Debit cards provide local currency access with ATM fees. Notify banks of travels to avoid fraud blocks. Credit limits may be lower abroad. Cards without foreign transaction fees save money. Fee-free banks: Charles Schwab, Fidelity, Ally Bank offer no ATM fees worldwide. Budgeting: Create realistic daily budgets by destination. Include food, accommodation, activities, transport, and buffer. Track spending daily. Separate emergency funds from daily spending. Keep receipts. Use budgeting apps like YNAB or Trail Wallet. Understand price differences—meals cost $2-3 in Asia, $15+ in Scandinavia. Set daily spending limits. Find free attractions and activities. Eat like locals in inexpensive restaurants. Skip expensive tourist restaurants. Cook some meals in hostels or Airbnb. Use public transportation instead of taxis. Walk whenever possible. Skip expensive attractions if needed. Set aside 10-15% extra for unexpected costs. Move to cheaper areas if running low. Consider visa runs to Thailand or Vietnam to extend stays cheaply. House-sitting extends stays affordably. Work remotely or volunteer for free accommodation. Financial discipline enables longer travels with limited budgets, making dreams achievable.',
@@ -313,6 +328,7 @@ export const blogPosts: Record<string, BlogPost[]> = {
     },
     {
       id: '25',
+      slug: 'hidden-coastal-gems-beaches-beyond-the-crowded-hotspots',
       title: 'Hidden Coastal Gems: Beaches Beyond the Crowded Hotspots',
       excerpt: 'Discover secluded beaches and coastal destinations that offer paradise without mass tourism.',
       content: 'Beyond famous beaches lie incredible undiscovered coastal gems. Socotra Island, Yemen offers alien-like dragon blood trees and pristine beaches rarely visited. Palau offers world-class diving and minimal tourism. Komodo Islands, Indonesia provide dragon encounters and excellent hiking with fewer crowds than Bali. Faroe Islands offer dramatic coastal cliffs and sparse tourism. Lofoten Islands, Norway combine dramatic scenery with midnight sun. Koh Lanta, Thailand offers beach relaxation without Phuket\'s party scene. Zanzibar\'s lesser-known northern beaches provide quiet swimming. Seychelles\' quieter islands offer exclusive feel. Socotra Island, Yemen features unique ecosystem and incredible diving. El Nido, Palawan Philippines offers lagoons without peak-season crowds. Tayrona National Park, Colombia combines jungle and beach. Placencia, Belize provides Caribbean paradise. Tobago Cays, Saint Vincent offers sailing and snorkeling. Isles of Scilly, England offer isolated charm. Faroe Islands combine drama with serenity. Algarve\'s quiet coves provide hidden swimming. Isle of Skye, Scotland combines dramatic landscape with isolation. Find hidden beaches by asking locals, using local travel blogs, exploring less-visited regions, and traveling during shoulder seasons. Rent local transportation. Pack supplies for remote beaches. Respect nature and remove waste. Hidden beaches offer authentic experiences without commercial tourism infrastructure. Discover your own paradise.',
@@ -327,6 +343,7 @@ export const blogPosts: Record<string, BlogPost[]> = {
   fr: [
     {
       id: '1',
+      slug: '10-joyaux-caches-en-europe-a-visiter',
       title: '10 Joyaux Cachés en Europe à Visiter',
       excerpt: 'Découvrez les plus belles destinations méconnues d\'Europe qui vous couperont le souffle.',
       content: 'Contenu complet de l\'article ici...',
@@ -339,6 +356,7 @@ export const blogPosts: Record<string, BlogPost[]> = {
     },
     {
       id: '2',
+      slug: 'voyage-petit-budget-voir-le-monde-pour-moins',
       title: 'Voyage Petit Budget: Voir le Monde pour Moins',
       excerpt: 'Apprenez des astuces d\'experts pour voyager dans le monde sans vous ruiner.',
       content: 'Contenu complet de l\'article ici...',
@@ -351,6 +369,7 @@ export const blogPosts: Record<string, BlogPost[]> = {
     },
     {
       id: '3',
+      slug: 'meilleurs-marches-alimentaires-du-monde',
       title: 'Meilleurs Marchés Alimentaires du Monde',
       excerpt: 'Un voyage culinaire à travers les marchés les plus vibrants et délicieux de la planète.',
       content: 'Contenu complet de l\'article ici...',
@@ -363,6 +382,7 @@ export const blogPosts: Record<string, BlogPost[]> = {
     },
     {
       id: '4',
+      slug: 'guide-voyage-solo-conseils-de-securite-pour-femmes',
       title: 'Guide Voyage Solo: Conseils de Sécurité pour Femmes',
       excerpt: 'Conseils essentiels et astuces de sécurité pour les femmes voyageant seules.',
       content: 'Contenu complet de l\'article ici...',
@@ -375,6 +395,7 @@ export const blogPosts: Record<string, BlogPost[]> = {
     },
     {
       id: '5',
+      slug: 'paradis-nomade-digital-top-15-villes',
       title: 'Paradis Nomade Digital: Top 15 Villes',
       excerpt: 'Les meilleures villes pour travailleurs à distance avec excellent WiFi et espaces de coworking.',
       content: 'Contenu complet de l\'article ici...',
@@ -387,6 +408,7 @@ export const blogPosts: Record<string, BlogPost[]> = {
     },
     {
       id: '6',
+      slug: 'voyage-durable-reduire-votre-empreinte',
       title: 'Voyage Durable: Réduire Votre Empreinte',
       excerpt: 'Façons pratiques de voyager de manière plus responsable et minimiser votre impact environnemental.',
       content: 'Contenu complet de l\'article ici...',
@@ -399,6 +421,7 @@ export const blogPosts: Record<string, BlogPost[]> = {
     },
     {
       id: '7',
+      slug: 'voyage-aventure-experiences-palpitantes',
       title: 'Voyage d\'Aventure: Expériences Palpitantes',
       excerpt: 'Du parachutisme à la plongée, découvrez les aventures les plus excitantes du monde.',
       content: 'Contenu complet de l\'article ici...',
@@ -411,6 +434,7 @@ export const blogPosts: Record<string, BlogPost[]> = {
     },
     {
       id: '8',
+      slug: 'voyage-en-famille-meilleures-destinations-pour-enfants',
       title: 'Voyage en Famille: Meilleures Destinations pour Enfants',
       excerpt: 'Destinations adaptées aux enfants que toute la famille adorera.',
       content: 'Contenu complet de l\'article ici...',
@@ -423,6 +447,7 @@ export const blogPosts: Record<string, BlogPost[]> = {
     },
     {
       id: '9',
+      slug: 'guide-photo-capturer-vos-moments-de-voyage',
       title: 'Guide Photo: Capturer Vos Moments de Voyage',
       excerpt: 'Conseils professionnels et techniques pour prendre des photos de voyage époustouflantes.',
       content: 'Contenu complet de l\'article ici...',
@@ -435,6 +460,7 @@ export const blogPosts: Record<string, BlogPost[]> = {
     },
     {
       id: '10',
+      slug: 'asie-a-petit-prix-itineraire-de-2-semaines',
       title: 'Asie à Petit Prix: Itinéraire de 2 Semaines',
       excerpt: 'Explorez les merveilles d\'Asie du Sud-Est pour moins de 1000$ avec cet itinéraire détaillé.',
       content: 'Contenu complet de l\'article ici...',
@@ -447,6 +473,7 @@ export const blogPosts: Record<string, BlogPost[]> = {
     },
     {
       id: '11',
+      slug: 'voyage-de-luxe-experiences-5-etoiles',
       title: 'Voyage de Luxe: Expériences 5 Étoiles',
       excerpt: 'Offrez-vous les resorts et hôtels les plus exclusifs du monde qui redéfinissent le luxe.',
       content: 'Contenu complet de l\'article ici...',
@@ -459,6 +486,7 @@ export const blogPosts: Record<string, BlogPost[]> = {
     },
     {
       id: '12',
+      slug: 'paradis-des-plages-top-20-iles-tropicales',
       title: 'Paradis des Plages: Top 20 Îles Tropicales',
       excerpt: 'Eaux cristallines et plages de sable blanc vous attendent dans ces destinations tropicales.',
       content: 'Contenu complet de l\'article ici...',
@@ -471,6 +499,7 @@ export const blogPosts: Record<string, BlogPost[]> = {
     },
     {
       id: '13',
+      slug: 'paradis-hivernal-meilleures-stations-de-ski-2024',
       title: 'Paradis Hivernal: Meilleures Stations de Ski 2024',
       excerpt: 'Dévalez les pentes dans ces stations de ski de classe mondiale pour tous les niveaux.',
       content: 'Contenu complet de l\'article ici...',
@@ -483,6 +512,7 @@ export const blogPosts: Record<string, BlogPost[]> = {
     },
     {
       id: '14',
+      slug: 'escapades-urbaines-48-heures-dans-les-grandes-villes',
       title: 'Escapades Urbaines: 48 Heures dans les Grandes Villes',
       excerpt: 'Profitez au maximum d\'un week-end avec nos guides intensifs d\'escapades urbaines.',
       content: 'Contenu complet de l\'article ici...',
@@ -495,6 +525,7 @@ export const blogPosts: Record<string, BlogPost[]> = {
     },
     {
       id: '15',
+      slug: 'safari-sauvage-meilleurs-parcs-nationaux-afrique',
       title: 'Safari Sauvage: Meilleurs Parcs Nationaux d\'Afrique',
       excerpt: 'Vivez le frisson d\'observer les Big Five dans les destinations safari les plus spectaculaires d\'Afrique.',
       content: 'Contenu complet de l\'article ici...',
@@ -509,6 +540,7 @@ export const blogPosts: Record<string, BlogPost[]> = {
   ar: [
     {
       id: '1',
+      slug: '10-hidden-gems-europe-ar',
       title: '10 جواهر مخفية في أوروبا يجب زيارتها',
       excerpt: 'اكتشف أجمل الوجهات الأقل شهرة في أوروبا التي ستأخذ أنفاسك.',
       content: 'محتوى المقال الكامل هنا...',
@@ -521,6 +553,7 @@ export const blogPosts: Record<string, BlogPost[]> = {
     },
     {
       id: '2',
+      slug: 'budget-travel-ar',
       title: 'السفر بميزانية محدودة: كيف ترى العالم بأقل تكلفة',
       excerpt: 'تعلم نصائح وحيل الخبراء للسفر حول العالم دون إنفاق الكثير.',
       content: 'محتوى المقال الكامل هنا...',
@@ -533,6 +566,7 @@ export const blogPosts: Record<string, BlogPost[]> = {
     },
     {
       id: '3',
+      slug: 'best-food-markets-ar',
       title: 'أفضل أسواق الطعام حول العالم',
       excerpt: 'رحلة طهي عبر أكثر أسواق الطعام حيوية ولذة على هذا الكوكب.',
       content: 'محتوى المقال الكامل هنا...',
@@ -545,6 +579,7 @@ export const blogPosts: Record<string, BlogPost[]> = {
     },
     {
       id: '4',
+      slug: 'solo-travel-safety-women-ar',
       title: 'دليل السفر الفردي: نصائح الأمان للنساء',
       excerpt: 'نصائح أساسية وإرشادات السلامة للنساء المسافرات بمفردهن حول العالم.',
       content: 'محتوى المقال الكامل هنا...',
@@ -557,6 +592,7 @@ export const blogPosts: Record<string, BlogPost[]> = {
     },
     {
       id: '5',
+      slug: 'digital-nomad-paradise-ar',
       title: 'جنة الرحالة الرقميين: أفضل 15 مدينة',
       excerpt: 'أفضل المدن للعاملين عن بُعد مع إنترنت ممتاز ومساحات عمل مشتركة.',
       content: 'محتوى المقال الكامل هنا...',
@@ -569,6 +605,7 @@ export const blogPosts: Record<string, BlogPost[]> = {
     },
     {
       id: '6',
+      slug: 'sustainable-travel-ar',
       title: 'السفر المستدام: كيف تقلل بصمتك البيئية',
       excerpt: 'طرق عملية للسفر بمسؤولية أكبر وتقليل تأثيرك البيئي.',
       content: 'محتوى المقال الكامل هنا...',
@@ -581,6 +618,7 @@ export const blogPosts: Record<string, BlogPost[]> = {
     },
     {
       id: '7',
+      slug: 'adventure-travel-ar',
       title: 'سفر المغامرات: تجارب مثيرة حول العالم',
       excerpt: 'من القفز بالمظلات إلى الغوص، اكتشف أكثر المغامرات إثارة حول العالم.',
       content: 'محتوى المقال الكامل هنا...',
@@ -593,6 +631,7 @@ export const blogPosts: Record<string, BlogPost[]> = {
     },
     {
       id: '8',
+      slug: 'family-travel-ar',
       title: 'سفر العائلة: أفضل الوجهات للأطفال',
       excerpt: 'وجهات مناسبة للأطفال ستحبها العائلة بأكملها وتتذكرها للأبد.',
       content: 'محتوى المقال الكامل هنا...',
@@ -605,6 +644,7 @@ export const blogPosts: Record<string, BlogPost[]> = {
     },
     {
       id: '9',
+      slug: 'photography-guide-ar',
       title: 'دليل التصوير: التقاط لحظات سفرك',
       excerpt: 'نصائح وتقنيات احترافية لالتقاط صور سفر مذهلة تحكي قصتك.',
       content: 'محتوى المقال الكامل هنا...',
@@ -617,6 +657,7 @@ export const blogPosts: Record<string, BlogPost[]> = {
     },
     {
       id: '10',
+      slug: 'asia-budget-itinerary-ar',
       title: 'آسيا بميزانية محدودة: خط سير لمدة أسبوعين',
       excerpt: 'استكشف عجائب جنوب شرق آسيا بأقل من 1000 دولار مع هذا المسار المفصل.',
       content: 'محتوى المقال الكامل هنا...',
@@ -629,6 +670,7 @@ export const blogPosts: Record<string, BlogPost[]> = {
     },
     {
       id: '11',
+      slug: 'luxury-travel-ar',
       title: 'السفر الفاخر: تجارب 5 نجوم تستحق الإنفاق',
       excerpt: 'انغمس في أكثر المنتجعات والفنادق الحصرية في العالم التي تعيد تعريف الفخامة.',
       content: 'محتوى المقال الكامل هنا...',
@@ -641,6 +683,7 @@ export const blogPosts: Record<string, BlogPost[]> = {
     },
     {
       id: '12',
+      slug: 'beach-paradise-ar',
       title: 'جنة الشواطئ: أفضل 20 جزيرة استوائية',
       excerpt: 'مياه صافية ورمال بيضاء تنتظرك في هذه الوجهات الاستوائية المذهلة.',
       content: 'محتوى المقال الكامل هنا...',
@@ -653,6 +696,7 @@ export const blogPosts: Record<string, BlogPost[]> = {
     },
     {
       id: '13',
+      slug: 'winter-wonderland-ar',
       title: 'عجائب الشتاء: أفضل منتجعات التزلج 2024',
       excerpt: 'انطلق على المنحدرات في منتجعات التزلج العالمية المثالية للمبتدئين والخبراء.',
       content: 'محتوى المقال الكامل هنا...',
@@ -665,6 +709,7 @@ export const blogPosts: Record<string, BlogPost[]> = {
     },
     {
       id: '14',
+      slug: 'city-breaks-ar',
       title: 'رحلات المدينة: 48 ساعة في المدن الكبرى',
       excerpt: 'استفد إلى أقصى حد من عطلة نهاية الأسبوع مع أدلة رحلات المدينة المكثفة.',
       content: 'محتوى المقال الكامل هنا...',
@@ -677,6 +722,7 @@ export const blogPosts: Record<string, BlogPost[]> = {
     },
     {
       id: '15',
+      slug: 'wildlife-safari-ar',
       title: 'رحلة سفاري: أفضل الحدائق الوطنية في أفريقيا',
       excerpt: 'اختبر إثارة رؤية الخمسة الكبار في وجهات السفاري الأكثر إثارة في أفريقيا.',
       content: 'محتوى المقال الكامل هنا...',

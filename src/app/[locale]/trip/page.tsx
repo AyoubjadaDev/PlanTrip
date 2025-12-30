@@ -1,6 +1,7 @@
 import { db } from '@/db';
 import { trips } from '@/db/schema';
 import { eq } from 'drizzle-orm';
+import { count } from 'drizzle-orm/sql/functions';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import Link from 'next/link';
@@ -29,7 +30,7 @@ export default async function MyTripsPage({ searchParams, params }: { searchPara
   const offset = (page - 1) * pageSize;
 
   // Fetch total count for pagination
-  const totalTrips = await db.select({ count: db.fn.count() }).from(trips);
+  const totalTrips = await db.select({ count: count() }).from(trips);
   const total = totalTrips[0]?.count || 0;
   const totalPages = Math.ceil(total / pageSize);
 
