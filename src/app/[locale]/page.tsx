@@ -375,51 +375,6 @@ export default async function Home({ params: { locale } }: { params: { locale: s
                 { ...features[4], gradient: 'from-red-400 to-rose-500', bg: 'bg-gradient-to-br from-red-50 to-rose-50' },
                 { ...features[5], gradient: 'from-teal-400 to-emerald-500', bg: 'bg-gradient-to-br from-teal-50 to-emerald-50' },
               ].map((feature, index) => (
-                        {/* Testimonials Section */}
-                        <section className="py-24 bg-gradient-to-br from-purple-50 via-blue-50 to-pink-50">
-                          <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
-                            <div className="text-center mb-16">
-                              <h2 className="text-4xl md:text-5xl font-black bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent mb-6">
-                                What Our Users Say
-                              </h2>
-                              <p className="text-xl text-gray-700 font-medium max-w-2xl mx-auto">
-                                Real travelers. Real experiences. See why thousands trust PlanYourNextTravel for their adventures!
-                              </p>
-                            </div>
-                            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-                              {/* Testimonial 1 */}
-                              <div className="bg-white rounded-2xl shadow-lg p-8 flex flex-col items-center text-center">
-                                <img src="https://randomuser.me/api/portraits/women/44.jpg" alt="User" className="w-20 h-20 rounded-full mb-4 border-4 border-blue-200" />
-                                <h3 className="font-bold text-lg text-gray-900 mb-1">Emily R.</h3>
-                                <p className="text-gray-600 mb-3 text-sm">London, UK</p>
-                                <p className="text-gray-700 text-base italic mb-2">“I planned my entire honeymoon in minutes! The AI suggestions were spot on and saved us so much time.”</p>
-                                <div className="flex gap-1 justify-center">
-                                  {[...Array(5)].map((_, i) => <FiStar key={i} className="text-yellow-400" />)}
-                                </div>
-                              </div>
-                              {/* Testimonial 2 */}
-                              <div className="bg-white rounded-2xl shadow-lg p-8 flex flex-col items-center text-center">
-                                <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="User" className="w-20 h-20 rounded-full mb-4 border-4 border-purple-200" />
-                                <h3 className="font-bold text-lg text-gray-900 mb-1">Carlos M.</h3>
-                                <p className="text-gray-600 mb-3 text-sm">Barcelona, Spain</p>
-                                <p className="text-gray-700 text-base italic mb-2">“The itinerary was detailed and perfectly matched my interests. Highly recommend for solo travelers!”</p>
-                                <div className="flex gap-1 justify-center">
-                                  {[...Array(5)].map((_, i) => <FiStar key={i} className="text-yellow-400" />)}
-                                </div>
-                              </div>
-                              {/* Testimonial 3 */}
-                              <div className="bg-white rounded-2xl shadow-lg p-8 flex flex-col items-center text-center">
-                                <img src="https://randomuser.me/api/portraits/women/68.jpg" alt="User" className="w-20 h-20 rounded-full mb-4 border-4 border-pink-200" />
-                                <h3 className="font-bold text-lg text-gray-900 mb-1">Aisha K.</h3>
-                                <p className="text-gray-600 mb-3 text-sm">Dubai, UAE</p>
-                                <p className="text-gray-700 text-base italic mb-2">“I love how easy it is to use and how much money I saved. My family trip was unforgettable!”</p>
-                                <div className="flex gap-1 justify-center">
-                                  {[...Array(5)].map((_, i) => <FiStar key={i} className="text-yellow-400" />)}
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-                        </section>
                 <div
                   key={index}
                   className={`${feature.bg} p-8 rounded-2xl shadow-xl hover:shadow-2xl transition-all hover:scale-105 border-2 border-white/50`}
@@ -431,6 +386,52 @@ export default async function Home({ params: { locale } }: { params: { locale: s
                   <p className="text-gray-700 font-medium">{feature.description}</p>
                 </div>
               ))}
+            </div>
+          </div>
+        </section>
+
+        {/* Testimonials Section */}
+        <section className="py-24 bg-gradient-to-br from-purple-50 via-blue-50 to-pink-50">
+          <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="text-center mb-16">
+              <h2 className="text-4xl md:text-5xl font-black bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent mb-6">
+                What Our Users Say
+              </h2>
+              <p className="text-xl text-gray-700 font-medium max-w-2xl mx-auto">
+                Real travelers. Real experiences. See why thousands trust PlanYourNextTravel for their adventures!
+              </p>
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+              {/* Testimonial 1 */}
+              <div className="bg-white rounded-2xl shadow-lg p-8 flex flex-col items-center text-center">
+                <img src="https://randomuser.me/api/portraits/women/44.jpg" alt="User" className="w-20 h-20 rounded-full mb-4 border-4 border-blue-200" />
+                <h3 className="font-bold text-lg text-gray-900 mb-1">Emily R.</h3>
+                <p className="text-gray-600 mb-3 text-sm">London, UK</p>
+                <p className="text-gray-700 text-base italic mb-2">“I planned my entire honeymoon in minutes! The AI suggestions were spot on and saved us so much time.”</p>
+                <div className="flex gap-1 justify-center">
+                  {[...Array(5)].map((_, i) => <FiStar key={i} className="text-yellow-400" />)}
+                </div>
+              </div>
+              {/* Testimonial 2 */}
+              <div className="bg-white rounded-2xl shadow-lg p-8 flex flex-col items-center text-center">
+                <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="User" className="w-20 h-20 rounded-full mb-4 border-4 border-purple-200" />
+                <h3 className="font-bold text-lg text-gray-900 mb-1">Carlos M.</h3>
+                <p className="text-gray-600 mb-3 text-sm">Barcelona, Spain</p>
+                <p className="text-gray-700 text-base italic mb-2">“The itinerary was detailed and perfectly matched my interests. Highly recommend for solo travelers!”</p>
+                <div className="flex gap-1 justify-center">
+                  {[...Array(5)].map((_, i) => <FiStar key={i} className="text-yellow-400" />)}
+                </div>
+              </div>
+              {/* Testimonial 3 */}
+              <div className="bg-white rounded-2xl shadow-lg p-8 flex flex-col items-center text-center">
+                <img src="https://randomuser.me/api/portraits/women/68.jpg" alt="User" className="w-20 h-20 rounded-full mb-4 border-4 border-pink-200" />
+                <h3 className="font-bold text-lg text-gray-900 mb-1">Aisha K.</h3>
+                <p className="text-gray-600 mb-3 text-sm">Dubai, UAE</p>
+                <p className="text-gray-700 text-base italic mb-2">“I love how easy it is to use and how much money I saved. My family trip was unforgettable!”</p>
+                <div className="flex gap-1 justify-center">
+                  {[...Array(5)].map((_, i) => <FiStar key={i} className="text-yellow-400" />)}
+                </div>
+              </div>
             </div>
           </div>
         </section>
@@ -451,32 +452,14 @@ export default async function Home({ params: { locale } }: { params: { locale: s
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {[
-                { ...features[0], gradient: 'from-yellow-400 to-orange-500', bg: 'bg-gradient-to-br from-yellow-50 to-orange-50' },
-                { ...features[1], gradient: 'from-green-400 to-cyan-500', bg: 'bg-gradient-to-br from-green-50 to-cyan-50' },
-                { ...features[2], gradient: 'from-blue-400 to-indigo-500', bg: 'bg-gradient-to-br from-blue-50 to-indigo-50' },
-                { ...features[3], gradient: 'from-purple-400 to-pink-500', bg: 'bg-gradient-to-br from-purple-50 to-pink-50' },
-                { ...features[4], gradient: 'from-red-400 to-rose-500', bg: 'bg-gradient-to-br from-red-50 to-rose-50' },
-                { ...features[5], gradient: 'from-teal-400 to-emerald-500', bg: 'bg-gradient-to-br from-teal-50 to-emerald-50' },
-              ].map((feature, index) => (
-                <div
-                  key={index}
-                  className={`rounded-2xl shadow-lg p-8 flex flex-col items-center text-center ${feature.bg}`}
+              {featuredPosts.map((post) => (
+                <Link
+                  key={post.slug}
+                  href={`/${locale}/blog/${post.slug}`}
+                  className="group block rounded-2xl shadow-lg overflow-hidden"
                 >
-                  <div className={`mb-4 p-4 rounded-full bg-gradient-to-br ${feature.gradient} text-white`}>
-                    {feature.icon === 'zap' && <FiZap className="w-8 h-8" />}
-                    {feature.icon === 'clock' && <FiClock className="w-8 h-8" />}
-                    {feature.icon === 'globe' && <FiGlobe className="w-8 h-8" />}
-                    {feature.icon === 'check' && <FiCheckCircle className="w-8 h-8" />}
-                    {feature.icon === 'dollar' && <FiDollarSign className="w-8 h-8" />}
-                    {feature.icon === 'star' && <FiStar className="w-8 h-8" />}
-                  </div>
-                  <h3 className="font-bold text-xl text-gray-900 mb-2">{feature.title}</h3>
-                  <p className="text-gray-600 text-base">{feature.description}</p>
-                </div>
-              ))}
-            </div>
-                    </div>
+                  <div className="relative h-56 md:h-64 lg:h-44 overflow-hidden">
+                    <Image src={post.image} alt={post.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform" width={1200} height={800} />
                   </div>
                   <div className="p-6">
                     <div className="flex items-center gap-2 text-sm text-gray-500 mb-3">
@@ -492,7 +475,7 @@ export default async function Home({ params: { locale } }: { params: { locale: s
                       {post.excerpt}
                     </p>
                     <div className="flex items-center text-blue-600 font-semibold group-hover:gap-3 transition-all">
-                      Read More
+                      {t('readMore') || 'Read More'}
                       <FiArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
                     </div>
                   </div>
@@ -500,7 +483,7 @@ export default async function Home({ params: { locale } }: { params: { locale: s
               ))}
             </div>
 
-            <div className="text-center">
+            <div className="text-center mt-10">
               <Link
                 href={`/${locale}/blog`}
                 className="inline-flex items-center gap-2 bg-gradient-to-r from-orange-500 to-red-600 text-white px-8 py-4 rounded-xl font-bold text-lg hover:scale-105 transition-all shadow-lg hover:shadow-xl"

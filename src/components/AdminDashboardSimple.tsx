@@ -1,3 +1,4 @@
+import AdminSiteSettings from './AdminSiteSettings';
 'use client';
 
 import { useState, useEffect } from 'react';
@@ -50,6 +51,21 @@ interface Stats {
   topActivities: { activity: string; count: number }[];
 }
 
+// Fetch all subscribers for the admin tab
+function useAllSubscribers(activeTab: string) {
+  const [allSubscribers, setAllSubscribers] = useState<Subscriber[]>([]);
+  const [loading, setLoading] = useState(false);
+  useEffect(() => {
+    if (activeTab === 'subscribers') {
+      setLoading(true);
+      fetch('/api/subscribers')
+        .then(res => res.json())
+        .then(data => setAllSubscribers(data.subscribers || []))
+        .finally(() => setLoading(false));
+    }
+  }, [activeTab]);
+  return { allSubscribers, loading };
+}
 interface GroqApiKey {
   id: string;
   key: string;
@@ -71,6 +87,7 @@ interface AdminDashboardWrapperProps {
 
 export function AdminDashboardWrapper({ locale, stats }: AdminDashboardWrapperProps) {
   const [activeTab, setActiveTab] = useState<'analytics' | 'users' | 'trips' | 'subscribers' | 'groq'>('analytics');
+  const { allSubscribers, loading: loadingSubscribers } = useAllSubscribers(activeTab);
   const [groqKeys, setGroqKeys] = useState<GroqApiKey[]>([]);
   const [newKey, setNewKey] = useState('');
   const [loadingKeys, setLoadingKeys] = useState(false);
@@ -571,7 +588,14 @@ export function AdminDashboardWrapper({ locale, stats }: AdminDashboardWrapperPr
                 <div className="flex justify-between items-center mb-6">
                   <h3 className="text-2xl font-bold text-gray-800">Newsletter Subscribers</h3>
                   <button
-                    onClick={exportSubscribers}
+                    onClick={() => {
+                      const data = allSubscribers.map(sub => ({
+                        id: sub.id,
+                        email: sub.email,
+                        subscribedAt: new Date(sub.subscribedAt).toLocaleDateString(),
+                      }));
+                      exportToCSV(data, 'subscribers');
+                    }}
                     className="flex items-center gap-2 px-4 py-2 bg-pink-600 text-white rounded-lg hover:bg-pink-700 transition-colors"
                   >
                     <FiDownload />
@@ -579,36 +603,43 @@ export function AdminDashboardWrapper({ locale, stats }: AdminDashboardWrapperPr
                   </button>
                 </div>
                 <div className="overflow-x-auto">
-                  <table className="w-full">
-                    <thead>
-                      <tr className="border-b-2 border-gray-200">
-                        <th className="text-left py-3 px-4 font-semibold text-gray-700">Email</th>
-                        <th className="text-left py-3 px-4 font-semibold text-gray-700">Subscribed At</th>
-                        <th className="text-left py-3 px-4 font-semibold text-gray-700">Status</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {stats.recentSubscribers.map((subscriber) => (
-                        <tr key={subscriber.id} className="border-b border-gray-100 hover:bg-gray-50">
-                          <td className="py-3 px-4 font-medium text-gray-800">{subscriber.email}</td>
-                          <td className="py-3 px-4 text-gray-600">
-                            {new Date(subscriber.subscribedAt).toLocaleDateString()}
-                          </td>
-                          <td className="py-3 px-4">
-                            <span className="px-3 py-1 bg-green-100 text-green-700 rounded-full text-sm font-semibold">
-                              Active
-                            </span>
-                          </td>
+                  {loadingSubscribers ? (
+                    <div className="py-8 text-center text-gray-500">Loading subscribers...</div>
+                  ) : (
+                    <table className="w-full">
+                      <thead>
+                        <tr className="border-b-2 border-gray-200">
+                          <th className="text-left py-3 px-4 font-semibold text-gray-700">Email</th>
+                          <th className="text-left py-3 px-4 font-semibold text-gray-700">Subscribed At</th>
+                          <th className="text-left py-3 px-4 font-semibold text-gray-700">Status</th>
                         </tr>
-                      ))}
-                    </tbody>
-                  </table>
+                      </thead>
+                      <tbody>
+                        {allSubscribers.length === 0 ? (
+                          <tr><td colSpan={3} className="py-6 text-center text-gray-400">No subscribers found.</td></tr>
+                        ) : allSubscribers.map((subscriber) => (
+                          <tr key={subscriber.id} className="border-b border-gray-100 hover:bg-gray-50">
+                            <td className="py-3 px-4 font-medium text-gray-800">{subscriber.email}</td>
+                            <td className="py-3 px-4 text-gray-600">
+                              {new Date(subscriber.subscribedAt).toLocaleDateString()}
+                            </td>
+                            <td className="py-3 px-4">
+                              <span className="px-3 py-1 bg-green-100 text-green-700 rounded-full text-sm font-semibold">
+                                Active
+                              </span>
+                            </td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  )}
                 </div>
               </div>
             )}
           </div>
         </div>
       </div>
+      <AdminSiteSettings />
     </div>
   );
 }

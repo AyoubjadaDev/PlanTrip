@@ -94,6 +94,17 @@ export async function GET(request: NextRequest) {
       .where(eq(contactMessages.isRead, false));
     const unreadMessages = unreadMessagesResult[0]?.count || 0;
 
+    // Get all users (id, name, email, createdAt)
+    const usersList = await db
+      .select({
+        id: users.id,
+        name: users.name,
+        email: users.email,
+        createdAt: users.createdAt,
+      })
+      .from(users)
+      .orderBy(desc(users.createdAt));
+
     return NextResponse.json({
       stats: {
         totalUsers,
@@ -107,6 +118,7 @@ export async function GET(request: NextRequest) {
         tripTrends,
         topDestinations,
       },
+      users: usersList,
     }, { status: 200 });
   } catch (error) {
     console.error('Analytics error:', error);

@@ -5,7 +5,24 @@ import { eq } from 'drizzle-orm';
 
 export async function POST(request: Request) {
   try {
-    const { email } = await request.json();
+    let email = '';
+    const contentType = request.headers.get('content-type') || '';
+    if (contentType.includes('application/json')) {
+      const data = await request.json();
+      email = data.email;
+    } else if (contentType.includes('application/x-www-form-urlencoded')) {
+      const formData = await request.formData();
+      email = formData.get('email') as string;
+    } else {
+      // Try both (for edge cases)
+      try {
+        const data = await request.json();
+        email = data.email;
+      } catch {
+        const formData = await request.formData();
+        email = formData.get('email') as string;
+      }
+    }
 
     if (!email || !email.includes('@')) {
       return NextResponse.json({ error: 'Invalid email' }, { status: 400 });

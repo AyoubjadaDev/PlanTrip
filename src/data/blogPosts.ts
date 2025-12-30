@@ -1,5 +1,6 @@
 export interface BlogPost {
   id: string;
+  slug: string;
   title: string;
   excerpt: string;
   content: string;
@@ -15,6 +16,7 @@ export const blogPosts: Record<string, BlogPost[]> = {
   en: [
     {
       id: '1',
+      slug: '10-hidden-gems-in-europe',
       title: '10 Hidden Gems in Europe You Must Visit',
       excerpt: 'Discover the most beautiful lesser-known destinations across Europe that will take your breath away.',
       content: 'Europe is filled with iconic cities like Paris, Rome, and Barcelona, but beyond these famous landmarks lie incredible hidden gems waiting to be discovered. Places like Sintra in Portugal offer stunning palace views and lush landscapes. Hallstatt in Austria provides postcard-perfect scenery with alpine charm. The Plitvice Lakes in Croatia showcase waterfalls and pristine nature. These lesser-known destinations offer authentic experiences without overwhelming crowds. Visit the charming villages of the Cotswolds in England, explore the wine regions of Alsace in France, or discover the fairy-tale castles of the Transylvania region in Romania. Each hidden gem offers unique cultural experiences, local cuisine, and breathtaking natural beauty that will create unforgettable memories and give you a deeper appreciation for European culture.',
@@ -27,6 +29,7 @@ export const blogPosts: Record<string, BlogPost[]> = {
     },
     {
       id: '2',
+      slug: 'budget-travel-how-to-see-the-world-for-less',
       title: 'Budget Travel: How to See the World for Less',
       excerpt: 'Learn expert tips and tricks to travel the world without breaking the bank.',
       content: 'Traveling on a budget doesn\'t mean sacrificing experiences or quality. Start by visiting countries with favorable exchange rates where your money goes further. Southeast Asia, Eastern Europe, and Central America offer incredible value. Book flights during off-peak seasons and use flight comparison tools to find the best deals. Stay in hostels or use affordable home-sharing options like Airbnb. Eat where locals eat—street food and local markets offer authentic cuisine at fraction of restaurant prices. Get a local SIM card for affordable data instead of international roaming. Use public transportation and walk whenever possible. Travel slowly, staying in one location longer to reduce transportation costs and develop deeper connections with places. Consider working while traveling through volunteer programs or freelance work. Plan your route to move efficiently rather than backtracking. These strategies help you stretch your budget and experience more destinations.',
@@ -39,6 +42,7 @@ export const blogPosts: Record<string, BlogPost[]> = {
     },
     {
       id: '3',
+      slug: 'best-food-markets-around-the-world',
       title: 'Best Food Markets Around the World',
       excerpt: 'A culinary journey through the most vibrant and delicious food markets on the planet.',
       content: 'Food markets are the heart and soul of any destination, offering authentic flavors and cultural insights. Bangkok\'s Floating Markets offer fresh produce and traditional Thai cuisine from boats. Marrakech\'s Djemaa el-Fna features aromatic spices and tagine stews. Barcelona\'s La Boqueria displays fresh seafood and local produce. Tokyo\'s Tsukiji Market is legendary for fresh fish and seafood delicacies. At these markets, you can sample regional specialties, interact with vendors, and understand local food culture. Explore Bologna\'s Quadrilatero district for Italian delicacies. Visit Berlin\'s street food markets for international cuisine. Each market tells stories of tradition, trade, and culinary heritage. Shopping at these markets is not just about buying food—it\'s an immersive experience that connects you with local communities and the essence of a place through flavors and aromas.',
@@ -51,6 +55,7 @@ export const blogPosts: Record<string, BlogPost[]> = {
     },
     {
       id: '4',
+      slug: 'solo-travel-guide-safety-tips-for-women',
       title: 'Solo Travel Guide: Safety Tips for Women',
       excerpt: 'Essential advice and safety tips for women traveling alone around the world.',
       content: 'Solo travel for women is increasingly popular and safer than ever with proper precautions. Trust your instincts about people and situations. Share your itinerary with friends and family and check in regularly. Blend in with locals by dressing appropriately for the destination and avoiding flashy jewelry or expensive cameras. Use registered taxis or ride-sharing apps rather than hailing random taxis. Stay in well-reviewed accommodations in safe neighborhoods. Avoid traveling alone at night, especially in unfamiliar areas. Keep copies of important documents separately from originals. Join group tours or organized activities if you want social connection. Carry a personal safety device like pepper spray where legal. Research your destination beforehand and understand local customs and laws. Connect with other female travelers through communities and social media for recommendations and advice. Most importantly, remember that millions of women travel solo safely and successfully every year. With awareness and sensible precautions, you can have an incredible solo travel experience.',
@@ -63,6 +68,7 @@ export const blogPosts: Record<string, BlogPost[]> = {
     },
     {
       id: '5',
+      slug: 'digital-nomad-paradise-top-15-cities',
       title: 'Digital Nomad Paradise: Top 15 Cities',
       excerpt: 'The best cities for remote workers with great WiFi, co-working spaces, and lifestyle.',
       content: 'Digital nomads need reliable internet, affordable living, and inspiring environments. Chiang Mai, Thailand offers cheap living costs, excellent food, and a thriving digital nomad community. Lisbon, Portugal combines European charm with affordability and amazing coworking spaces. Medellín, Colombia provides affordable accommodations, pleasant climate, and growing startup ecosystem. Bali, Indonesia offers beaches, temples, and co-working hubs at low cost. Mexico City provides cultural richness, excellent restaurants, and co-working infrastructure. Da Nang, Vietnam combines beach lifestyle with affordability. Barcelona, Spain offers Mediterranean lifestyle and strong tech scene. Berlin, Germany provides creative culture and affordable living. Kuala Lumpur, Malaysia offers modern facilities and cheap food. Each city offers unique advantages—some excel in cost-effectiveness, others in infrastructure or lifestyle. Consider your priorities: budget, climate, internet speed, community size, or cultural offerings. Many digital nomads combine multiple cities throughout the year to experience different seasons and cultures while maintaining productive work environments.',
@@ -75,6 +81,7 @@ export const blogPosts: Record<string, BlogPost[]> = {
     },
     {
       id: '6',
+      slug: 'sustainable-travel-how-to-reduce-your-footprint',
       title: 'Sustainable Travel: How to Reduce Your Footprint',
       excerpt: 'Practical ways to travel more responsibly and minimize your environmental impact.',
       content: 'Sustainable travel means making conscious choices that minimize negative environmental and social impacts. Choose accommodations with strong environmental practices like renewable energy and water conservation. Reduce air travel by using trains when possible, or flying less frequently through longer trips. Use public transportation, walk, or bicycle in destinations. Support local businesses and community-based tourism rather than international chains. Respect wildlife by observing animals from distance and avoiding exploitative tourist attractions. Minimize plastic use by bringing reusable water bottles, bags, and toiletries containers. Choose eco-certified tour operators. Eat local, seasonal food rather than imported items. Learn about local environmental issues and conservation efforts. Participate in voluntary conservation work or environmental projects. Conserve water and energy in accommodations. Choose sustainable souvenirs from local artisans rather than mass-produced items. Travel during shoulder seasons to reduce pressure on popular destinations. Be respectful of local cultures and customs. Sustainable travel isn\'t about perfection—it\'s about making better choices that benefit destinations and communities you visit.',
@@ -87,6 +94,7 @@ export const blogPosts: Record<string, BlogPost[]> = {
     },
     {
       id: '7',
+      slug: 'adventure-travel-thrilling-experiences-worldwide',
       title: 'Adventure Travel: Thrilling Experiences Worldwide',
       excerpt: 'From skydiving to scuba diving, discover the most exhilarating adventures around the globe.',
       content: 'Adventure travel pushes boundaries and creates unforgettable adrenaline-fueled memories. Skydiving in Interlaken, Switzerland offers stunning Alpine views during free fall. Scuba diving in the Great Barrier Reef, Australia reveals magnificent coral ecosystems. Rock climbing in El Capitan, California challenges climbers of all levels. Mountaineering on Mount Kilimanjaro, Tanzania provides physical challenge with incredible vistas. White water rafting in Costa Rica offers thrills through lush landscapes. Base jumping in Switzerland or Italy provides extreme adrenaline rushes for experienced adventurers. Hiking the Inca Trail to Machu Picchu combines adventure with historical significance. Ziplining through rainforests in multiple destinations offers unique perspectives. Paragliding in Switzerland or Nepal combines adventure with breathtaking scenery. Heli-skiing in remote mountains provides pristine slopes and extreme skiing. Adventure travel builds confidence, connects you with nature, and creates stories that last a lifetime. Always choose reputable operators with safety records and proper equipment.',
@@ -99,6 +107,7 @@ export const blogPosts: Record<string, BlogPost[]> = {
     },
     {
       id: '8',
+      slug: 'family-travel-best-destinations-for-kids',
       title: 'Family Travel: Best Destinations for Kids',
       excerpt: 'Kid-friendly destinations that the whole family will love and remember forever.',
       content: 'Family travel creates bonding experiences and broadens children\'s perspectives. Japan offers safe, efficient transportation, amazing food, and fascinating culture. Costa Rica provides wildlife encounters, beaches, and adventure activities suitable for kids. Greece offers history lessons combined with beach time and family-friendly islands. Canada\'s national parks offer outdoor adventure with varying difficulty levels. New Zealand combines stunning landscapes with family-friendly activities from easy hikes to adventure sports. Denmark is known as one of the world\'s happiest countries with family-friendly attractions. Spain offers beaches, culture, and delicious food in welcoming cities. Thailand provides affordability, beaches, and cultural experiences. Australia offers unique wildlife and adventure. When traveling with children, build in downtime, choose accommodations with family amenities, eat at casual restaurants, and plan activities suitable for their ages. Pack entertainment for travel days. Choose destinations with good healthcare and safe water. Stay in family-friendly areas. Balance structured activities with spontaneity. Family travel teaches children about the world while creating memories to treasure forever.',
@@ -111,6 +120,7 @@ export const blogPosts: Record<string, BlogPost[]> = {
     },
     {
       id: '9',
+      slug: 'photography-guide-capturing-your-travel-moments',
       title: 'Photography Guide: Capturing Your Travel Moments',
       excerpt: 'Professional tips and techniques to take stunning travel photos that tell your story.',
       content: 'Travel photography preserves memories and shares experiences with others. Master the rule of thirds for better composition—place subjects off-center for more interesting images. Use leading lines to draw viewers into images—roads, rivers, or paths guide the eye naturally. Golden hour photography during sunrise and sunset creates magical warm light. Avoid harsh midday sun for portraits by shooting in shade or during golden hours. Include people in landscape photos for scale and human interest. Get close to subjects for details and character. Experiment with different angles and perspectives. Use your smartphone camera effectively—it\'s always with you. Understand your camera\'s exposure settings to work in various light conditions. Clean your lens regularly for clear images. Shoot in RAW format if your camera allows for better editing flexibility. Tell stories with your photos by capturing moments and interactions, not just landmarks. Include establishing shots, details, and people. Create photo series that show different aspects of places. Edit consistently to create a cohesive visual style. Share your travels responsibly, respecting locals\' privacy and avoiding over-tourism from social media hotspots.',

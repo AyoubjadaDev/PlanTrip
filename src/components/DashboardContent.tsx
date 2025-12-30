@@ -17,6 +17,9 @@ interface DashboardContentProps {
 export default function DashboardContent({ trips, locale, userName, isAdmin }: DashboardContentProps) {
   const t = useTranslations('dashboard');
   const [deleting, setDeleting] = useState<string | null>(null);
+  const [page, setPage] = useState(1);
+  const pageSize = 10;
+  const totalPages = Math.ceil(trips.length / pageSize);
   const router = useRouter();
 
   const handleDelete = async (tripId: string) => {
@@ -27,7 +30,6 @@ export default function DashboardContent({ trips, locale, userName, isAdmin }: D
       const response = await fetch(`/api/trips/${tripId}`, {
         method: 'DELETE',
       });
-
       if (response.ok) {
         router.refresh();
       }
@@ -37,9 +39,6 @@ export default function DashboardContent({ trips, locale, userName, isAdmin }: D
       setDeleting(null);
     }
   };
-
-
-
   return (
     <div>
       <div className="mb-8 flex items-center justify-between">
@@ -57,7 +56,6 @@ export default function DashboardContent({ trips, locale, userName, isAdmin }: D
           </Link>
         )}
       </div>
-
       {trips.length === 0 ? (
         <div className="bg-white rounded-2xl shadow-sm p-12 text-center">
           <div className="text-6xl mb-4">✈️</div>
@@ -71,32 +69,23 @@ export default function DashboardContent({ trips, locale, userName, isAdmin }: D
           </Link>
         </div>
       ) : (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {trips.map((trip) => {
-            const itinerary = trip.itinerary as any;
-            return (
-              <div key={trip.id} className="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-lg transition">
-                <div className="bg-gradient-to-r from-primary-600 to-blue-600 text-white p-4">
-                  <h3 className="font-semibold text-lg truncate">{itinerary.title}</h3>
-                </div>
-                <div className="p-6">
-                  <div className="space-y-2 mb-4">
-                    <div className="flex items-center gap-2 text-sm text-gray-600">
-                      <FiMapPin className="flex-shrink-0" />
-                      <span className="truncate">{trip.destination}</span>
-                    </div>
-                    <div className="flex items-center gap-2 text-sm text-gray-600">
-                      <FiCalendar className="flex-shrink-0" />
-                      <span>
-                        {new Date(trip.startDate).toLocaleDateString(locale)} -{' '}
-                        {new Date(trip.endDate).toLocaleDateString(locale)}
-                      </span>
-                    </div>
+        <>
+          <div className="divide-y divide-gray-200 bg-white rounded-xl shadow-md">
+            {trips.slice((page - 1) * pageSize, page * pageSize).map((trip) => {
+              const itinerary = trip.itinerary as any;
+              return (
+                <div key={trip.id} className="flex flex-row items-center justify-between px-4 py-4 hover:bg-gray-50 transition">
+                  <div className="flex flex-col sm:flex-row sm:items-center gap-2 flex-1 min-w-0">
+                    <span className="font-semibold text-base text-gray-900 truncate w-48 sm:w-64">{itinerary.title}</span>
+                    <span className="text-gray-600 text-sm w-32 truncate">{trip.destination}</span>
+                    <span className="text-gray-500 text-xs w-40">
+                      {new Date(trip.startDate).toLocaleDateString(locale)} - {new Date(trip.endDate).toLocaleDateString(locale)}
+                    </span>
                   </div>
-                  <div className="flex gap-2">
+                  <div className="flex items-center gap-2 flex-shrink-0">
                     <Link
                       href={`/${locale}/trip/${trip.id}`}
-                      className="flex-1 bg-primary-600 text-white px-4 py-2 rounded-lg text-center hover:bg-primary-700 transition"
+                      className="px-4 py-2 bg-primary-600 text-white rounded-lg font-medium hover:bg-primary-700 transition"
                     >
                       {t('viewTrip')}
                     </Link>
@@ -110,10 +99,28 @@ export default function DashboardContent({ trips, locale, userName, isAdmin }: D
                     </button>
                   </div>
                 </div>
-              </div>
-            );
-          })}
-        </div>
+              );
+            })}
+          </div>
+          {/* Pagination Controls */}
+          <div className="flex justify-center items-center gap-2 mt-8">
+            <button
+              onClick={() => setPage((p) => Math.max(1, p - 1))}
+              disabled={page === 1}
+              className={`px-3 py-1 rounded ${page === 1 ? 'bg-gray-200 text-gray-400 cursor-not-allowed' : 'bg-blue-500 text-white hover:bg-blue-600'}`}
+            >
+              Previous
+            </button>
+            <span className="px-4">Page {page} of {totalPages}</span>
+            <button
+              onClick={() => setPage((p) => Math.min(totalPages, p + 1))}
+              disabled={page === totalPages || totalPages === 0}
+              className={`px-3 py-1 rounded ${page === totalPages || totalPages === 0 ? 'bg-gray-200 text-gray-400 cursor-not-allowed' : 'bg-blue-500 text-white hover:bg-blue-600'}`}
+            >
+              Next
+            </button>
+          </div>
+        </>
       )}
     </div>
   );

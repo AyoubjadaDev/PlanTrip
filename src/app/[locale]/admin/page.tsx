@@ -10,8 +10,9 @@ import { BlogManagement } from '@/components/BlogManagement';
 import { ContactMessagesManager } from '@/components/ContactMessagesManager';
 import { AdvancedReporting } from '@/components/AdvancedReporting';
 import { ApiKeyManagement } from '@/components/ApiKeyManagement';
+import AdminSiteSettings from '@/components/AdminSiteSettings';
 
-type TabType = 'analytics' | 'blog' | 'contacts' | 'reports' | 'api-keys';
+type TabType = 'analytics' | 'blog' | 'contacts' | 'reports' | 'api-keys' | 'google';
 
 const TABS: { id: TabType; label: string; icon: string }[] = [
   { id: 'analytics', label: 'Analytics Dashboard', icon: '📊' },
@@ -19,6 +20,7 @@ const TABS: { id: TabType; label: string; icon: string }[] = [
   { id: 'contacts', label: 'Contact Messages', icon: '📧' },
   { id: 'reports', label: 'Advanced Reporting', icon: '📈' },
   { id: 'api-keys', label: 'API Keys', icon: '🔑' },
+  { id: 'google', label: 'Google Integrations', icon: '🟦' },
 ];
 
 export default function AdminPage({ params }: { params: { locale: string } }) {
@@ -112,6 +114,7 @@ export default function AdminPage({ params }: { params: { locale: string } }) {
         {activeTab === 'contacts' && <ContactMessagesManager />}
         {activeTab === 'reports' && <AdvancedReporting />}
         {activeTab === 'api-keys' && <ApiKeyManagement />}
+        {activeTab === 'google' && <AdminSiteSettings />}
       </div>
     </div>
   );

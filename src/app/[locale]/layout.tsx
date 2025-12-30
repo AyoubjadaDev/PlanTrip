@@ -1,11 +1,10 @@
-import { NextIntlClientProvider } from 'next-intl';
+
 import { getMessages } from 'next-intl/server';
 import { Inter, Cairo } from 'next/font/google';
 import { locales } from '@/i18n';
-import SessionProvider from '@/components/SessionProvider';
-import CookieConsent from '@/components/CookieConsent';
-import NewsletterPopup from '@/components/NewsletterPopup';
+import ClientLayout from './ClientLayout';
 import '../globals.css';
+import { getSiteSettings } from '@/lib/siteSettings';
 
 const inter = Inter({
   subsets: ['latin'],
@@ -83,6 +82,7 @@ export default async function RootLayout({
 }) {
   const messages = await getMessages();
   const isRTL = locale === 'ar';
+  const settings = await getSiteSettings();
 
   return (
     <html lang={locale} dir={isRTL ? 'rtl' : 'ltr'} className={`${inter.variable} ${cairo.variable}`}>
@@ -90,31 +90,65 @@ export default async function RootLayout({
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon-new.svg" type="image/svg+xml" />
         <link rel="alternate icon" href="/favicon.ico" />
-        {/* Google Analytics (gtag.js) */}
-        <script async src="https://www.googletagmanager.com/gtag/js?id=G-WN2JH15RL9"></script>
-        <script
-          dangerouslySetInnerHTML={{
-            __html: `
-              window.dataLayer = window.dataLayer || [];
-              function gtag(){dataLayer.push(arguments);}
-              gtag('js', new Date());
-              gtag('config', 'G-WN2JH15RL9');
-            `,
-          }}
-        />
-        {/* Google AdSense Site Verification */}
-        <meta name="google-site-verification" content="heDb981JNpGgoZZ81wdl4xLka2o4iek6OFdEl2IISfk" />
-        {/* Google AdSense Script */}
-        <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8771708725446959" crossOrigin="anonymous"></script>
+        {/* Google Analytics (dynamic) */}
+        {settings?.googleAnalyticsId && (
+          <>
+            <script async src={`https://www.googletagmanager.com/gtag/js?id=${settings.googleAnalyticsId}`}></script>
+            <script
+              dangerouslySetInnerHTML={{
+                __html: `
+                  window.dataLayer = window.dataLayer || [];
+                  function gtag(){dataLayer.push(arguments);}
+                  gtag('js', new Date());
+                  gtag('config', '${settings.googleAnalyticsId}');
+                `,
+              }}
+            />
+          </>
+        )}
+        {/* Google Search Console Meta (dynamic) */}
+        {settings?.googleSearchConsoleMeta && (
+          // Only allow <meta ...> tags in <head>, never <div>
+          settings.googleSearchConsoleMeta.includes('<meta')
+            ? (() => {
+                // Extract attributes from the meta tag string
+                const match = settings.googleSearchConsoleMeta.match(/<meta([^>]*)>/i);
+                if (match) {
+                  // Parse attributes into an object
+                  const attrs = {} as Record<string, string>;
+                  match[1].replace(/([a-zA-Z0-9\-:]+)=["']([^"']+)["']/g, (_: any, key: string, value: string) => {
+                    attrs[key] = value;
+                    return '';
+                  });
+                  return <meta {...attrs} />;
+                }
+                return null;
+              })()
+            : <meta name="google-site-verification" content={settings.googleSearchConsoleMeta} />
+        )}
+        {/* Google AdSense Script (dynamic) */}
+        {settings?.googleAdsenseCode && (
+          // Only allow <script> tags in <head>
+          settings.googleAdsenseCode.includes('<script')
+            ? (() => {
+                // Extract attributes and content from the script tag string
+                const match = settings.googleAdsenseCode.match(/<script([^>]*)>([\s\S]*?)<\/script>/i);
+                if (match) {
+                  // Parse attributes into an object
+                  const attrs = {} as Record<string, string>;
+                  match[1].replace(/([a-zA-Z0-9\-:]+)=["']([^"']+)["']/g, (_: any, key: string, value: string) => {
+                    attrs[key] = value;
+                    return '';
+                  });
+                  return <script {...attrs} dangerouslySetInnerHTML={{ __html: match[2] }} />;
+                }
+                return null;
+              })()
+            : <script dangerouslySetInnerHTML={{ __html: settings.googleAdsenseCode }} />
+        )}
       </head>
       <body>
-        <SessionProvider>
-          <NextIntlClientProvider messages={messages}>
-            {children}
-            <CookieConsent />
-            <NewsletterPopup />
-          </NextIntlClientProvider>
-        </SessionProvider>
+        <ClientLayout messages={messages} locale={locale}>{children}</ClientLayout>
       </body>
     </html>
   );

@@ -1,7 +1,15 @@
 'use client';
 
 import React, { useEffect, useState } from 'react';
+import { SubscribersListPopin } from './SubscribersListPopin';
 import { LineChart, Line, BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, ScatterChart, Scatter } from 'recharts';
+
+interface UserInfo {
+  id: string;
+  name: string | null;
+  email: string;
+  createdAt: string;
+}
 
 interface ReportData {
   stats: {
@@ -16,13 +24,14 @@ interface ReportData {
     tripTrends: Array<{ date: string; count: number }>;
     topDestinations: Array<{ destination: string; count: number }>;
   };
+  users: UserInfo[];
 }
 
 export function AdvancedReporting() {
   const [data, setData] = useState<ReportData | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
-  const [reportType, setReportType] = useState<'overview' | 'engagement' | 'destinations'>('overview');
+  const [reportType, setReportType] = useState<'overview' | 'engagement' | 'destinations' | 'users' | 'subscribers'>('overview');
   const [dateRange, setDateRange] = useState<'7days' | '30days' | '90days'>('30days');
 
   useEffect(() => {
@@ -68,16 +77,19 @@ export function AdvancedReporting() {
       {/* Header */}
       <div className="flex items-center justify-between">
         <h2 className="text-2xl font-bold text-gray-900">Advanced Reporting</h2>
-        <button
-          onClick={fetchReportData}
-          className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition"
-        >
-          🔄 Refresh
-        </button>
+        <div className="flex gap-2 items-center">
+          <SubscribersListPopin trigger={<button className="px-4 py-2 bg-green-100 text-green-700 rounded-lg hover:bg-green-200 transition">👥 Subscribers (Report)</button>} />
+          <button
+            onClick={fetchReportData}
+            className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition"
+          >
+            🔄 Refresh
+          </button>
+        </div>
       </div>
 
       {/* Controls */}
-      <div className="grid grid-cols-2 gap-4">
+      <div className="grid grid-cols-3 gap-4">
         <div>
           <label className="block text-sm font-medium text-gray-700 mb-2">Report Type</label>
           <select
@@ -88,6 +100,8 @@ export function AdvancedReporting() {
             <option value="overview">Overview Report</option>
             <option value="engagement">User Engagement</option>
             <option value="destinations">Popular Destinations</option>
+            <option value="users">Users</option>
+            <option value="subscribers">Subscribers</option>
           </select>
         </div>
         <div>
@@ -109,6 +123,14 @@ export function AdvancedReporting() {
         {reportType === 'overview' && <OverviewReport data={data} />}
         {reportType === 'engagement' && <EngagementReport data={data} />}
         {reportType === 'destinations' && <DestinationsReport data={data} />}
+        {reportType === 'users' && <UsersTable users={data.users} />}
+        {reportType === 'subscribers' && (
+          <div className="bg-white rounded-lg border border-gray-200 p-6">
+            <h3 className="text-lg font-semibold text-gray-900 mb-4">All Newsletter Subscribers (Report)</h3>
+            <SubscribersListPopin trigger={<button className="px-4 py-2 bg-green-100 text-green-700 rounded-lg hover:bg-green-200 transition">View Subscribers List</button>} />
+            <div className="text-gray-500 text-sm mt-2">Click the button above to view all newsletter subscribers in a popin window.</div>
+          </div>
+        )}
       </div>
 
       {/* Export Options */}
@@ -410,12 +432,17 @@ function downloadReport(data: ReportData, format: 'json' | 'csv') {
     a.download = `report-${new Date().toISOString().split('T')[0]}.json`;
     a.click();
   } else if (format === 'csv') {
-    const csv = [
+    // Export summary metrics
+    let csv = [
       ['Metric', 'Value'],
       ['Total Users', data.stats.totalUsers],
       ['Total Trips', data.stats.totalTrips],
       ['Active Users', data.stats.activeUsers],
       ['Unread Messages', data.stats.unreadMessages],
+      [],
+      ['Users'],
+      ['ID', 'Name', 'Email', 'Signup Date'],
+      ...data.users.map(u => [u.id, u.name || '', u.email, u.createdAt]),
     ]
       .map(row => row.join(','))
       .join('\n');
@@ -426,4 +453,32 @@ function downloadReport(data: ReportData, format: 'json' | 'csv') {
     a.download = `report-${new Date().toISOString().split('T')[0]}.csv`;
     a.click();
   }
+}
+
+function UsersTable({ users }: { users: UserInfo[] }) {
+  return (
+    <div className="bg-white rounded-lg border border-gray-200 overflow-x-auto">
+      <h3 className="text-lg font-semibold text-gray-900 mb-4 p-4">Users</h3>
+      <table className="min-w-full divide-y divide-gray-200">
+        <thead className="bg-gray-50">
+          <tr>
+            <th className="px-6 py-3 text-left text-xs font-medium text-gray-700 uppercase">ID</th>
+            <th className="px-6 py-3 text-left text-xs font-medium text-gray-700 uppercase">Name</th>
+            <th className="px-6 py-3 text-left text-xs font-medium text-gray-700 uppercase">Email</th>
+            <th className="px-6 py-3 text-left text-xs font-medium text-gray-700 uppercase">Signup Date</th>
+          </tr>
+        </thead>
+        <tbody className="bg-white divide-y divide-gray-200">
+          {users.map((user) => (
+            <tr key={user.id}>
+              <td className="px-6 py-4 text-gray-900 text-xs font-mono">{user.id}</td>
+              <td className="px-6 py-4 text-gray-900">{user.name || <span className="italic text-gray-400">(none)</span>}</td>
+              <td className="px-6 py-4 text-gray-900">{user.email}</td>
+              <td className="px-6 py-4 text-gray-900">{new Date(user.createdAt).toLocaleString()}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  );
 }

@@ -1,3 +1,11 @@
+// Site settings table for Google integrations
+export const siteSettings = pgTable('site_settings', {
+  id: uuid('id').defaultRandom().primaryKey(),
+  googleAnalyticsId: text('google_analytics_id'),
+  googleAdsenseCode: text('google_adsense_code'),
+  googleSearchConsoleMeta: text('google_search_console_meta'),
+  updatedAt: timestamp('updated_at').defaultNow().notNull(),
+});
 // Groq API keys table for admin management and rotation
 export const groqApiKeys = pgTable('groq_api_keys', {
   id: uuid('id').defaultRandom().primaryKey(),
