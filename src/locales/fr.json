@@ -247,8 +247,7 @@
     "emailPlaceholder": "Entrez votre adresse email",
     "subscribe": "S'abonner maintenant",
     "subscribing": "Abonnement en cours...",
-    "privacy": "Nous respectons votre vie privée. Désabonnez-vous à tout moment.",
-    "successTitle": "Bienvenue à bord!",
+    "privacy": "Nous respectons votre vie privée. Désabonnez-vous à tout moment.",    "cancel": "Non merci",    "successTitle": "Bienvenue à bord!",
     "successMessage": "Merci de vous être abonné! Consultez votre boîte mail pour votre cadeau de bienvenue."
   }
 }

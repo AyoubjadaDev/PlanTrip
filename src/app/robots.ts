@@ -1,7 +1,7 @@
 import { MetadataRoute } from 'next';
 
 export default function robots(): MetadataRoute.Robots {
-  const baseUrl = process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:5200';
+  const baseUrl = process.env.NEXT_PUBLIC_APP_URL || 'https://planmynexttravel.com';
 
   return {
     rules: [
@@ -15,6 +15,15 @@ export default function robots(): MetadataRoute.Robots {
           '/auth/',
           '/_next/',
         ],
+      },
+      {
+        userAgent: 'Googlebot',
+        allow: '/',
+        crawlDelay: 0,
+      },
+      {
+        userAgent: 'Googlebot-Image',
+        allow: '/',
       },
       {
         userAgent: 'GPTBot',

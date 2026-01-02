@@ -1,7 +1,8 @@
 import { Metadata } from 'next';
-import { useTranslations } from 'next-intl';
+import { getTranslations } from 'next-intl/server';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
+import SocialShare from '@/components/SocialShare';
 import { getBlogPost, getBlogPosts } from '@/data/blog';
 import { notFound } from 'next/navigation';
 import Link from 'next/link';
@@ -15,7 +16,8 @@ interface BlogPostPageProps {
 
 // Generate metadata for SEO (2025 best practices)
 export async function generateMetadata({ params }: BlogPostPageProps): Promise<Metadata> {
-  const post = getBlogPost(params.locale, params.slug);
+  const decodedSlug = decodeURIComponent(params.slug);
+  const post = await getBlogPost(params.locale, decodedSlug);
 
   if (!post) {
     return {
@@ -82,29 +84,16 @@ export async function generateMetadata({ params }: BlogPostPageProps): Promise<M
   };
 }
 
-export async function generateStaticParams() {
-  const locales = ['en', 'fr', 'ar'];
-  const params: { locale: string; slug: string }[] = [];
-
-  locales.forEach((locale) => {
-    const posts = getBlogPosts(locale);
-    posts.forEach((post) => {
-      params.push({ locale, slug: post.slug });
-    });
-  });
-
-  return params;
-}
-
 export const dynamic = "force-dynamic";
 
-export default function BlogPostPage({
+export default async function BlogPostPage({
   params,
 }: {
   params: { locale: string; slug: string };
 }) {
-  const post = getBlogPost(params.locale, params.slug);
-  const t = useTranslations('blog');
+  const decodedSlug = decodeURIComponent(params.slug);
+  const post = await getBlogPost(params.locale, decodedSlug);
+  const t = await getTranslations('blog');
 
   if (!post) {
     notFound();
@@ -241,10 +230,11 @@ export default function BlogPostPage({
                 <FiArrowLeft />
                 Back to Blog
               </Link>
-              <button className="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-purple-600 to-pink-600 text-white rounded-xl font-bold hover:from-purple-700 hover:to-pink-700 transition-all shadow-lg">
-                <FiShare2 />
-                Share
-              </button>
+              <SocialShare 
+                url={articleUrl}
+                title={post.title}
+                description={post.excerpt}
+              />
             </div>
 
             {/* Article Content */}

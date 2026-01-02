@@ -3,6 +3,7 @@ import { getTranslations } from 'next-intl/server';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import TripGeneratorWizard from '@/components/TripGeneratorWizard';
+import AdDisplay from '@/components/AdDisplay';
 import Link from 'next/link';
 import Image from 'next/image';
 import { FiZap, FiGlobe, FiClock, FiDollarSign, FiCheckCircle, FiStar, FiArrowRight, FiTrendingUp, FiAward, FiMapPin } from 'react-icons/fi';
@@ -87,7 +88,7 @@ export async function generateMetadata({ params }: { params: { locale: string } 
 export default async function Home({ params: { locale } }: { params: { locale: string } }) {
   const t = await getTranslations({ locale });
   // Get first 6 blog posts for the locale
-  const allPosts = getBlogPosts(locale);
+  const allPosts = await getBlogPosts(locale);
   const featuredPosts = allPosts.slice(0, 6);
 
   const features = [
@@ -173,6 +174,9 @@ export default async function Home({ params: { locale } }: { params: { locale: s
 
       <div className="min-h-screen flex flex-col">
         <Header />
+        
+        {/* Header Ad */}
+        <AdDisplay position="header" className="max-w-7xl mx-auto px-4 py-4" />
 
       <main className="flex-1">
         {/* Hero Section - With Floating Cards */}

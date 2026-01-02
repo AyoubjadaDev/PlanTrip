@@ -5,6 +5,9 @@ export default function AdminSiteSettings() {
     googleAnalyticsId: '',
     googleAdsenseCode: '',
     googleSearchConsoleMeta: '',
+    adsTxt: '',
+    headerAdCode: '',
+    sidebarAdCode: '',
   });
   const [loading, setLoading] = useState(true);
   const [status, setStatus] = useState<string | null>(null);
@@ -18,6 +21,9 @@ export default function AdminSiteSettings() {
             googleAnalyticsId: data.settings.googleAnalyticsId || '',
             googleAdsenseCode: data.settings.googleAdsenseCode || '',
             googleSearchConsoleMeta: data.settings.googleSearchConsoleMeta || '',
+            adsTxt: data.settings.adsTxt || '',
+            headerAdCode: data.settings.headerAdCode || '',
+            sidebarAdCode: data.settings.sidebarAdCode || '',
           });
         }
       })
@@ -87,6 +93,57 @@ export default function AdminSiteSettings() {
               placeholder="<meta name=...>"
             />
           </div>
+          <div>
+            <label className="block font-medium mb-2">Ads.txt Content</label>
+            <textarea
+              name="adsTxt"
+              value={settings.adsTxt}
+              onChange={handleChange}
+              className="w-full px-4 py-2 border rounded font-mono text-sm"
+              rows={6}
+              placeholder="google.com, pub-0000000000000000, DIRECT, f08c47fec0942fa0"
+            />
+            <p className="text-sm text-gray-500 mt-1">
+              Enter your ads.txt content for Google AdSense verification. This will be served at /ads.txt
+            </p>
+          </div>
+          
+          <div className="border-t pt-6">
+            <h3 className="text-lg font-semibold mb-4">Ad Display Codes</h3>
+            
+            <div className="space-y-6">
+              <div>
+                <label className="block font-medium mb-2">Header Ad Code</label>
+                <textarea
+                  name="headerAdCode"
+                  value={settings.headerAdCode}
+                  onChange={handleChange}
+                  className="w-full px-4 py-2 border rounded font-mono text-sm"
+                  rows={5}
+                  placeholder="<ins class='adsbygoogle' ...></ins><script>...</script>"
+                />
+                <p className="text-sm text-gray-500 mt-1">
+                  Ad unit to display in the header section (below navigation)
+                </p>
+              </div>
+              
+              <div>
+                <label className="block font-medium mb-2">Sidebar Ad Code</label>
+                <textarea
+                  name="sidebarAdCode"
+                  value={settings.sidebarAdCode}
+                  onChange={handleChange}
+                  className="w-full px-4 py-2 border rounded font-mono text-sm"
+                  rows={5}
+                  placeholder="<ins class='adsbygoogle' ...></ins><script>...</script>"
+                />
+                <p className="text-sm text-gray-500 mt-1">
+                  Ad unit to display in the sidebar or content area
+                </p>
+              </div>
+            </div>
+          </div>
+          
           <button type="submit" className="px-6 py-2 bg-blue-600 text-white rounded">Save Settings</button>
           {status && <div className="mt-2 text-sm text-green-700">{status}</div>}
         </form>

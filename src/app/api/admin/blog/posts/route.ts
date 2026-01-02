@@ -4,6 +4,7 @@ import { authOptions } from '@/lib/auth';
 import { db } from '@/db';
 import { users, blogPosts } from '@/db/schema';
 import { eq, desc, sql } from 'drizzle-orm';
+import blogPostsData from '@/data/blogPosts';
 
 export async function GET(request: NextRequest) {
   try {
@@ -31,19 +32,53 @@ export async function GET(request: NextRequest) {
     const searchParams = request.nextUrl.searchParams;
     const status = searchParams.get('status');
 
+    // Get database posts
+    let dbPosts = [];
     if (status === 'draft' || status === 'published') {
-      const posts = await db
+      dbPosts = await db
         .select()
         .from(blogPosts)
         .where(eq(blogPosts.status, status))
         .orderBy(desc(blogPosts.createdAt));
-      return NextResponse.json(posts, { status: 200 });
+    } else {
+      dbPosts = await db
+        .select()
+        .from(blogPosts)
+        .orderBy(desc(blogPosts.createdAt));
     }
 
-    const allPosts = await db
-      .select()
-      .from(blogPosts)
-      .orderBy(desc(blogPosts.createdAt));
+    // Get static posts from blogPosts.ts and flatten them with source metadata
+    const staticPosts = Object.entries(blogPostsData).flatMap(([locale, posts]) =>
+      posts.map(post => ({
+        id: `static-${locale}-${post.id}`,
+        title: post.title,
+        slug: post.slug,
+        description: post.excerpt,
+        content: post.content,
+        image: post.image,
+        category: post.category,
+        locale: locale,
+        readTime: post.readTime,
+        tags: post.tags,
+        status: 'published' as const,
+        author: post.author,
+        createdAt: post.date,
+        updatedAt: post.date,
+        publishedAt: post.date,
+        viewCount: 0,
+        isStatic: true, // Flag to identify static posts
+      }))
+    );
+
+    // Filter static posts by status if needed
+    const filteredStaticPosts = status === 'draft' 
+      ? [] // Static posts are always published
+      : staticPosts;
+
+    // Combine and sort by date
+    const allPosts = [...dbPosts, ...filteredStaticPosts].sort((a, b) => 
+      new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+    );
 
     return NextResponse.json(allPosts, { status: 200 });
   } catch (error) {
@@ -79,7 +114,7 @@ export async function POST(request: NextRequest) {
     }
 
     const body = await request.json();
-    const { title, description, content, image, category, slug } = body;
+    const { title, description, content, image, category, slug, locale, readTime, tags } = body;
 
     // Validation
     if (!title || !slug || !description || !content) {
@@ -89,9 +124,19 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Check slug uniqueness
+    // Validate locale
+    const validLocales = ['en', 'fr', 'ar'];
+    const selectedLocale = locale || 'en';
+    if (!validLocales.includes(selectedLocale)) {
+      return NextResponse.json(
+        { error: 'Invalid locale. Must be en, fr, or ar' },
+        { status: 400 }
+      );
+    }
+
+    // Check slug uniqueness within the same locale
     const existingPost = await db.query.blogPosts.findFirst({
-      where: eq(blogPosts.slug, slug),
+      where: sql`${blogPosts.slug} = ${slug} AND ${blogPosts.locale} = ${selectedLocale}`,
     });
 
     if (existingPost) {
@@ -110,6 +155,9 @@ export async function POST(request: NextRequest) {
         content,
         image: image || null,
         category: category || 'general',
+        locale: selectedLocale,
+        readTime: readTime || null,
+        tags: tags || [],
         author: adminUser.name || 'Admin',
         status: 'draft',
         viewCount: 0,

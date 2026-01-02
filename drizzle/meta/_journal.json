@@ -15,6 +15,13 @@
       "when": 1765894675066,
       "tag": "0001_rich_amazoness",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1767361959909,
+      "tag": "0002_whole_lord_hawal",
+      "breakpoints": true
     }
   ]
 }

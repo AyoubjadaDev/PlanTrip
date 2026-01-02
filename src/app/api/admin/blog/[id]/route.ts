@@ -61,7 +61,7 @@ export async function PATCH(request: NextRequest, { params }: RouteParams) {
 
     const postId = params.id;
     const body = await request.json();
-    const { title, description, content, image, category, status, slug } = body;
+    const { title, description, content, image, category, status, slug, locale, readTime, tags } = body;
 
     // Check if post exists
     const post = await db.query.blogPosts.findFirst({
@@ -99,6 +99,9 @@ export async function PATCH(request: NextRequest, { params }: RouteParams) {
     if (image !== undefined) updateData.image = image;
     if (category !== undefined) updateData.category = category;
     if (slug !== undefined) updateData.slug = slug;
+    if (locale !== undefined) updateData.locale = locale;
+    if (readTime !== undefined) updateData.readTime = readTime;
+    if (tags !== undefined) updateData.tags = tags;
     
     // Handle status change
     if (status === 'published' && post.status === 'draft') {

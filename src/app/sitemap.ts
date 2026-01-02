@@ -1,17 +1,14 @@
 import { MetadataRoute } from 'next';
 import { getBlogPosts } from '@/data/blog';
 
-export default function sitemap(): MetadataRoute.Sitemap {
-  const baseUrl = process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:5200';
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
+  const baseUrl = process.env.NEXT_PUBLIC_APP_URL || 'https://planmynexttravel.com';
   const locales = ['en', 'fr', 'ar'];
   
   const staticPages = [
     '',
     '/blog',
     '/about',
-    '/contact',
-    '/privacy',
-    '/terms',
   ];
 
   // Generate static page URLs for all locales
@@ -21,8 +18,8 @@ export default function sitemap(): MetadataRoute.Sitemap {
       staticUrls.push({
         url: `${baseUrl}/${locale}${page}`,
         lastModified: new Date(),
-        changeFrequency: page === '' ? 'daily' : page === '/blog' ? 'daily' : 'monthly',
-        priority: page === '' ? 1 : page === '/blog' ? 0.9 : 0.6,
+        changeFrequency: page === '' ? 'daily' : page === '/blog' ? 'weekly' : 'monthly',
+        priority: page === '' ? 1 : page === '/blog' ? 0.9 : 0.7,
         alternates: {
           languages: {
             en: `${baseUrl}/en${page}`,
@@ -34,10 +31,11 @@ export default function sitemap(): MetadataRoute.Sitemap {
     });
   });
 
-  // Generate blog article URLs for all locales
+  // Generate blog article URLs for all locales (now async)
   const blogUrls: MetadataRoute.Sitemap = [];
-  locales.forEach((locale) => {
-    const posts = getBlogPosts(locale);
+  
+  for (const locale of locales) {
+    const posts = await getBlogPosts(locale);
     posts.forEach((post) => {
       blogUrls.push({
         url: `${baseUrl}/${locale}/blog/${post.slug}`,

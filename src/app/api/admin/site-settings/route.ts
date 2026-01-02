@@ -23,6 +23,9 @@ export async function POST(request: Request) {
           googleAnalyticsId: data.googleAnalyticsId,
           googleAdsenseCode: data.googleAdsenseCode,
           googleSearchConsoleMeta: data.googleSearchConsoleMeta,
+          adsTxt: data.adsTxt,
+          headerAdCode: data.headerAdCode,
+          sidebarAdCode: data.sidebarAdCode,
           updatedAt: new Date(),
         })
           .where(eq(siteSettings.id, existing[0].id));
@@ -31,6 +34,9 @@ export async function POST(request: Request) {
         googleAnalyticsId: data.googleAnalyticsId,
         googleAdsenseCode: data.googleAdsenseCode,
         googleSearchConsoleMeta: data.googleSearchConsoleMeta,
+        adsTxt: data.adsTxt,
+        headerAdCode: data.headerAdCode,
+        sidebarAdCode: data.sidebarAdCode,
         updatedAt: new Date(),
       });
     }

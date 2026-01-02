@@ -1,0 +1,42 @@
+{
+  "name": "PlanMyNextTravel - AI Trip Planner",
+  "short_name": "PlanMyNextTravel",
+  "description": "Create personalized travel itineraries with AI. Get budget estimates, activities, and day-by-day plans for your perfect trip.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#ea580c",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "/logo_Travel.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/logo_Travel.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "categories": ["travel", "lifestyle", "productivity"],
+  "screenshots": [],
+  "shortcuts": [
+    {
+      "name": "Create Itinerary",
+      "short_name": "Create",
+      "description": "Start planning your trip",
+      "url": "/#generator",
+      "icons": [{ "src": "/logo_Travel.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "Read Blog",
+      "short_name": "Blog",
+      "description": "Travel tips and guides",
+      "url": "/en/blog",
+      "icons": [{ "src": "/logo_Travel.png", "sizes": "192x192" }]
+    }
+  ]
+}

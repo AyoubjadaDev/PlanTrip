@@ -17,10 +17,10 @@ export default function NewsletterPopup() {
     const hasSubscribed = localStorage.getItem('newsletterSubscribed');
     
     if (!hasSeenPopup && !hasSubscribed) {
-      // Show after 5 seconds delay (after user has explored the site a bit)
+      // Show after 20 seconds delay (after user has explored the site a bit)
       const timer = setTimeout(() => {
         setIsVisible(true);
-      }, 5000);
+      }, 20000);
 
       return () => clearTimeout(timer);
     }
@@ -172,7 +172,7 @@ export default function NewsletterPopup() {
                     className="text-sm text-gray-500 hover:text-gray-700 underline"
                     aria-label="Cancel subscription popup"
                   >
-                    {t('cancel') || 'Cancel'}
+                    {t('cancel')}
                   </button>
                 </div>
               </>

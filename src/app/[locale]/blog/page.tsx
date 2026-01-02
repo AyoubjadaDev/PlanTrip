@@ -1,5 +1,5 @@
 import { Metadata } from 'next';
-import { useTranslations } from 'next-intl';
+import { getTranslations } from 'next-intl/server';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import Link from 'next/link';
@@ -66,9 +66,9 @@ export async function generateMetadata({ params }: { params: { locale: string } 
 
 export const dynamic = "force-dynamic";
 
-export default function BlogPage({ params }: { params: { locale: string } }) {
-  const t = useTranslations('blog');
-  const blogPosts = getBlogPosts(params.locale);
+export default async function BlogPage({ params }: { params: { locale: string } }) {
+  const t = await getTranslations('blog');
+  const blogPosts = await getBlogPosts(params.locale);
 
   const gradients = [
     'from-purple-500 via-pink-500 to-red-500',

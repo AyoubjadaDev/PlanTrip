@@ -4,6 +4,9 @@ export const siteSettings = pgTable('site_settings', {
   googleAnalyticsId: text('google_analytics_id'),
   googleAdsenseCode: text('google_adsense_code'),
   googleSearchConsoleMeta: text('google_search_console_meta'),
+  adsTxt: text('ads_txt'),
+  headerAdCode: text('header_ad_code'),
+  sidebarAdCode: text('sidebar_ad_code'),
   updatedAt: timestamp('updated_at').defaultNow().notNull(),
 });
 // Groq API keys table for admin management and rotation
@@ -132,8 +135,11 @@ export const blogPosts = pgTable('blog_posts', {
   content: text('content').notNull(),
   image: text('image'),
   category: text('category').notNull(),
+  locale: text('locale').default('en').notNull(), // 'en', 'fr', or 'ar'
   status: text('status').default('draft').notNull(), // 'draft' or 'published'
   author: text('author').notNull(),
+  readTime: text('read_time'),
+  tags: json('tags').$type<string[]>().default([]),
   createdAt: timestamp('created_at').defaultNow().notNull(),
   updatedAt: timestamp('updated_at').defaultNow().notNull(),
   publishedAt: timestamp('published_at'),

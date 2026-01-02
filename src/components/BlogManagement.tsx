@@ -4,16 +4,20 @@ import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
 
 interface BlogPost {
-  id: number;
+  id: number | string;
   title: string;
   slug: string;
   description: string;
   category: string;
+  locale: string;
+  readTime?: string;
+  tags?: string[];
   status: 'draft' | 'published';
   viewCount: number;
   author: string;
   createdAt: string;
   publishedAt: string | null;
+  isStatic?: boolean;
 }
 
 export function BlogManagement() {
@@ -49,8 +53,14 @@ export function BlogManagement() {
     }
   };
 
-  const deletePost = async (id: number) => {
+  const deletePost = async (id: number | string) => {
     if (!confirm('Are you sure you want to delete this post?')) return;
+
+    // Check if it's a static post
+    if (typeof id === 'string' && id.startsWith('static-')) {
+      alert('Cannot delete static posts. Please edit the blogPosts.ts file directly.');
+      return;
+    }
 
     try {
       const response = await fetch(`/api/admin/blog/${id}`, {
@@ -67,7 +77,13 @@ export function BlogManagement() {
     }
   };
 
-  const togglePublish = async (id: number, currentStatus: string) => {
+  const togglePublish = async (id: number | string, currentStatus: string) => {
+    // Check if it's a static post
+    if (typeof id === 'string' && id.startsWith('static-')) {
+      alert('Cannot modify static posts. Please edit the blogPosts.ts file directly.');
+      return;
+    }
+
     try {
       const newStatus = currentStatus === 'draft' ? 'published' : 'draft';
       const response = await fetch(`/api/admin/blog/${id}`, {
@@ -150,6 +166,11 @@ export function BlogManagement() {
                 <div className="flex-1">
                   <div className="flex items-center gap-3 mb-2">
                     <h3 className="text-lg font-semibold text-gray-900">{post.title}</h3>
+                    {post.isStatic && (
+                      <span className="px-3 py-1 rounded-full text-xs font-medium bg-purple-100 text-purple-800">
+                        Static
+                      </span>
+                    )}
                     <span className={`px-3 py-1 rounded-full text-xs font-medium ${
                       post.status === 'published'
                         ? 'bg-green-100 text-green-800'
@@ -160,12 +181,16 @@ export function BlogManagement() {
                     <span className="px-3 py-1 rounded-full text-xs font-medium bg-gray-100 text-gray-800">
                       {post.category}
                     </span>
+                    <span className="px-3 py-1 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
+                      {post.locale === 'en' ? '🇬🇧 EN' : post.locale === 'fr' ? '🇫🇷 FR' : '🇸🇦 AR'}
+                    </span>
                   </div>
                   <p className="text-gray-600 text-sm mb-3">{post.description}</p>
                   <div className="flex items-center gap-4 text-xs text-gray-500">
                     <span>👤 {post.author}</span>
                     <span>📅 {new Date(post.createdAt).toLocaleDateString()}</span>
                     <span>👁️ {post.viewCount} views</span>
+                    {post.readTime && <span>⏱️ {post.readTime}</span>}
                   </div>
                 </div>
                 <div className="flex gap-2 ml-4">
@@ -173,12 +198,15 @@ export function BlogManagement() {
                     href={`/admin/blog/${post.id}`}
                     className="px-3 py-2 bg-gray-100 text-gray-700 rounded hover:bg-gray-200 transition text-sm"
                   >
-                    Edit
+                    {post.isStatic ? 'Copy & Edit' : 'Edit'}
                   </Link>
                   <button
                     onClick={() => togglePublish(post.id, post.status)}
+                    disabled={post.isStatic}
                     className={`px-3 py-2 rounded hover:opacity-90 transition text-sm text-white ${
-                      post.status === 'published'
+                      post.isStatic
+                        ? 'bg-gray-400 cursor-not-allowed'
+                        : post.status === 'published'
                         ? 'bg-yellow-600'
                         : 'bg-green-600'
                     }`}
@@ -187,7 +215,12 @@ export function BlogManagement() {
                   </button>
                   <button
                     onClick={() => deletePost(post.id)}
-                    className="px-3 py-2 bg-red-100 text-red-700 rounded hover:bg-red-200 transition text-sm"
+                    disabled={post.isStatic}
+                    className={`px-3 py-2 rounded transition text-sm ${
+                      post.isStatic
+                        ? 'bg-gray-200 text-gray-400 cursor-not-allowed'
+                        : 'bg-red-100 text-red-700 hover:bg-red-200'
+                    }`}
                   >
                     Delete
                   </button>
@@ -209,6 +242,9 @@ function NewBlogPostForm({ onSuccess }: { onSuccess: () => void }) {
     content: '',
     image: '',
     category: 'general',
+    locale: 'en',
+    readTime: '',
+    tags: '',
   });
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
@@ -224,10 +260,19 @@ function NewBlogPostForm({ onSuccess }: { onSuccess: () => void }) {
     setError('');
 
     try {
+      // Parse tags from comma-separated string to array
+      const tagsArray = formData.tags
+        .split(',')
+        .map(tag => tag.trim())
+        .filter(tag => tag.length > 0);
+
       const response = await fetch('/api/admin/blog/posts', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(formData),
+        body: JSON.stringify({
+          ...formData,
+          tags: tagsArray,
+        }),
       });
 
       if (!response.ok) {
@@ -271,6 +316,17 @@ function NewBlogPostForm({ onSuccess }: { onSuccess: () => void }) {
           className="px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
         />
         <select
+          name="locale"
+          value={formData.locale}
+          onChange={handleChange}
+          required
+          className="px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+        >
+          <option value="en">🇬🇧 English</option>
+          <option value="fr">🇫🇷 Français</option>
+          <option value="ar">🇸🇦 العربية</option>
+        </select>
+        <select
           name="category"
           value={formData.category}
           onChange={handleChange}
@@ -281,6 +337,14 @@ function NewBlogPostForm({ onSuccess }: { onSuccess: () => void }) {
           <option value="destination">Destination Guide</option>
           <option value="budget">Budget Travel</option>
         </select>
+        <input
+          type="text"
+          name="readTime"
+          placeholder="Read Time (e.g., 15 min read)"
+          value={formData.readTime}
+          onChange={handleChange}
+          className="px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+        />
         <textarea
           name="description"
           placeholder="Short Description"
@@ -295,6 +359,14 @@ function NewBlogPostForm({ onSuccess }: { onSuccess: () => void }) {
           name="image"
           placeholder="Featured Image URL"
           value={formData.image}
+          onChange={handleChange}
+          className="col-span-2 px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+        />
+        <input
+          type="text"
+          name="tags"
+          placeholder="Tags (comma-separated, e.g., travel, budget, 2026)"
+          value={formData.tags}
           onChange={handleChange}
           className="col-span-2 px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
         />
