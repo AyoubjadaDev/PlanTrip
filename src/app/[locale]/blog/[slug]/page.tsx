@@ -85,6 +85,7 @@ export async function generateMetadata({ params }: BlogPostPageProps): Promise<M
 }
 
 export const dynamic = "force-dynamic";
+export const revalidate = 3600; // Revalidate every hour
 
 export default async function BlogPostPage({
   params,

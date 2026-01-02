@@ -31,27 +31,32 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     });
   });
 
-  // Generate blog article URLs for all locales (now async)
+  // Generate blog article URLs for all locales with error handling
   const blogUrls: MetadataRoute.Sitemap = [];
   
-  for (const locale of locales) {
-    const posts = await getBlogPosts(locale);
-    posts.forEach((post) => {
-      blogUrls.push({
-        url: `${baseUrl}/${locale}/blog/${post.slug}`,
-        lastModified: new Date(post.date),
-        changeFrequency: 'weekly',
-        priority: 0.8,
-        alternates: {
-          languages: {
-            en: `${baseUrl}/en/blog/${post.slug}`,
-            fr: `${baseUrl}/fr/blog/${post.slug}`,
-            ar: `${baseUrl}/ar/blog/${post.slug}`,
+  try {
+    for (const locale of locales) {
+      const posts = await getBlogPosts(locale);
+      posts.forEach((post) => {
+        blogUrls.push({
+          url: `${baseUrl}/${locale}/blog/${post.slug}`,
+          lastModified: new Date(post.date),
+          changeFrequency: 'weekly',
+          priority: 0.8,
+          alternates: {
+            languages: {
+              en: `${baseUrl}/en/blog/${post.slug}`,
+              fr: `${baseUrl}/fr/blog/${post.slug}`,
+              ar: `${baseUrl}/ar/blog/${post.slug}`,
+            },
           },
-        },
+        });
       });
-    });
-  });
+    }
+  } catch (error) {
+    console.error('Error generating blog URLs for sitemap:', error);
+    // Continue with static URLs only if blog fetch fails
+  }
 
   return [...staticUrls, ...blogUrls];
 }

@@ -65,6 +65,7 @@ export async function generateMetadata({ params }: { params: { locale: string } 
 }
 
 export const dynamic = "force-dynamic";
+export const revalidate = 1800; // Revalidate every 30 minutes
 
 export default async function BlogPage({ params }: { params: { locale: string } }) {
   const t = await getTranslations('blog');
