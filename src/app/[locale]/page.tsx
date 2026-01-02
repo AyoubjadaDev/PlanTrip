@@ -1,6 +1,6 @@
 import { Metadata } from 'next';
 import { getTranslations } from 'next-intl/server';
-import dynamic from 'next/dynamic';
+import dynamicImport from 'next/dynamic';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import Link from 'next/link';
@@ -9,12 +9,12 @@ import { FiZap, FiGlobe, FiClock, FiDollarSign, FiCheckCircle, FiStar, FiArrowRi
 import { getBlogPosts } from '@/data/blog';
 
 // Dynamic imports for better performance
-const TripGeneratorWizard = dynamic(() => import('@/components/TripGeneratorWizard'), {
+const TripGeneratorWizard = dynamicImport(() => import('@/components/TripGeneratorWizard'), {
   ssr: false,
   loading: () => <div className="min-h-[400px] flex items-center justify-center"><div className="animate-spin rounded-full h-12 w-12 border-b-2 border-orange-600"></div></div>
 });
 
-const AdDisplay = dynamic(() => import('@/components/AdDisplay'), {
+const AdDisplay = dynamicImport(() => import('@/components/AdDisplay'), {
   ssr: false
 });
 
@@ -489,7 +489,7 @@ export default async function Home({ params: { locale } }: { params: { locale: s
                       {post.excerpt}
                     </p>
                     <div className="flex items-center text-blue-600 font-semibold group-hover:gap-3 transition-all">
-                      {t('readMore') || 'Read More'}
+                      Read More
                       <FiArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
                     </div>
                   </div>
