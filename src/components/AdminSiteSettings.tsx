@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { FaFacebook, FaTwitter, FaInstagram, FaLinkedin, FaYoutube, FaPinterest, FaTiktok } from 'react-icons/fa';
 
 export default function AdminSiteSettings() {
   const [settings, setSettings] = useState({
@@ -8,6 +9,13 @@ export default function AdminSiteSettings() {
     adsTxt: '',
     headerAdCode: '',
     sidebarAdCode: '',
+    facebookUrl: '',
+    twitterUrl: '',
+    instagramUrl: '',
+    linkedinUrl: '',
+    youtubeUrl: '',
+    pinterestUrl: '',
+    tiktokUrl: '',
   });
   const [loading, setLoading] = useState(true);
   const [status, setStatus] = useState<string | null>(null);
@@ -24,6 +32,13 @@ export default function AdminSiteSettings() {
             adsTxt: data.settings.adsTxt || '',
             headerAdCode: data.settings.headerAdCode || '',
             sidebarAdCode: data.settings.sidebarAdCode || '',
+            facebookUrl: data.settings.facebookUrl || '',
+            twitterUrl: data.settings.twitterUrl || '',
+            instagramUrl: data.settings.instagramUrl || '',
+            linkedinUrl: data.settings.linkedinUrl || '',
+            youtubeUrl: data.settings.youtubeUrl || '',
+            pinterestUrl: data.settings.pinterestUrl || '',
+            tiktokUrl: data.settings.tiktokUrl || '',
           });
         }
       })
@@ -140,6 +155,123 @@ export default function AdminSiteSettings() {
                 <p className="text-sm text-gray-500 mt-1">
                   Ad unit to display in the sidebar or content area
                 </p>
+              </div>
+            </div>
+          </div>
+          
+          {/* Social Media Links Section */}
+          <div className="border-t pt-6">
+            <h3 className="text-lg font-semibold mb-4 flex items-center gap-2">
+              <span>Social Media Links</span>
+            </h3>
+            <p className="text-sm text-gray-600 mb-4">
+              These links will appear as social media icons in the footer of your website
+            </p>
+            
+            <div className="space-y-4">
+              <div>
+                <label className="block font-medium mb-2 flex items-center gap-2">
+                  <FaFacebook className="text-blue-600" />
+                  Facebook URL
+                </label>
+                <input
+                  type="url"
+                  name="facebookUrl"
+                  value={settings.facebookUrl}
+                  onChange={handleChange}
+                  className="w-full px-4 py-2 border rounded"
+                  placeholder="https://facebook.com/yourpage"
+                />
+              </div>
+              
+              <div>
+                <label className="block font-medium mb-2 flex items-center gap-2">
+                  <FaTwitter className="text-sky-500" />
+                  Twitter/X URL
+                </label>
+                <input
+                  type="url"
+                  name="twitterUrl"
+                  value={settings.twitterUrl}
+                  onChange={handleChange}
+                  className="w-full px-4 py-2 border rounded"
+                  placeholder="https://twitter.com/yourhandle"
+                />
+              </div>
+              
+              <div>
+                <label className="block font-medium mb-2 flex items-center gap-2">
+                  <FaInstagram className="text-pink-600" />
+                  Instagram URL
+                </label>
+                <input
+                  type="url"
+                  name="instagramUrl"
+                  value={settings.instagramUrl}
+                  onChange={handleChange}
+                  className="w-full px-4 py-2 border rounded"
+                  placeholder="https://instagram.com/yourprofile"
+                />
+              </div>
+              
+              <div>
+                <label className="block font-medium mb-2 flex items-center gap-2">
+                  <FaLinkedin className="text-blue-700" />
+                  LinkedIn URL
+                </label>
+                <input
+                  type="url"
+                  name="linkedinUrl"
+                  value={settings.linkedinUrl}
+                  onChange={handleChange}
+                  className="w-full px-4 py-2 border rounded"
+                  placeholder="https://linkedin.com/company/yourcompany"
+                />
+              </div>
+              
+              <div>
+                <label className="block font-medium mb-2 flex items-center gap-2">
+                  <FaYoutube className="text-red-600" />
+                  YouTube URL
+                </label>
+                <input
+                  type="url"
+                  name="youtubeUrl"
+                  value={settings.youtubeUrl}
+                  onChange={handleChange}
+                  className="w-full px-4 py-2 border rounded"
+                  placeholder="https://youtube.com/@yourchannel"
+                />
+              </div>
+              
+              <div>
+                <label className="block font-medium mb-2 flex items-center gap-2">
+                  <FaPinterest className="text-red-700" />
+                  Pinterest URL
+                </label>
+                <input
+                  type="url"
+                  name="pinterestUrl"
+                  value={settings.pinterestUrl}
+                  onChange={handleChange}
+                  className="w-full px-4 py-2 border rounded"
+                  placeholder="https://pinterest.com/yourprofile"
+                />
+              </div>
+              
+              <div>
+                <label className="block font-medium mb-2 flex items-center gap-2">
+                  <FaTiktok className="text-black" />
+                  TikTok URL
+                </label>
+                <input
+                  type="url"
+                  name="tiktokUrl"
+                  value={settings.tiktokUrl}
+                  onChange={handleChange}
+                  className="w-full px-4 py-2 border rounded"
+                  placeholder="https://tiktok.com/@yourusername"
+                />
               </div>
             </div>
           </div>

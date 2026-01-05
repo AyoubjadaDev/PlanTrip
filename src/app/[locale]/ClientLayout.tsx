@@ -3,6 +3,7 @@ import { NextIntlClientProvider } from 'next-intl';
 import dynamicImport from 'next/dynamic';
 import SessionProvider from '@/components/SessionProvider';
 import CookieConsent from '@/components/CookieConsent';
+import Header from '@/components/Header';
 
 // Lazy load newsletter popup as it's not critical
 const NewsletterPopup = dynamicImport(() => import('@/components/NewsletterPopup'), {
@@ -13,6 +14,7 @@ export default function ClientLayout({ children, messages, locale }: { children:
   return (
     <SessionProvider>
       <NextIntlClientProvider messages={messages} locale={locale}>
+        <Header />
         {children}
         <CookieConsent />
         <NewsletterPopup />

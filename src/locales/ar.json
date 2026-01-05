@@ -3,6 +3,7 @@
     "home": "الرئيسية",
     "features": "المميزات",
     "howItWorks": "كيف يعمل",
+    "destinations": "الوجهات",
     "blog": "المدونة",
     "dashboard": "لوحة التحكم",
     "signIn": "تسجيل الدخول",
@@ -143,10 +144,12 @@
     "company": "الشركة",
     "about": "معلومات عنا",
     "contact": "اتصل بنا",
+    "destinations": "الوجهات",
     "blog": "المدونة",
     "legal": "قانوني",
     "privacy": "سياسة الخصوصية",
     "terms": "شروط الخدمة",
+    "affiliateDisclosure": "إفصاح برنامج الشراكة",
     "rights": "جميع الحقوق محفوظة."
   },
   "itinerary": {
@@ -165,7 +168,26 @@
     "generateNew": "إنشاء رحلة جديدة",
     "copied": "تم النسخ إلى الحافظة!",
     "tripSaved": "تم حفظ الرحلة بنجاح!",
-    "shareWithFriends": "شارك مع الأصدقاء:"
+    "shareWithFriends": "شارك مع الأصدقاء:",
+    "bookingOptions": "خيارات الحجز",
+    "flights": "الرحلات الجوية",
+    "compareFlights": "قارن أسعار الرحلات على Skyscanner",
+    "searchFlights": "البحث عن رحلات",
+    "hotels": "الفنادق",
+    "searchHotels": "البحث عن فنادق",
+    "alternativeHotels": "فنادق بديلة",
+    "compareHotels": "قارن الأسعار",
+    "activities": "الأنشطة والجولات",
+    "browseActivities": "تصفح الأنشطة",
+    "flightsTo": "رحلات إلى",
+    "cheapestFlight": "أرخص رحلة لتواريخك",
+    "compareFlightPrices": "قارن أسعار الرحلات",
+    "hotelsForDates": "فنادق لتواريخك",
+    "greatOptions": "خيارات رائعة لـ",
+    "viewHotelDeals": "عرض عروض الفنادق",
+    "comparePricesOn": "قارن الأسعار على",
+    "explore": "استكشف",
+    "exploreActivities": "استكشف الأنشطة"
   },
   "auth": {
     "signIn": {

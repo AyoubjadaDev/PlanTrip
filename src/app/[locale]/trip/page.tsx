@@ -2,7 +2,6 @@ import { db } from '@/db';
 import { trips } from '@/db/schema';
 import { eq } from 'drizzle-orm';
 import { count } from 'drizzle-orm/sql/functions';
-import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import Link from 'next/link';
 
@@ -39,7 +38,6 @@ export default async function MyTripsPage({ searchParams, params }: { searchPara
 
   return (
     <div className="min-h-screen flex flex-col">
-      <Header />
       <main className="flex-1 bg-gray-50 py-12">
         <div className="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8">
           <h1 className="text-2xl font-bold mb-8">My Trips</h1>

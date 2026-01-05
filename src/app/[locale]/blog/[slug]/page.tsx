@@ -1,6 +1,5 @@
 import { Metadata } from 'next';
 import { getTranslations } from 'next-intl/server';
-import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import SocialShare from '@/components/SocialShare';
 import { getBlogPost, getBlogPosts } from '@/data/blog';
@@ -100,26 +99,25 @@ export default async function BlogPostPage({
     notFound();
   }
 
+  // JSON-LD structured data for SEO
   const baseUrl = process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:5200';
   const articleUrl = `${baseUrl}/${params.locale}/blog/${params.slug}`;
-
-  // JSON-LD Structured Data for SEO (Google 2025 standards)
+  
   const jsonLd = {
     '@context': 'https://schema.org',
     '@type': 'Article',
     headline: post.title,
     description: post.excerpt,
-    image: [post.image],
+    image: post.image,
     datePublished: post.date,
     dateModified: post.date,
     author: {
       '@type': 'Person',
       name: post.author,
-      url: `${baseUrl}/${params.locale}/blog?author=${encodeURIComponent(post.author)}`,
     },
     publisher: {
       '@type': 'Organization',
-      name: 'PlanYourNextTravel',
+      name: 'PlanMyNextTravel',
       logo: {
         '@type': 'ImageObject',
         url: `${baseUrl}/logo.png`,
@@ -130,13 +128,10 @@ export default async function BlogPostPage({
       '@id': articleUrl,
     },
     keywords: post.tags?.join(', '),
-    articleSection: post.category,
+    articleSection: post.category || 'Travel',
     inLanguage: params.locale,
-    wordCount: post.content.split(/\s+/).length,
-    timeRequired: post.readTime,
   };
 
-  // BreadcrumbList Schema
   const breadcrumbJsonLd = {
     '@context': 'https://schema.org',
     '@type': 'BreadcrumbList',
@@ -175,9 +170,7 @@ export default async function BlogPostPage({
       />
       
       <div className="min-h-screen flex flex-col bg-gradient-to-br from-gray-50 to-blue-50">
-        <Header />
-      
-      <main className="flex-1">
+        <main className="flex-1">
         {/* Hero Section */}
         <div className="relative h-96 overflow-hidden">
           <div className="absolute inset-0 bg-gradient-to-br from-purple-600 via-pink-600 to-orange-600 opacity-90"></div>
@@ -188,6 +181,8 @@ export default async function BlogPostPage({
             height={800}
             className="w-full h-full object-cover"
             priority
+            quality={90}
+            sizes="100vw"
           />
           <div className="absolute inset-0 flex items-center justify-center">
             <div className="max-w-4xl mx-auto px-4 text-center">
@@ -296,7 +291,7 @@ export default async function BlogPostPage({
       </main>
 
       <Footer />
-    </div>
+      </div>
     </>
   );
 }

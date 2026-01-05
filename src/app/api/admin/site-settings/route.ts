@@ -26,6 +26,13 @@ export async function POST(request: Request) {
           adsTxt: data.adsTxt,
           headerAdCode: data.headerAdCode,
           sidebarAdCode: data.sidebarAdCode,
+          facebookUrl: data.facebookUrl,
+          twitterUrl: data.twitterUrl,
+          instagramUrl: data.instagramUrl,
+          linkedinUrl: data.linkedinUrl,
+          youtubeUrl: data.youtubeUrl,
+          pinterestUrl: data.pinterestUrl,
+          tiktokUrl: data.tiktokUrl,
           updatedAt: new Date(),
         })
           .where(eq(siteSettings.id, existing[0].id));
@@ -37,6 +44,13 @@ export async function POST(request: Request) {
         adsTxt: data.adsTxt,
         headerAdCode: data.headerAdCode,
         sidebarAdCode: data.sidebarAdCode,
+        facebookUrl: data.facebookUrl,
+        twitterUrl: data.twitterUrl,
+        instagramUrl: data.instagramUrl,
+        linkedinUrl: data.linkedinUrl,
+        youtubeUrl: data.youtubeUrl,
+        pinterestUrl: data.pinterestUrl,
+        tiktokUrl: data.tiktokUrl,
         updatedAt: new Date(),
       });
     }

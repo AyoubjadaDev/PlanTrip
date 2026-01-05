@@ -1,5 +1,6 @@
 import { MetadataRoute } from 'next';
 import { getBlogPosts } from '@/data/blog';
+import { destinationDetailsFr } from '@/data/destination-details-fr';
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const baseUrl = process.env.NEXT_PUBLIC_APP_URL || 'https://planmynexttravel.com';
@@ -9,6 +10,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     '',
     '/blog',
     '/about',
+    '/destinations',
   ];
 
   // Generate static page URLs for all locales
@@ -58,5 +60,33 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     // Continue with static URLs only if blog fetch fails
   }
 
-  return [...staticUrls, ...blogUrls];
+  // Generate destination URLs for all locales
+  const destinationUrls: MetadataRoute.Sitemap = [];
+  
+  try {
+    // Get all destination slugs (they are the same across all languages)
+    const destinationSlugs = destinationDetailsFr.map(d => d.slug);
+    
+    destinationSlugs.forEach((slug) => {
+      locales.forEach((locale) => {
+        destinationUrls.push({
+          url: `${baseUrl}/${locale}/destinations/${slug}`,
+          lastModified: new Date(),
+          changeFrequency: 'monthly',
+          priority: 0.9,
+          alternates: {
+            languages: {
+              en: `${baseUrl}/en/destinations/${slug}`,
+              fr: `${baseUrl}/fr/destinations/${slug}`,
+              ar: `${baseUrl}/ar/destinations/${slug}`,
+            },
+          },
+        });
+      });
+    });
+  } catch (error) {
+    console.error('Error generating destination URLs for sitemap:', error);
+  }
+
+  return [...staticUrls, ...blogUrls, ...destinationUrls];
 }

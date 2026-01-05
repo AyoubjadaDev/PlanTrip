@@ -16,6 +16,8 @@ const tripSchema = z.object({
   travelType: z.enum(['solo', 'couple', 'friends', 'family']),
   activities: z.array(z.string()),
   language: z.enum(['en', 'fr', 'ar']),
+  includeFlights: z.boolean().optional().default(true),
+  includeHotel: z.boolean().optional().default(true),
 });
 
 export async function POST(request: NextRequest) {
@@ -55,6 +57,8 @@ export async function POST(request: NextRequest) {
       travelType: validatedData.travelType,
       activities: validatedData.activities,
       language: validatedData.language,
+      includeFlights: validatedData.includeFlights ?? true,
+      includeHotel: validatedData.includeHotel ?? true,
     }, apiKey);
     console.log('Itinerary generated successfully');
 

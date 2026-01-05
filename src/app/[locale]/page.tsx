@@ -1,7 +1,6 @@
 import { Metadata } from 'next';
 import { getTranslations } from 'next-intl/server';
 import dynamicImport from 'next/dynamic';
-import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import Link from 'next/link';
 import Image from 'next/image';
@@ -102,12 +101,12 @@ export default async function Home({ params: { locale } }: { params: { locale: s
   const featuredPosts = allPosts.slice(0, 6);
 
   const features = [
-    { icon: 'zap', title: t('features.ai.title'), description: t('features.ai.description') },
-    { icon: 'clock', title: t('features.instant.title'), description: t('features.instant.description') },
-    { icon: 'globe', title: t('features.multilingual.title'), description: t('features.multilingual.description') },
-    { icon: 'check', title: t('features.detailed.title'), description: t('features.detailed.description') },
-    { icon: 'dollar', title: t('features.budget.title'), description: t('features.budget.description') },
-    { icon: 'star', title: t('features.free.title'), description: t('features.free.description') }
+    { icon: <FiZap className="w-8 h-8" />, title: t('features.ai.title'), description: t('features.ai.description') },
+    { icon: <FiClock className="w-8 h-8" />, title: t('features.instant.title'), description: t('features.instant.description') },
+    { icon: <FiGlobe className="w-8 h-8" />, title: t('features.multilingual.title'), description: t('features.multilingual.description') },
+    { icon: <FiCheckCircle className="w-8 h-8" />, title: t('features.detailed.title'), description: t('features.detailed.description') },
+    { icon: <FiDollarSign className="w-8 h-8" />, title: t('features.budget.title'), description: t('features.budget.description') },
+    { icon: <FiStar className="w-8 h-8" />, title: t('features.free.title'), description: t('features.free.description') }
   ];
 
   const faqs = [
@@ -183,14 +182,12 @@ export default async function Home({ params: { locale } }: { params: { locale: s
       />
 
       <div className="min-h-screen flex flex-col">
-        <Header />
-        
         {/* Header Ad */}
-        <AdDisplay position="header" className="max-w-7xl mx-auto px-4 py-4" />
+        {/* <AdDisplay position="header" className="max-w-7xl mx-auto px-4 py-4" /> */}
 
       <main className="flex-1">
         {/* Hero Section - With Floating Cards */}
-        <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900">
+        <section className="relative min-h-[600px] lg:min-h-screen flex items-center justify-center overflow-hidden bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900">
           {/* Animated mesh gradient background */}
           <div className="absolute inset-0">
             <div className="absolute inset-0 bg-gradient-to-tr from-blue-500/20 via-purple-500/20 to-pink-500/20 animate-pulse-slow"></div>
@@ -204,7 +201,7 @@ export default async function Home({ params: { locale } }: { params: { locale: s
           {/* Grid pattern overlay */}
           <div className="absolute inset-0 bg-grid-white opacity-5"></div>
 
-          <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
+          <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-20">
             <div className="grid lg:grid-cols-2 gap-12 items-center">
               {/* Left side - Content */}
               <div className="text-left space-y-8">
@@ -367,6 +364,19 @@ export default async function Home({ params: { locale } }: { params: { locale: s
               </p>
             </div>
             <TripGeneratorWizard />
+            
+            {/* Trusted Partners Section */}
+            <div className="mt-16 text-center">
+              <p className="text-gray-700 font-bold text-xl md:text-2xl mb-8">Powered by trusted travel partners</p>
+              <div className="flex flex-wrap items-center justify-center gap-8 md:gap-12">
+                <img src="/agoda.png" alt="Agoda" className="h-12 md:h-14 transition" />
+                <img src="/booking.png" alt="Booking.com" className="h-12 md:h-14 transition" />
+                <img src="/expedia.png" alt="Expedia" className="h-12 md:h-14 transition" />
+                <img src="/Skyscanner.png" alt="Skyscanner" className="h-8 md:h-10 transition" />
+                <img src="/getyourguide.png" alt="GetYourGuide" className="h-10 md:h-12 transition" />
+                <img src="/klook.png" alt="Klook" className="h-12 md:h-14 transition" />
+              </div>
+            </div>
           </div>
         </section>
 
@@ -374,10 +384,10 @@ export default async function Home({ params: { locale } }: { params: { locale: s
         <section id="features" className="py-24 bg-white">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="text-center mb-20">
-              <h2 className="text-5xl md:text-6xl font-black bg-gradient-to-r from-green-600 to-teal-600 bg-clip-text text-transparent mb-6">
+              <h2 className="text-3xl md:text-4xl font-black bg-gradient-to-r from-green-600 to-teal-600 bg-clip-text text-transparent mb-6">
                 {t('features.title')}
               </h2>
-              <p className="text-2xl text-gray-700 font-medium">{t('features.subtitle')}</p>
+              <p className="text-lg md:text-xl text-gray-700 font-medium">{t('features.subtitle')}</p>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -555,7 +565,7 @@ export default async function Home({ params: { locale } }: { params: { locale: s
         {/* FAQ Section */}
         <section className="py-20">
           <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-            <h2 className="text-4xl font-bold text-gray-900 mb-12 text-center">{t('faq.title')}</h2>
+            <h2 className="text-3xl font-bold text-gray-900 mb-12 text-center">{t('faq.title')}</h2>
 
             <div className="space-y-6">
               {faqs.map((faq, index) => (
@@ -591,7 +601,7 @@ export default async function Home({ params: { locale } }: { params: { locale: s
               </div>
 
               {/* Main Heading */}
-              <h2 className="text-5xl md:text-7xl font-black text-white mb-6 leading-tight drop-shadow-2xl">
+              <h2 className="text-4xl md:text-5xl font-black text-white mb-6 leading-tight drop-shadow-2xl">
                 {t('cta.title')}
               </h2>
               

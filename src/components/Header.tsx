@@ -49,14 +49,17 @@ export default function Header() {
 
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center space-x-8">
+            <Link href={`/${currentLocale}/destinations`} className="text-gray-700 hover:text-primary-600">
+              {t('destinations')}
+            </Link>
+            <Link href={`/${currentLocale}/blog`} className="text-gray-700 hover:text-primary-600">
+              {t('blog')}
+            </Link>
             <Link href={`/${currentLocale}#features`} className="text-gray-700 hover:text-primary-600">
               {t('features')}
             </Link>
             <Link href={`/${currentLocale}#how-it-works`} className="text-gray-700 hover:text-primary-600">
               {t('howItWorks')}
-            </Link>
-            <Link href={`/${currentLocale}/blog`} className="text-gray-700 hover:text-primary-600">
-              {t('blog')}
             </Link>
 
             {session ? (
@@ -150,6 +153,10 @@ export default function Header() {
               <Link href={`/${currentLocale}#how-it-works`} className="flex items-center gap-3 px-4 py-4 rounded-xl text-lg font-medium text-gray-700 hover:bg-gray-100 transition group w-full" onClick={() => setMobileMenuOpen(false)}>
                 <FiInfo className="text-xl" />
                 <span>{t('howItWorks')}</span>
+              </Link>
+              <Link href={`/${currentLocale}/destinations`} className="flex items-center gap-3 px-4 py-4 rounded-xl text-lg font-medium text-gray-700 hover:bg-gray-100 transition group w-full" onClick={() => setMobileMenuOpen(false)}>
+                <FiGrid className="text-xl" />
+                <span>{t('destinations')}</span>
               </Link>
               <Link href={`/${currentLocale}/blog`} className="flex items-center gap-3 px-4 py-4 rounded-xl text-lg font-medium text-gray-700 hover:bg-gray-100 transition group w-full" onClick={() => setMobileMenuOpen(false)}>
                 <FiBookOpen className="text-xl" />

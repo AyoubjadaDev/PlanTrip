@@ -105,6 +105,19 @@ html[dir='rtl'] body {
   animation-delay: 4s;
 }
 
+/* Delay utilities for dots animation */
+.delay-0 {
+  animation-delay: 0ms;
+}
+
+.delay-100 {
+  animation-delay: 100ms;
+}
+
+.delay-200 {
+  animation-delay: 200ms;
+}
+
 /* Float animation */
 @keyframes float {
   0%,
@@ -200,19 +213,25 @@ html[dir='rtl'] body {
 .rdp-caption {
   display: flex;
   justify-content: center;
-  padding: 1rem 0;
+  align-items: center;
+  padding: 1rem 2.5rem;
   font-weight: 700;
   font-size: 1.1rem;
   color: #059669;
+  position: relative;
+  min-height: 3rem;
 }
 
 .rdp-nav {
   position: absolute;
-  top: 1rem;
+  top: 50%;
+  left: 0;
+  right: 0;
   width: 100%;
   display: flex;
   justify-content: space-between;
   padding: 0 0.5rem;
+  transform: translateY(-50%);
 }
 
 .rdp-nav_button {
@@ -224,6 +243,8 @@ html[dir='rtl'] body {
   border: none;
   cursor: pointer;
   transition: all 0.2s;
+  position: relative;
+  z-index: 10;
 }
 
 .rdp-nav_button:hover {

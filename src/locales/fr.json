@@ -3,6 +3,7 @@
     "home": "Accueil",
     "features": "Fonctionnalités",
     "howItWorks": "Comment ça marche",
+    "destinations": "Destinations",
     "blog": "Blog",
     "dashboard": "Tableau de bord",
     "signIn": "Se connecter",
@@ -143,10 +144,12 @@
     "company": "Entreprise",
     "about": "À propos",
     "contact": "Contact",
+    "destinations": "Destinations",
     "blog": "Blog",
     "legal": "Juridique",
     "privacy": "Politique de confidentialité",
     "terms": "Conditions d'utilisation",
+    "affiliateDisclosure": "Divulgation d'affiliation",
     "rights": "Tous droits réservés."
   },
   "itinerary": {
@@ -165,7 +168,26 @@
     "generateNew": "Générer un nouveau voyage",
     "copied": "Copié dans le presse-papiers!",
     "tripSaved": "Voyage enregistré avec succès!",
-    "shareWithFriends": "Partager avec des amis :"
+    "shareWithFriends": "Partager avec des amis :",
+    "bookingOptions": "Options de réservation",
+    "flights": "Vols",
+    "compareFlights": "Comparez les prix des vols sur Skyscanner",
+    "searchFlights": "Rechercher des vols",
+    "hotels": "Hôtels",
+    "searchHotels": "Rechercher des hôtels",
+    "alternativeHotels": "Hôtels alternatifs",
+    "compareHotels": "Comparer les prix",
+    "activities": "Activités et visites",
+    "browseActivities": "Parcourir les activités",
+    "flightsTo": "Vols vers",
+    "cheapestFlight": "Vol le moins cher pour vos dates",
+    "compareFlightPrices": "Comparer les prix des vols",
+    "hotelsForDates": "Hôtels pour vos dates",
+    "greatOptions": "Excellentes options pour",
+    "viewHotelDeals": "Voir les offres d'hôtels",
+    "comparePricesOn": "Comparer les prix sur",
+    "explore": "Explorer",
+    "exploreActivities": "Explorer les activités"
   },
   "auth": {
     "signIn": {

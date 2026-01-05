@@ -1,4 +1,5 @@
 import Groq from 'groq-sdk';
+import { formatBookingSuggestionsForAI, getAllBookingLinks } from './affiliates';
 
 export interface TripParams {
   destination: string;
@@ -8,6 +9,8 @@ export interface TripParams {
   travelType: string;
   activities: string[];
   language: string;
+  includeFlights?: boolean;
+  includeHotel?: boolean;
 }
 
 export interface DayItinerary {
@@ -16,6 +19,7 @@ export interface DayItinerary {
   morning: string;
   afternoon: string;
   evening: string;
+  suggestedActivities?: string[];
 }
 
 export interface TripItinerary {
@@ -25,6 +29,14 @@ export interface TripItinerary {
   budgetTips: string[];
   localAdvice: string[];
   safetyTips: string[];
+  bookingLinks?: {
+    hotels?: {
+      primary: { provider: string; providerName: string; searchUrl: string; displayText: string };
+      alternative?: { provider: string; providerName: string; searchUrl: string; displayText: string };
+    };
+    flights?: { provider: string; providerName: string; searchUrl: string; displayText: string };
+    activities?: { provider: string; providerName: string; searchUrl: string; displayText: string };
+  };
 }
 
 const LANGUAGE_NAMES: Record<string, string> = {
@@ -38,12 +50,22 @@ export async function generateItinerary(params: TripParams, apiKey?: string): Pr
     apiKey: apiKey || process.env.GROQ_API_KEY,
   });
 
-  const { destination, startDate, endDate, budget, travelType, activities, language } = params;
+  const { destination, startDate, endDate, budget, travelType, activities, language, includeFlights = true, includeHotel = true } = params;
 
   // Calculate number of days
   const days = Math.ceil((endDate.getTime() - startDate.getTime()) / (1000 * 60 * 60 * 24)) + 1;
 
   const languageName = LANGUAGE_NAMES[language] || 'English';
+
+  // Get booking suggestions
+  const bookingSuggestions = formatBookingSuggestionsForAI(
+    destination,
+    startDate,
+    endDate,
+    includeHotel,
+    includeFlights,
+    language
+  );
 
   const prompt = `You are an expert travel planner. Create a detailed ${days}-day travel itinerary for ${destination}.
 
@@ -56,17 +78,20 @@ Trip Details:
 - Travel Type: ${travelType}
 - Preferred Activities: ${activities.join(', ')}
 
+${bookingSuggestions}
+
 Please provide a response in the following JSON format:
 {
   "title": "Trip title in ${languageName}",
-  "overview": "Brief overview of the trip in ${languageName} (2-3 sentences)",
+  "overview": "Brief overview of the trip in ${languageName} (2-3 sentences). ${includeFlights || includeHotel ? 'Mention booking recommendations naturally in the overview.' : ''}",
   "days": [
     {
       "day": 1,
       "date": "Date",
       "morning": "Morning activities and suggestions for places or foods in ${languageName} (detailed, 3-4 sentences)",
       "afternoon": "Afternoon activities and suggestions for places or foods in ${languageName} (detailed, 3-4 sentences)",
-      "evening": "Evening activities and suggestions for places or foods in ${languageName} (detailed, 3-4 sentences)"
+      "evening": "Evening activities and suggestions for places or foods in ${languageName} (detailed, 3-4 sentences)",
+      "suggestedActivities": ["Specific activity name 1", "Specific activity name 2", "Specific activity name 3"] // REQUIRED: List 2-3 specific bookable activities, tours, or attractions for this day (e.g., "Eiffel Tower Skip-the-Line Tour", "Louvre Museum Guided Visit", "Seine River Cruise")
     }
     // ... continue for all ${days} days
   ],
@@ -103,6 +128,7 @@ Requirements:
 - Provide realistic timing and logistics
 - Use natural, conversational language
 - For Arabic responses, use proper right-to-left text
+- For each day, suggest 2-3 specific bookable activities in the suggestedActivities array
 
 Return ONLY the JSON object, no additional text.`;
 
@@ -170,8 +196,20 @@ Return ONLY the JSON object, no additional text.`;
     itinerary.localAdvice = itinerary.localAdvice || [];
     itinerary.safetyTips = itinerary.safetyTips || [];
 
+    // Attach booking links based on user preferences
+    const bookingLinks = getAllBookingLinks(
+      destination,
+      startDate,
+      endDate,
+      includeHotel,
+      includeFlights
+    );
+
     console.log('Itinerary validated successfully');
-    return itinerary;
+    return {
+      ...itinerary,
+      bookingLinks
+    };
   } catch (error) {
     console.error('=== Error generating itinerary ===');
     console.error('Error type:', error?.constructor?.name);

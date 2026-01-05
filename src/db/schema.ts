@@ -1,4 +1,4 @@
-// Site settings table for Google integrations
+// Site settings table for Google integrations and social media
 export const siteSettings = pgTable('site_settings', {
   id: uuid('id').defaultRandom().primaryKey(),
   googleAnalyticsId: text('google_analytics_id'),
@@ -7,6 +7,14 @@ export const siteSettings = pgTable('site_settings', {
   adsTxt: text('ads_txt'),
   headerAdCode: text('header_ad_code'),
   sidebarAdCode: text('sidebar_ad_code'),
+  // Social Media Links
+  facebookUrl: text('facebook_url'),
+  twitterUrl: text('twitter_url'),
+  instagramUrl: text('instagram_url'),
+  linkedinUrl: text('linkedin_url'),
+  youtubeUrl: text('youtube_url'),
+  pinterestUrl: text('pinterest_url'),
+  tiktokUrl: text('tiktok_url'),
   updatedAt: timestamp('updated_at').defaultNow().notNull(),
 });
 // Groq API keys table for admin management and rotation
@@ -155,6 +163,19 @@ export const analyticsEvents = pgTable('analytics_events', {
   createdAt: timestamp('created_at').defaultNow().notNull(),
 });
 
+// Partner clicks tracking table
+export const partnerClicks = pgTable('partner_clicks', {
+  id: uuid('id').defaultRandom().primaryKey(),
+  userId: uuid('user_id').references(() => users.id, { onDelete: 'set null' }), // nullable for anonymous
+  tripId: uuid('trip_id').references(() => trips.id, { onDelete: 'set null' }), // which trip generated the click
+  partnerId: text('partner_id').notNull(), // 'booking', 'agoda', 'expedia', 'skyscanner', 'klook', 'getyourguide'
+  linkType: text('link_type').notNull(), // 'flight', 'hotel', 'activity'
+  destination: text('destination'), // destination searched
+  ipAddress: text('ip_address'),
+  userAgent: text('user_agent'),
+  createdAt: timestamp('created_at').defaultNow().notNull(),
+});
+
 // Relations
 export const usersRelations = relations(users, ({ many }) => ({
   trips: many(trips),
@@ -208,3 +229,5 @@ export type BlogPost = typeof blogPosts.$inferSelect;
 export type NewBlogPost = typeof blogPosts.$inferInsert;
 export type AnalyticsEvent = typeof analyticsEvents.$inferSelect;
 export type NewAnalyticsEvent = typeof analyticsEvents.$inferInsert;
+export type PartnerClick = typeof partnerClicks.$inferSelect;
+export type NewPartnerClick = typeof partnerClicks.$inferInsert;

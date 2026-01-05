@@ -1,6 +1,5 @@
 import { Metadata } from 'next';
 import { getTranslations } from 'next-intl/server';
-import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import Link from 'next/link';
 import Image from 'next/image';
@@ -120,7 +119,6 @@ export default async function BlogPage({ params }: { params: { locale: string } 
       />
 
       <div className="min-h-screen flex flex-col bg-gradient-to-br from-gray-50 to-blue-50">
-      <Header />
       <main className="flex-1 py-20">
         {/* Hero Section */}
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-16">
@@ -153,7 +151,10 @@ export default async function BlogPage({ params }: { params: { locale: string } 
                     width={800}
                     height={500}
                     className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
-                    priority={index < 6}
+                    priority={index < 3}
+                    loading={index < 3 ? undefined : 'lazy'}
+                    quality={85}
+                    sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
                   />
                   <div className={`absolute inset-0 bg-gradient-to-br ${gradients[index % gradients.length]} opacity-20`}></div>
                   <div className="absolute top-4 right-4 px-4 py-2 bg-white/90 backdrop-blur-sm rounded-full text-sm font-bold text-gray-900 shadow-lg">

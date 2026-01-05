@@ -1,6 +1,7 @@
 'use client';
 
-import { FiShare2, FiTwitter, FiFacebook, FiLinkedin, FiLink, FiCheck } from 'react-icons/fi';
+import { FiShare2, FiLink, FiCheck, FiMail } from 'react-icons/fi';
+import { FaFacebook, FaTwitter, FaLinkedin, FaWhatsapp, FaInstagram, FaTiktok } from 'react-icons/fa';
 import { useState } from 'react';
 
 interface SocialShareProps {
@@ -22,6 +23,9 @@ export default function SocialShare({ url, title, description }: SocialShareProp
     facebook: `https://www.facebook.com/sharer/sharer.php?u=${encodedUrl}`,
     linkedin: `https://www.linkedin.com/sharing/share-offsite/?url=${encodedUrl}`,
     whatsapp: `https://wa.me/?text=${encodedTitle}%20${encodedUrl}`,
+    instagram: `https://www.instagram.com/`, // Instagram doesn't have direct share URL
+    tiktok: `https://www.tiktok.com/`, // TikTok doesn't have direct share URL
+    email: `mailto:?subject=${encodedTitle}&body=${encodedDescription}%0A%0A${encodedUrl}`,
   };
 
   const copyToClipboard = async () => {
@@ -35,7 +39,15 @@ export default function SocialShare({ url, title, description }: SocialShareProp
   };
 
   const handleShare = (platform: keyof typeof shareLinks) => {
-    window.open(shareLinks[platform], '_blank', 'noopener,noreferrer,width=600,height=400');
+    if (platform === 'email') {
+      window.location.href = shareLinks[platform];
+    } else if (platform === 'instagram' || platform === 'tiktok') {
+      // For Instagram and TikTok, copy link and inform user
+      copyToClipboard();
+      alert(`Link copied! Open ${platform === 'instagram' ? 'Instagram' : 'TikTok'} and paste it in your message.`);
+    } else {
+      window.open(shareLinks[platform], '_blank', 'noopener,noreferrer,width=600,height=400');
+    }
   };
 
   return (
@@ -48,24 +60,52 @@ export default function SocialShare({ url, title, description }: SocialShareProp
         </span>
         <button
           onClick={() => handleShare('twitter')}
-          className="p-2 rounded-full bg-gray-100 hover:bg-blue-50 text-gray-700 hover:text-blue-600 transition-colors"
+          className="p-2 rounded-full bg-gray-100 hover:bg-[#1DA1F2] hover:text-white text-[#1DA1F2] transition-all"
           aria-label="Share on Twitter"
         >
-          <FiTwitter size={18} />
+          <FaTwitter size={18} />
         </button>
         <button
           onClick={() => handleShare('facebook')}
-          className="p-2 rounded-full bg-gray-100 hover:bg-blue-50 text-gray-700 hover:text-blue-700 transition-colors"
+          className="p-2 rounded-full bg-gray-100 hover:bg-[#1877F2] hover:text-white text-[#1877F2] transition-all"
           aria-label="Share on Facebook"
         >
-          <FiFacebook size={18} />
+          <FaFacebook size={18} />
         </button>
         <button
           onClick={() => handleShare('linkedin')}
-          className="p-2 rounded-full bg-gray-100 hover:bg-blue-50 text-gray-700 hover:text-blue-600 transition-colors"
+          className="p-2 rounded-full bg-gray-100 hover:bg-[#0A66C2] hover:text-white text-[#0A66C2] transition-all"
           aria-label="Share on LinkedIn"
         >
-          <FiLinkedin size={18} />
+          <FaLinkedin size={18} />
+        </button>
+        <button
+          onClick={() => handleShare('whatsapp')}
+          className="p-2 rounded-full bg-gray-100 hover:bg-[#25D366] hover:text-white text-[#25D366] transition-all"
+          aria-label="Share on WhatsApp"
+        >
+          <FaWhatsapp size={18} />
+        </button>
+        <button
+          onClick={() => handleShare('instagram')}
+          className="p-2 rounded-full bg-gray-100 hover:bg-[#E4405F] hover:text-white text-[#E4405F] transition-all"
+          aria-label="Share on Instagram"
+        >
+          <FaInstagram size={18} />
+        </button>
+        <button
+          onClick={() => handleShare('tiktok')}
+          className="p-2 rounded-full bg-gray-100 hover:bg-black hover:text-white text-black transition-all"
+          aria-label="Share on TikTok"
+        >
+          <FaTiktok size={18} />
+        </button>
+        <button
+          onClick={() => handleShare('email')}
+          className="p-2 rounded-full bg-gray-100 hover:bg-gray-700 hover:text-white text-gray-700 transition-all"
+          aria-label="Share via Email"
+        >
+          <FiMail size={18} />
         </button>
         <button
           onClick={copyToClipboard}
@@ -102,30 +142,70 @@ export default function SocialShare({ url, title, description }: SocialShareProp
                     handleShare('twitter');
                     setIsOpen(false);
                   }}
-                  className="w-full flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-blue-50 text-gray-700 hover:text-blue-600 transition-colors"
+                  className="w-full flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-blue-50 text-[#1DA1F2] transition-colors"
                 >
-                  <FiTwitter size={20} />
-                  <span className="font-medium">Twitter</span>
+                  <FaTwitter size={20} />
+                  <span className="font-medium text-gray-700">Twitter</span>
                 </button>
                 <button
                   onClick={() => {
                     handleShare('facebook');
                     setIsOpen(false);
                   }}
-                  className="w-full flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-blue-50 text-gray-700 hover:text-blue-700 transition-colors"
+                  className="w-full flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-blue-50 text-[#1877F2] transition-colors"
                 >
-                  <FiFacebook size={20} />
-                  <span className="font-medium">Facebook</span>
+                  <FaFacebook size={20} />
+                  <span className="font-medium text-gray-700">Facebook</span>
                 </button>
                 <button
                   onClick={() => {
                     handleShare('linkedin');
                     setIsOpen(false);
                   }}
-                  className="w-full flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-blue-50 text-gray-700 hover:text-blue-600 transition-colors"
+                  className="w-full flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-blue-50 text-[#0A66C2] transition-colors"
                 >
-                  <FiLinkedin size={20} />
-                  <span className="font-medium">LinkedIn</span>
+                  <FaLinkedin size={20} />
+                  <span className="font-medium text-gray-700">LinkedIn</span>
+                </button>
+                <button
+                  onClick={() => {
+                    handleShare('whatsapp');
+                    setIsOpen(false);
+                  }}
+                  className="w-full flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-green-50 text-[#25D366] transition-colors"
+                >
+                  <FaWhatsapp size={20} />
+                  <span className="font-medium text-gray-700">WhatsApp</span>
+                </button>
+                <button
+                  onClick={() => {
+                    handleShare('instagram');
+                    setIsOpen(false);
+                  }}
+                  className="w-full flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-pink-50 text-[#E4405F] transition-colors"
+                >
+                  <FaInstagram size={20} />
+                  <span className="font-medium text-gray-700">Instagram</span>
+                </button>
+                <button
+                  onClick={() => {
+                    handleShare('tiktok');
+                    setIsOpen(false);
+                  }}
+                  className="w-full flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-gray-100 text-black transition-colors"
+                >
+                  <FaTiktok size={20} />
+                  <span className="font-medium text-gray-700">TikTok</span>
+                </button>
+                <button
+                  onClick={() => {
+                    handleShare('email');
+                    setIsOpen(false);
+                  }}
+                  className="w-full flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-gray-50 text-gray-700 transition-colors"
+                >
+                  <FiMail size={20} />
+                  <span className="font-medium">Email</span>
                 </button>
                 <button
                   onClick={() => {

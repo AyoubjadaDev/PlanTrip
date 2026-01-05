@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect } from 'react';
 import { useTranslations } from 'next-intl';
 import { useSession } from 'next-auth/react';
 import { useRouter, usePathname } from 'next/navigation';
@@ -32,6 +32,8 @@ export default function TripGeneratorWizard() {
 
   const [currentStep, setCurrentStep] = useState(1);
   const [loading, setLoading] = useState(false);
+  const [loadingProgress, setLoadingProgress] = useState(0);
+  const [loadingMessage, setLoadingMessage] = useState('');
   const [error, setError] = useState('');
   const [showCalendar, setShowCalendar] = useState<false | 'start' | 'end'>(false); // Changed to handle start/end
   const [dateMode, setDateMode] = useState<'calendar' | 'duration'>('calendar'); // New: date selection mode
@@ -54,6 +56,42 @@ export default function TripGeneratorWizard() {
     includeFlights: true,
     includeHotel: true,
   });
+
+  // Loading messages with progress simulation
+  const loadingMessages = [
+    '✈️ Searching for the best flights...',
+    '🏨 Finding perfect accommodations...',
+    '🗺️ Planning your route...',
+    '🎯 Discovering top attractions...',
+    '🍽️ Selecting local restaurants...',
+    '📸 Adding must-see spots...',
+    '🎉 Finalizing your itinerary...',
+  ];
+
+  useEffect(() => {
+    if (loading) {
+      let progress = 0;
+      let messageIndex = 0;
+      setLoadingMessage(loadingMessages[0]);
+      
+      const progressInterval = setInterval(() => {
+        progress += Math.random() * 15;
+        if (progress > 95) progress = 95;
+        setLoadingProgress(progress);
+        
+        const newMessageIndex = Math.floor(progress / 15);
+        if (newMessageIndex !== messageIndex && newMessageIndex < loadingMessages.length) {
+          messageIndex = newMessageIndex;
+          setLoadingMessage(loadingMessages[messageIndex]);
+        }
+      }, 500);
+
+      return () => clearInterval(progressInterval);
+    } else {
+      setLoadingProgress(0);
+      setLoadingMessage('');
+    }
+  }, [loading]);
 
   // Calculate number of days
   const numberOfDays = useMemo(() => {
@@ -373,8 +411,9 @@ export default function TripGeneratorWizard() {
                             }
                           }}
                           disabled={{ before: new Date() }}
+                          className="rdp-custom"
                           styles={{
-                            caption: { color: '#059669', fontWeight: 'bold', fontSize: '1rem' },
+                            caption: { color: '#059669', fontWeight: 'bold', fontSize: '1rem', display: 'flex', justifyContent: 'center', alignItems: 'center', position: 'relative' },
                             day: { borderRadius: '0.5rem' },
                           }}
                         />
@@ -422,8 +461,9 @@ export default function TripGeneratorWizard() {
                             }
                           }}
                           disabled={{ before: new Date(formData.startDate) }}
+                          className="rdp-custom"
                           styles={{
-                            caption: { color: '#ea580c', fontWeight: 'bold', fontSize: '1rem' },
+                            caption: { color: '#ea580c', fontWeight: 'bold', fontSize: '1rem', display: 'flex', justifyContent: 'center', alignItems: 'center', position: 'relative' },
                             day: { borderRadius: '0.5rem' },
                           }}
                         />
@@ -839,6 +879,30 @@ export default function TripGeneratorWizard() {
             </button>
           )}
         </div>
+
+        {/* Loading Progress Bar */}
+        {loading && (
+          <div className="mt-6 bg-white rounded-xl p-6 shadow-lg border-2 border-green-200">
+            <div className="space-y-4">
+              <div className="flex items-center justify-between text-sm">
+                <span className="font-semibold text-gray-700">{loadingMessage}</span>
+                <span className="text-green-600 font-bold">{Math.round(loadingProgress)}%</span>
+              </div>
+              <div className="relative h-3 bg-gray-200 rounded-full overflow-hidden">
+                <div 
+                  className="absolute top-0 left-0 h-full bg-gradient-to-r from-green-500 via-emerald-500 to-green-600 transition-all duration-500 ease-out rounded-full"
+                  style={{ width: `${loadingProgress}%` }}
+                >
+                  <div className="absolute inset-0 bg-white/30 animate-pulse"></div>
+                </div>
+              </div>
+              <div className="flex items-center justify-center gap-2 text-xs text-gray-500">
+                <MdFlightTakeoff className="animate-bounce" />
+                <span>Crafting your perfect journey...</span>
+              </div>
+            </div>
+          </div>
+        )}
       </div>
 
       {/* Generated Trip Display */}
