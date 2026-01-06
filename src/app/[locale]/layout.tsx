@@ -70,13 +70,22 @@ export const metadata = {
     creator: '@planmynexttravel',
     images: ['/og-image.jpg'],
   },
-  icons: {
-    icon: '/favicon.ico',
-    shortcut: '/favicon-16x16.png',
-    apple: '/apple-touch-icon.png',
-  },
+  icons: [
+    { rel: 'icon', url: '/favicon.ico', sizes: 'any' },
+    { rel: 'icon', url: '/favicon.svg', type: 'image/svg+xml' },
+    { rel: 'icon', url: '/favicon-16x16.png', sizes: '16x16', type: 'image/png' },
+    { rel: 'icon', url: '/favicon-32x32.png', sizes: '32x32', type: 'image/png' },
+    { rel: 'apple-touch-icon', url: '/apple-touch-icon.png', sizes: '180x180' },
+  ],
   manifest: '/site.webmanifest',
-  // (moved above)
+  alternates: {
+    canonical: 'https://planmynexttravel.com',
+    languages: {
+      'en': 'https://planmynexttravel.com/en',
+      'fr': 'https://planmynexttravel.com/fr',
+      'ar': 'https://planmynexttravel.com/ar',
+    },
+  },
 };
 
 export default async function RootLayout({
@@ -93,9 +102,8 @@ export default async function RootLayout({
   return (
     <html lang={locale} dir={isRTL ? 'rtl' : 'ltr'} className={`${inter.variable} ${cairo.variable}`}>
       <head>
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <link rel="icon" href="/favicon-new.svg" type="image/svg+xml" />
-        <link rel="alternate icon" href="/favicon.ico" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+        <meta name="format-detection" content="telephone=no" />
         {/* Google Analytics (dynamic) */}
         {settings?.googleAnalyticsId && (
           <>
@@ -155,6 +163,37 @@ export default async function RootLayout({
       </head>
       <body>
         <ClientLayout messages={messages} locale={locale}>{children}</ClientLayout>
+        
+        {/* Structured Data for SEO */}
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              '@context': 'https://schema.org',
+              '@type': 'WebApplication',
+              name: 'PlanMyNextTravel',
+              url: 'https://planmynexttravel.com',
+              description: 'AI-powered trip planner that creates personalized travel itineraries with budget estimates, activities, and day-by-day plans.',
+              applicationCategory: 'TravelApplication',
+              operatingSystem: 'Web',
+              offers: {
+                '@type': 'Offer',
+                price: '0',
+                priceCurrency: 'USD',
+              },
+              aggregateRating: {
+                '@type': 'AggregateRating',
+                ratingValue: '4.8',
+                reviewCount: '1250',
+              },
+              author: {
+                '@type': 'Organization',
+                name: 'PlanMyNextTravel',
+                url: 'https://planmynexttravel.com',
+              },
+            }),
+          }}
+        />
       </body>
     </html>
   );

@@ -10,7 +10,9 @@
     "db:generate": "drizzle-kit generate",
     "db:migrate": "drizzle-kit migrate",
     "db:push": "drizzle-kit push",
-    "db:studio": "drizzle-kit studio"
+    "db:studio": "drizzle-kit studio",
+    "analyze": "ANALYZE=true next build",
+    "lighthouse": "lighthouse http://localhost:5200 --view --output html --output-path ./lighthouse-report.html"
   },
   "dependencies": {
     "@auth/drizzle-adapter": "^1.7.2",
