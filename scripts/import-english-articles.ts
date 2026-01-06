@@ -278,16 +278,11 @@ async function importArticles() {
         slug: article.slug,
         category: article.category,
         status: article.status,
-        featured: article.featured,
         title: article.title,
-        excerpt: article.excerpt,
+        description: article.excerpt,
         content: article.content,
-        metaTitle: article.metaTitle,
-        metaDescription: article.metaDescription,
-        locale: article.locale,
-        imageUrl: article.imageUrl,
-        tags: article.tags,
-        author: 'PlanMyNextTravel Team',
+        image: article.imageUrl,
+        author: 'PlanMyNextTravel Team'
       });
       
       console.log(`✓ Imported: ${article.slug}`);

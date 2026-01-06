@@ -527,13 +527,8 @@ async function importArticles() {
         title: article.title,
         description: article.description,
         content: article.content,
-        metaTitle: article.metaTitle,
-        metaDescription: article.metaDescription,
-        locale: article.locale,
         image: article.image,
-        tags: article.tags,
-        author: article.author,
-        readTime: article.readTime
+        author: article.author
       });
       
       console.log(`✓ Imported: ${article.slug}\n`);

@@ -548,7 +548,7 @@ async function updateArticles() {
       await db
         .update(blogPosts)
         .set({
-          imageUrl: update.imageUrl,
+          image: update.imageUrl,
           content: update.content
         })
         .where(eq(blogPosts.slug, update.slug));
