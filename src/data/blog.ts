@@ -47,14 +47,18 @@ export async function getBlogPosts(locale: string): Promise<ExtendedBlogPost[]> 
       isStatic: true,
     }));
 
-    // Get published database posts for this locale
-    const dbPosts = await db
-      .select()
-      .from(blogPostsTable)
-      .where(eq(blogPostsTable.locale, locale))
-      .then(posts => posts.filter(post => post.status === 'published'));
+    // Get published database posts (all are English)
+    // Only include them for 'en' locale since DB posts don't have locale field
+    let dbBlogPosts: ExtendedBlogPost[] = [];
+    
+    if (locale === 'en') {
+      const dbPosts = await db
+        .select()
+        .from(blogPostsTable)
+        .where(eq(blogPostsTable.status, 'published'));
 
-    const dbBlogPosts: ExtendedBlogPost[] = dbPosts.map(dbPostToBlogPost);
+      dbBlogPosts = dbPosts.map(dbPostToBlogPost);
+    }
 
     // Combine and sort by date (newest first)
     const allPosts = [...staticPosts, ...dbBlogPosts].sort((a, b) => {
@@ -91,15 +95,17 @@ export async function getBlogPost(locale: string, slug: string): Promise<Extende
       };
     }
 
-    // Try to find in database
-    const dbPost = await db
-      .select()
-      .from(blogPostsTable)
-      .where(eq(blogPostsTable.slug, slug))
-      .then(posts => posts.find(post => post.locale === locale && post.status === 'published'));
+    // Try to find in database (only for English locale since DB posts don't have locale field)
+    if (locale === 'en') {
+      const dbPost = await db
+        .select()
+        .from(blogPostsTable)
+        .where(eq(blogPostsTable.slug, slug))
+        .then(posts => posts.find(post => post.status === 'published'));
 
-    if (dbPost) {
-      return dbPostToBlogPost(dbPost);
+      if (dbPost) {
+        return dbPostToBlogPost(dbPost);
+      }
     }
 
     return undefined;

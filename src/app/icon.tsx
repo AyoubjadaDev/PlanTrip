@@ -3,8 +3,8 @@ import { ImageResponse } from 'next/og';
 // Image metadata
 export const alt = 'PlanMyNextTravel';
 export const size = {
-  width: 192,
-  height: 192,
+  width: 48,
+  height: 48,
 };
 
 export const contentType = 'image/png';
