@@ -6,6 +6,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { FiZap, FiGlobe, FiClock, FiDollarSign, FiCheckCircle, FiStar, FiArrowRight, FiTrendingUp, FiAward, FiMapPin } from 'react-icons/fi';
 import { getBlogPosts } from '@/data/blog';
+import NewsletterSection from '@/components/NewsletterSection';
 
 // Dynamic imports for better performance
 const TripGeneratorWizard = dynamicImport(() => import('@/components/TripGeneratorWizard'), {
@@ -518,6 +519,9 @@ export default async function Home({ params: { locale } }: { params: { locale: s
             </div>
           </div>
         </section>
+
+        {/* Newsletter Subscription Section */}
+        <NewsletterSection />
 
         {/* How It Works Section */}
         <section id="how-it-works" className="py-24 bg-gradient-to-br from-cyan-500 via-blue-500 to-indigo-600 text-white relative overflow-hidden">

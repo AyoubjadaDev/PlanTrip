@@ -8,6 +8,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { FiCalendar, FiClock, FiTag, FiArrowLeft, FiShare2 } from 'react-icons/fi';
 import ReactMarkdown from 'react-markdown';
+import AffiliateCards from '@/components/AffiliateCards';
 
 interface BlogPostPageProps {
   params: { locale: string; slug: string };
@@ -270,6 +271,11 @@ export default async function BlogPostPage({
                 </div>
               </div>
             </div>
+          </div>
+
+          {/* Affiliate Partner Cards */}
+          <div className="mt-16">
+            <AffiliateCards />
           </div>
 
           {/* CTA Section */}
