@@ -37,21 +37,43 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const blogUrls: MetadataRoute.Sitemap = [];
   
   try {
+    // Collect all posts by locale to check which languages have which slugs
+    const postsByLocale: Record<string, Set<string>> = {
+      en: new Set(),
+      fr: new Set(),
+      ar: new Set(),
+    };
+
+    // Collect slugs for each locale
     for (const locale of locales) {
       const posts = await getBlogPosts(locale);
       posts.forEach((post) => {
+        postsByLocale[locale].add(post.slug);
+      });
+    }
+
+    // Generate URLs with proper alternates only for languages where the article exists
+    for (const locale of locales) {
+      const posts = await getBlogPosts(locale);
+      posts.forEach((post) => {
+        // Build alternates only for languages that have this article
+        const alternateLanguages: Record<string, string> = {};
+        locales.forEach((lang) => {
+          if (postsByLocale[lang].has(post.slug)) {
+            alternateLanguages[lang] = `${baseUrl}/${lang}/blog/${post.slug}`;
+          }
+        });
+
         blogUrls.push({
           url: `${baseUrl}/${locale}/blog/${post.slug}`,
           lastModified: new Date(post.date),
           changeFrequency: 'weekly',
           priority: 0.8,
-          alternates: {
-            languages: {
-              en: `${baseUrl}/en/blog/${post.slug}`,
-              fr: `${baseUrl}/fr/blog/${post.slug}`,
-              ar: `${baseUrl}/ar/blog/${post.slug}`,
+          ...(Object.keys(alternateLanguages).length > 1 && {
+            alternates: {
+              languages: alternateLanguages,
             },
-          },
+          }),
         });
       });
     }
