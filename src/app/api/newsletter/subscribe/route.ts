@@ -2,9 +2,16 @@ import { NextResponse } from 'next/server';
 import { db } from '@/db';
 import { subscribers } from '@/db/schema';
 import { eq } from 'drizzle-orm';
+import { rateLimiters, getClientIdentifier, rateLimitResponse } from '@/lib/rate-limit';
 
 export async function POST(request: Request) {
   try {
+    // Rate limiting - prevent spam subscriptions
+    const identifier = getClientIdentifier(request);
+    const rateLimitResult = await rateLimiters.contact(identifier);
+    const limitResponse = rateLimitResponse(rateLimitResult);
+    if (limitResponse) return limitResponse;
+
     let email = '';
     const contentType = request.headers.get('content-type') || '';
     if (contentType.includes('application/json')) {

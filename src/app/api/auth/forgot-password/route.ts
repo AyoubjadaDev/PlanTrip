@@ -4,6 +4,7 @@ import { users, passwordResetTokens } from '@/db/schema';
 import { eq } from 'drizzle-orm';
 import crypto from 'crypto';
 import nodemailer from 'nodemailer';
+import { rateLimiters, getClientIdentifier, rateLimitResponse } from '@/lib/rate-limit';
 
 // Configure your email service (Brevo)
 const transporter = nodemailer.createTransport({
@@ -18,6 +19,12 @@ const transporter = nodemailer.createTransport({
 
 export async function POST(request: NextRequest) {
   try {
+    // Rate limiting - 5 requests per minute per IP
+    const identifier = getClientIdentifier(request);
+    const rateLimitResult = await rateLimiters.auth(identifier);
+    const limitResponse = rateLimitResponse(rateLimitResult);
+    if (limitResponse) return limitResponse;
+
     const { email } = await request.json();
 
     if (!email) {

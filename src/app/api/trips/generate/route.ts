@@ -7,6 +7,7 @@ import { generateItinerary } from '@/lib/ai';
 import { getNextGroqApiKey } from '@/lib/groq-key-rotation';
 import { checkAnonymousLimit, incrementAnonymousUsage, getClientIP } from '@/lib/usage';
 import { z } from 'zod';
+import { rateLimiters, getClientIdentifier, rateLimitResponse } from '@/lib/rate-limit';
 
 const tripSchema = z.object({
   destination: z.string().min(1),
@@ -22,6 +23,12 @@ const tripSchema = z.object({
 
 export async function POST(request: NextRequest) {
   try {
+    // Rate limiting - prevent abuse of trip generation
+    const identifier = getClientIdentifier(request);
+    const rateLimitResult = await rateLimiters.tripGeneration(identifier);
+    const limitResponse = rateLimitResponse(rateLimitResult);
+    if (limitResponse) return limitResponse;
+
     const session = await getServerSession(authOptions);
     const body = await request.json();
     

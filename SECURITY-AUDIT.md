@@ -1,5 +1,6 @@
 # Security Audit Report - PlanMyNextTravel
 **Date:** January 7, 2026
+**Last Updated:** January 7, 2026 (Rate Limiting Added)
 
 ## 🚨 CRITICAL ISSUES FOUND & FIXED
 
@@ -55,47 +56,52 @@
 - ✅ Proper error handling
 - ✅ TypeScript for type safety
 
+### 5. Rate Limiting (NEW)
+- ✅ Rate limiting implemented on critical endpoints
+- ✅ Authentication endpoints protected (10 req/min)
+- ✅ Trip generation protected (10 req/min)
+- ✅ Newsletter/Contact protected (10 req/min)
+- ✅ Proper rate limit headers returned
+
+### 6. Security Headers (UPDATED)
+- ✅ X-Frame-Options: SAMEORIGIN
+- ✅ X-Content-Type-Options: nosniff
+- ✅ X-XSS-Protection: 1; mode=block
+- ✅ Strict-Transport-Security configured
+- ✅ Permissions-Policy configured
+- ✅ Referrer-Policy: origin-when-cross-origin
+
 ## ⚠️ RECOMMENDATIONS
 
 ### High Priority
 
-1. **Add Rate Limiting**
-   - Protect API routes from abuse
-   - Implement IP-based throttling
-   - Use libraries like `express-rate-limit` or `@upstash/ratelimit`
+1. ✅ **COMPLETED: Add Rate Limiting**
+   - ✅ Installed @upstash/ratelimit packages
+   - ✅ Created rate limiting utility
+   - ✅ Protected authentication endpoints
+   - ✅ Protected trip generation endpoint
+   - ✅ Protected newsletter/contact endpoints
+   - 📋 Consider upgrading to Upstash Redis for production
+   - See: [RATE-LIMITING-GUIDE.md](./RATE-LIMITING-GUIDE.md)
 
-2. **Add CSRF Protection**
+2. ✅ **COMPLETED: Add Security Headers**
+   - ✅ Added HSTS headers
+   - ✅ Added XSS protection
+   - ✅ Added Permissions-Policy
+   - ✅ Configured frame options
+
+3. **Add CSRF Protection**
    - Already partially protected by NextAuth
    - Consider additional middleware for sensitive operations
 
-3. **Add Content Security Policy (CSP) Headers**
-   - Configure in `next.config.js`
-   - Prevent XSS attacks
-
 4. **Input Validation**
-   - Add server-side validation with Zod
+   - Add more comprehensive server-side validation with Zod
    - Sanitize user inputs
    - Validate file uploads
 
-5. **Security Headers**
-   ```javascript
-   // Add to next.config.js
-   headers: async () => {
-     return [
-       {
-         source: '/:path*',
-         headers: [
-           { key: 'X-DNS-Prefetch-Control', value: 'on' },
-           { key: 'Strict-Transport-Security', value: 'max-age=63072000; includeSubDomains; preload' },
-           { key: 'X-Frame-Options', value: 'SAMEORIGIN' },
-           { key: 'X-Content-Type-Options', value: 'nosniff' },
-           { key: 'X-XSS-Protection', value: '1; mode=block' },
-           { key: 'Referrer-Policy', value: 'origin-when-cross-origin' },
-         ],
-       },
-     ];
-   }
-   ```
+5. **Add Content Security Policy (CSP)**
+   - Configure CSP headers for XSS prevention
+   - Define trusted sources for scripts, styles, images
 
 ### Medium Priority
 
