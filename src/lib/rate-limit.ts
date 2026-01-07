@@ -107,7 +107,7 @@ export function rateLimitResponse(result: { success: boolean; limit: number; rem
 
 // Upstash Redis configuration (for production)
 // Uncomment and configure when you have Upstash Redis set up
-/*
+
 const redis = new Redis({
   url: process.env.UPSTASH_REDIS_REST_URL!,
   token: process.env.UPSTASH_REDIS_REST_TOKEN!,
@@ -140,4 +140,4 @@ export const contactRateLimit = new Ratelimit({
   analytics: true,
   prefix: 'ratelimit:contact',
 });
-*/
+
