@@ -12,12 +12,14 @@ import { AdvancedReporting } from '@/components/AdvancedReporting';
 import { ApiKeyManagement } from '@/components/ApiKeyManagement';
 import AdminSiteSettings from '@/components/AdminSiteSettings';
 import { PartnerClicksAnalytics } from '@/components/PartnerClicksAnalytics';
+import { ItinerariesManager } from '@/components/ItinerariesManager';
 import { FiMenu, FiX } from 'react-icons/fi';
 
-type TabType = 'analytics' | 'blog' | 'contacts' | 'reports' | 'api-keys' | 'google' | 'partner-clicks';
+type TabType = 'analytics' | 'itineraries' | 'blog' | 'contacts' | 'reports' | 'api-keys' | 'google' | 'partner-clicks';
 
 const TABS: { id: TabType; label: string; icon: string }[] = [
   { id: 'analytics', label: 'Analytics Dashboard', icon: '📊' },
+  { id: 'itineraries', label: 'Itineraries', icon: '🗺️' },
   { id: 'partner-clicks', label: 'Partner Clicks', icon: '🔗' },
   { id: 'blog', label: 'Blog Management', icon: '📝' },
   { id: 'contacts', label: 'Contact Messages', icon: '📧' },
@@ -205,6 +207,7 @@ export default function AdminPage({ params }: { params: { locale: string } }) {
             </h1>
             <p className="text-gray-600 mt-1">
               {activeTab === 'analytics' && 'View platform analytics and metrics'}
+              {activeTab === 'itineraries' && 'Manage user-generated trip itineraries'}
               {activeTab === 'partner-clicks' && 'Track partner link clicks and performance'}
               {activeTab === 'blog' && 'Create and manage blog posts'}
               {activeTab === 'contacts' && 'View and respond to contact messages'}
@@ -219,6 +222,7 @@ export default function AdminPage({ params }: { params: { locale: string } }) {
         <main className="flex-1 overflow-y-auto bg-gray-50">
           <div className="px-4 py-6 lg:px-8">
             {activeTab === 'analytics' && <AnalyticsDashboard />}
+            {activeTab === 'itineraries' && <ItinerariesManager />}
             {activeTab === 'partner-clicks' && <PartnerClicksAnalytics />}
             {activeTab === 'blog' && <BlogManagement />}
             {activeTab === 'contacts' && <ContactMessagesManager />}

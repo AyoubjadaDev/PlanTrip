@@ -62,6 +62,7 @@ export const metadata = {
     title: 'PlanMyNextTravel - AI-Powered Trip Planner & Itinerary Generator',
     description: 'Create personalized travel itineraries with AI. Get budget estimates, activities, and day-by-day plans for your perfect trip.',
     images: ['/og-image.jpg'],
+    url: 'https://planmynexttravel.com',
   },
   twitter: {
     card: 'summary_large_image',
@@ -70,13 +71,18 @@ export const metadata = {
     creator: '@planmynexttravel',
     images: ['/og-image.jpg'],
   },
-  icons: [
-    { rel: 'icon', url: '/favicon.ico', sizes: 'any' },
-    { rel: 'icon', url: '/favicon.svg', type: 'image/svg+xml' },
-    { rel: 'icon', url: '/favicon-16x16.png', sizes: '16x16', type: 'image/png' },
-    { rel: 'icon', url: '/favicon-32x32.png', sizes: '32x32', type: 'image/png' },
-    { rel: 'apple-touch-icon', url: '/apple-touch-icon.png', sizes: '180x180' },
-  ],
+  icons: {
+    icon: [
+      { url: '/favicon.ico', sizes: '48x48' },
+      { url: '/favicon-16x16.png', sizes: '16x16', type: 'image/png' },
+      { url: '/favicon-32x32.png', sizes: '32x32', type: 'image/png' },
+    ],
+    shortcut: '/favicon.ico',
+    apple: { url: '/apple-touch-icon.png', sizes: '180x180', type: 'image/png' },
+    other: [
+      { rel: 'mask-icon', url: '/favicon.svg', color: '#ea580c' },
+    ],
+  },
   manifest: '/site.webmanifest',
   alternates: {
     canonical: 'https://planmynexttravel.com',
@@ -85,6 +91,10 @@ export const metadata = {
       'fr': 'https://planmynexttravel.com/fr',
       'ar': 'https://planmynexttravel.com/ar',
     },
+  },
+  other: {
+    'msapplication-TileColor': '#ea580c',
+    'msapplication-config': '/browserconfig.xml',
   },
 };
 
@@ -190,6 +200,31 @@ export default async function RootLayout({
                 '@type': 'Organization',
                 name: 'PlanMyNextTravel',
                 url: 'https://planmynexttravel.com',
+                logo: 'https://planmynexttravel.com/logo_Travel.png',
+                sameAs: [
+                  'https://twitter.com/planmynexttravel',
+                  'https://facebook.com/planmynexttravel',
+                ],
+              },
+            }),
+          }}
+        />
+        
+        {/* Organization Structured Data */}
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              '@context': 'https://schema.org',
+              '@type': 'Organization',
+              name: 'PlanMyNextTravel',
+              url: 'https://planmynexttravel.com',
+              logo: 'https://planmynexttravel.com/logo_Travel.png',
+              description: 'Create personalized travel itineraries with AI. Free, multilingual, and instant results.',
+              contactPoint: {
+                '@type': 'ContactPoint',
+                contactType: 'customer support',
+                availableLanguage: ['English', 'French', 'Arabic'],
               },
             }),
           }}

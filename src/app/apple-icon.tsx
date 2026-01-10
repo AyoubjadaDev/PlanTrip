@@ -1,17 +1,13 @@
 import { ImageResponse } from 'next/og';
 
-// Image metadata
 export const runtime = 'edge';
-export const alt = 'PlanMyNextTravel';
 export const size = {
-  width: 32,
-  height: 32,
+  width: 180,
+  height: 180,
 };
-
 export const contentType = 'image/png';
 
-// Icon generation - optimized for Google favicon
-export default async function Icon() {
+export default async function AppleIcon() {
   return new ImageResponse(
     (
       <div
@@ -24,21 +20,20 @@ export default async function Icon() {
           alignItems: 'center',
           justifyContent: 'center',
           color: 'white',
-          borderRadius: '15%',
         }}
       >
         <svg
-          width="24"
-          height="24"
+          width="120"
+          height="120"
           viewBox="0 0 100 100"
           fill="none"
         >
           <path
-            d="M50 20L65 50H35L50 20Z"
+            d="M50 15L70 50H30L50 15Z"
             fill="white"
           />
-          <circle cx="50" cy="65" r="15" fill="white" />
-          <circle cx="50" cy="65" r="8" fill="#ea580c" />
+          <circle cx="50" cy="65" r="18" fill="white" />
+          <circle cx="50" cy="65" r="10" fill="#ea580c" />
         </svg>
       </div>
     ),
