@@ -33,50 +33,72 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     });
   });
 
-  // Generate blog article URLs for all locales with error handling
+  // Generate blog article URLs with proper locale handling
   const blogUrls: MetadataRoute.Sitemap = [];
   
   try {
-    // Collect all posts by locale to check which languages have which slugs
-    const postsByLocale: Record<string, Set<string>> = {
-      en: new Set(),
-      fr: new Set(),
-      ar: new Set(),
-    };
-
-    // Collect slugs for each locale
-    for (const locale of locales) {
-      const posts = await getBlogPosts(locale);
-      posts.forEach((post) => {
-        postsByLocale[locale].add(post.slug);
-      });
-    }
-
-    // Generate URLs with proper alternates only for languages where the article exists
-    for (const locale of locales) {
-      const posts = await getBlogPosts(locale);
-      posts.forEach((post) => {
-        // Build alternates only for languages that have this article
-        const alternateLanguages: Record<string, string> = {};
-        locales.forEach((lang) => {
-          if (postsByLocale[lang].has(post.slug)) {
-            alternateLanguages[lang] = `${baseUrl}/${lang}/blog/${post.slug}`;
-          }
-        });
-
+    // Get posts for each locale separately (avoiding duplicates)
+    const processedSlugs = new Set<string>();
+    
+    // French static posts (exist only in FR)
+    const frPosts = await getBlogPosts('fr');
+    frPosts.forEach((post) => {
+      if (post.isStatic && !processedSlugs.has(`fr-${post.slug}`)) {
+        processedSlugs.add(`fr-${post.slug}`);
         blogUrls.push({
-          url: `${baseUrl}/${locale}/blog/${post.slug}`,
+          url: `${baseUrl}/fr/blog/${post.slug}`,
           lastModified: new Date(post.date),
           changeFrequency: 'weekly',
           priority: 0.8,
-          ...(Object.keys(alternateLanguages).length > 1 && {
-            alternates: {
-              languages: alternateLanguages,
+          // French articles are only available in French
+          alternates: {
+            languages: {
+              'x-default': `${baseUrl}/en/blog`,
             },
-          }),
+          },
         });
-      });
-    }
+      }
+    });
+
+    // Arabic static posts (exist only in AR)
+    const arPosts = await getBlogPosts('ar');
+    arPosts.forEach((post) => {
+      if (post.isStatic && !processedSlugs.has(`ar-${post.slug}`)) {
+        processedSlugs.add(`ar-${post.slug}`);
+        blogUrls.push({
+          url: `${baseUrl}/ar/blog/${post.slug}`,
+          lastModified: new Date(post.date),
+          changeFrequency: 'weekly',
+          priority: 0.8,
+          // Arabic articles are only available in Arabic
+          alternates: {
+            languages: {
+              'x-default': `${baseUrl}/en/blog`,
+            },
+          },
+        });
+      }
+    });
+
+    // English posts (includes both static and database posts)
+    const enPosts = await getBlogPosts('en');
+    enPosts.forEach((post) => {
+      if (!processedSlugs.has(`en-${post.slug}`)) {
+        processedSlugs.add(`en-${post.slug}`);
+        blogUrls.push({
+          url: `${baseUrl}/en/blog/${post.slug}`,
+          lastModified: new Date(post.date),
+          changeFrequency: 'weekly',
+          priority: 0.8,
+          // English articles are only available in English
+          alternates: {
+            languages: {
+              'x-default': `${baseUrl}/en/blog/${post.slug}`,
+            },
+          },
+        });
+      }
+    });
   } catch (error) {
     console.error('Error generating blog URLs for sitemap:', error);
     // Continue with static URLs only if blog fetch fails
