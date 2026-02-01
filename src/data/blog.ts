@@ -49,9 +49,10 @@ export async function getBlogPosts(locale: string): Promise<ExtendedBlogPost[]> 
 
     // Get published database posts (all are English)
     // Only include them for 'en' locale since DB posts don't have locale field
+    // Skip database query if DATABASE_URL is not configured
     let dbBlogPosts: ExtendedBlogPost[] = [];
     
-    if (locale === 'en') {
+    if (locale === 'en' && process.env.DATABASE_URL) {
       const dbPosts = await db
         .select()
         .from(blogPostsTable)
@@ -96,7 +97,8 @@ export async function getBlogPost(locale: string, slug: string): Promise<Extende
     }
 
     // Try to find in database (only for English locale since DB posts don't have locale field)
-    if (locale === 'en') {
+    // Skip database query if DATABASE_URL is not configured
+    if (locale === 'en' && process.env.DATABASE_URL) {
       const dbPost = await db
         .select()
         .from(blogPostsTable)
