@@ -21,11 +21,11 @@ export default async function DashboardPage({ params }: { params: { locale: stri
   }
 
   // Check if user is admin
-  const user = await db.query.users.findFirst({
+  const user = await db!.query.users.findFirst({
     where: eq(users.id, session.user.id),
   });
 
-  const userTrips = await db.query.trips.findMany({
+  const userTrips = await db!.query.trips.findMany({
     where: eq(trips.userId, session.user.id),
     orderBy: [desc(trips.createdAt)],
   });

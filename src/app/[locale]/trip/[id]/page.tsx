@@ -15,7 +15,7 @@ export default async function TripPage({ params }: { params: { id: string; local
     notFound();
   }
 
-  const trip = await db.query.trips.findFirst({
+  const trip = await db!.query.trips.findFirst({
     where: eq(trips.id, params.id),
   });
 

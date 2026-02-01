@@ -16,7 +16,7 @@ export async function GET() {
       });
     }
 
-    const settings = await db.select().from(siteSettings).limit(1);
+    const settings = await db!.select().from(siteSettings).limit(1);
     const adsTxtContent = settings[0]?.adsTxt || '';
 
     return new NextResponse(adsTxtContent, {

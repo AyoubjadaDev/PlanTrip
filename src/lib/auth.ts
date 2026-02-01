@@ -31,7 +31,7 @@ export const authOptions: NextAuthOptions = {
           throw new Error('Database not available');
         }
 
-        const user = await db.query.users.findFirst({
+        const user = await db!.query.users.findFirst({
           where: eq(users.email, credentials.email),
         });
 

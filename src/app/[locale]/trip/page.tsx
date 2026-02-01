@@ -43,12 +43,12 @@ export default async function MyTripsPage({ searchParams, params }: { searchPara
   }
 
   // Fetch total count for pagination
-  const totalTrips = await db.select({ count: count() }).from(trips);
+  const totalTrips = await db!.select({ count: count() }).from(trips);
   const total = totalTrips[0]?.count || 0;
   const totalPages = Math.ceil(total / pageSize);
 
   // Fetch paginated trips
-  const tripRows = await db.select().from(trips).orderBy(trips.startDate).limit(pageSize).offset(offset);
+  const tripRows = await db!.select().from(trips).orderBy(trips.startDate).limit(pageSize).offset(offset);
 
   return (
     <div className="min-h-screen flex flex-col">
