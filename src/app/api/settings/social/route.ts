@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { db } from '@/db';
 import { siteSettings } from '@/db/schema';
 
+export const dynamic = 'force-dynamic';
 export async function GET() {
   try {
     const settings = await db.query.siteSettings.findFirst();

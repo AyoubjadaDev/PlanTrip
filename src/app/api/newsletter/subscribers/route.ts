@@ -3,6 +3,7 @@ import { db } from '@/db';
 import { subscribers } from '@/db/schema';
 import { eq, desc } from 'drizzle-orm';
 
+export const dynamic = 'force-dynamic';
 export async function GET() {
   try {
     const allSubscribers = await db

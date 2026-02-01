@@ -3,6 +3,7 @@ import { db } from '@/db';
 import { siteSettings } from '@/db/schema';
 import { eq } from 'drizzle-orm';
 
+export const dynamic = 'force-dynamic';
 export async function GET() {
   try {
     const settings = await db.select().from(siteSettings).limit(1);

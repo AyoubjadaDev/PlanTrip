@@ -5,6 +5,7 @@ import { eq } from 'drizzle-orm';
 import bcrypt from 'bcryptjs';
 
 // This route should be protected or removed in production
+export const dynamic = 'force-dynamic';
 export async function POST(request: Request) {
   try {
     const { email, password, name, secretKey } = await request.json();

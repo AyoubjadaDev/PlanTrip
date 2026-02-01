@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server';
 import { db } from '@/db';
 import { subscribers } from '@/db/schema';
 
+export const dynamic = 'force-dynamic';
 export async function GET() {
   try {
     // Drizzle ORM .orderBy expects a column, not a function call

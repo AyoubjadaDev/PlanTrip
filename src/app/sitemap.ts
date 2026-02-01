@@ -2,6 +2,8 @@ import { MetadataRoute } from 'next';
 import { getBlogPosts } from '@/data/blog';
 import { destinationDetailsFr } from '@/data/destination-details-fr';
 
+export const dynamic = 'force-dynamic';
+
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const baseUrl = process.env.NEXT_PUBLIC_APP_URL || 'https://planmynexttravel.com';
   const locales = ['en', 'fr', 'ar'];

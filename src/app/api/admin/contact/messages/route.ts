@@ -7,6 +7,7 @@ import { users } from '@/db/schema';
 import { eq, desc } from 'drizzle-orm';
 
 // GET all contact messages (admin only)
+export const dynamic = 'force-dynamic';
 export async function GET(request: NextRequest) {
   try {
     const session = await getServerSession(authOptions);

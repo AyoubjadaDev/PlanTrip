@@ -6,6 +6,7 @@ import { users, groqApiKeys } from '@/db/schema';
 import { eq, desc } from 'drizzle-orm';
 import crypto from 'crypto';
 
+export const dynamic = 'force-dynamic';
 export async function GET(request: NextRequest) {
   try {
     const session = await getServerSession(authOptions);

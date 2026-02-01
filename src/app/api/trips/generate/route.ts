@@ -9,6 +9,7 @@ import { checkAnonymousLimit, incrementAnonymousUsage, getClientIP } from '@/lib
 import { z } from 'zod';
 import { rateLimiters, getClientIdentifier, rateLimitResponse } from '@/lib/rate-limit';
 
+export const dynamic = 'force-dynamic';
 const tripSchema = z.object({
   destination: z.string().min(1),
   startDate: z.string(),

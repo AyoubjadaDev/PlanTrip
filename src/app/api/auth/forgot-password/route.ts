@@ -7,6 +7,7 @@ import nodemailer from 'nodemailer';
 import { rateLimiters, getClientIdentifier, rateLimitResponse } from '@/lib/rate-limit';
 
 // Configure your email service (Brevo)
+export const dynamic = 'force-dynamic';
 const transporter = nodemailer.createTransport({
   host: process.env.Brevo_SMTP_HOST,
   port: parseInt(process.env.Brevo_SMTP_PORT || '587'),

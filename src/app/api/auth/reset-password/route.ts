@@ -5,6 +5,7 @@ import { eq } from 'drizzle-orm';
 import crypto from 'crypto';
 import bcrypt from 'bcryptjs';
 
+export const dynamic = 'force-dynamic';
 export async function POST(request: NextRequest) {
   try {
     const { token, email, newPassword } = await request.json();

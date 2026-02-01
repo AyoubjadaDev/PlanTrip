@@ -6,6 +6,7 @@ import bcrypt from 'bcryptjs';
 import { z } from 'zod';
 import { getClientIP, linkAnonymousTripsToUser } from '@/lib/usage';
 
+export const dynamic = 'force-dynamic';
 const registerSchema = z.object({
   email: z.string().email(),
   password: z.string().min(8),

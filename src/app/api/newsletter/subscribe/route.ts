@@ -4,6 +4,7 @@ import { subscribers } from '@/db/schema';
 import { eq } from 'drizzle-orm';
 import { rateLimiters, getClientIdentifier, rateLimitResponse } from '@/lib/rate-limit';
 
+export const dynamic = 'force-dynamic';
 export async function POST(request: Request) {
   try {
     // Rate limiting - prevent spam subscriptions

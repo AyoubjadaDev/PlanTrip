@@ -3,6 +3,7 @@ import { getServerSession } from 'next-auth';
 import { authOptions } from '@/lib/auth';
 import { getClientIP, linkAnonymousTripsToUser } from '@/lib/usage';
 
+export const dynamic = 'force-dynamic';
 /**
  * API endpoint to link anonymous trips after user signs in or signs up
  * Called from the client after successful authentication

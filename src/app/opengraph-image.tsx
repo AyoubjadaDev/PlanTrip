@@ -1,5 +1,7 @@
 import { ImageResponse } from 'next/og';
 
+export const dynamic = 'force-dynamic';
+
 // Image metadata
 export const alt = 'PlanMyNextTravel - AI-Powered Trip Planner';
 export const size = {
