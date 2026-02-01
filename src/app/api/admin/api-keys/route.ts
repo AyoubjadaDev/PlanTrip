@@ -8,7 +8,11 @@ import crypto from 'crypto';
 
 export const dynamic = 'force-dynamic';
 export async function GET(request: NextRequest) {
-  try {
+  
+  if (!db) {
+    return NextResponse.json({ error: 'Database not available' }, { status: 503 });
+  }
+try {
     const session = await getServerSession(authOptions);
     
     if (!session?.user?.email) {
@@ -53,7 +57,11 @@ export async function GET(request: NextRequest) {
 }
 
 export async function POST(request: NextRequest) {
-  try {
+  
+  if (!db) {
+    return NextResponse.json({ error: 'Database not available' }, { status: 503 });
+  }
+try {
     const session = await getServerSession(authOptions);
     
     if (!session?.user?.email) {

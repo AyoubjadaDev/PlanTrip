@@ -8,7 +8,11 @@ import { eq, desc, count, sql } from 'drizzle-orm';
 export const dynamic = 'force-dynamic';
 
 export async function GET() {
-  try {
+  
+  if (!db) {
+    return NextResponse.json({ error: 'Database not available' }, { status: 503 });
+  }
+try {
     const session = await getServerSession(authOptions);
 
     // Check if user is logged in and is admin

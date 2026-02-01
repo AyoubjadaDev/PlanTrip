@@ -4,7 +4,11 @@ import { contactMessages } from '@/db/schema';
 
 export const dynamic = 'force-dynamic';
 export async function POST(request: NextRequest) {
-  try {
+  
+  if (!db) {
+    return NextResponse.json({ error: 'Database not available' }, { status: 503 });
+  }
+try {
     const body = await request.json();
     const { name, email, subject, message } = body;
 

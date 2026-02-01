@@ -13,7 +13,11 @@ interface RouteParams {
 }
 
 export async function GET(request: NextRequest, { params }: RouteParams) {
-  try {
+  
+  if (!db) {
+    return NextResponse.json({ error: 'Database not available' }, { status: 503 });
+  }
+try {
     const postId = params.id;
 
     const post = await db.query.blogPosts.findFirst({
@@ -38,7 +42,11 @@ export async function GET(request: NextRequest, { params }: RouteParams) {
 }
 
 export async function PATCH(request: NextRequest, { params }: RouteParams) {
-  try {
+  
+  if (!db) {
+    return NextResponse.json({ error: 'Database not available' }, { status: 503 });
+  }
+try {
     const session = await getServerSession(authOptions);
     
     if (!session?.user?.email) {
@@ -129,7 +137,11 @@ export async function PATCH(request: NextRequest, { params }: RouteParams) {
 }
 
 export async function DELETE(request: NextRequest, { params }: RouteParams) {
-  try {
+  
+  if (!db) {
+    return NextResponse.json({ error: 'Database not available' }, { status: 503 });
+  }
+try {
     const session = await getServerSession(authOptions);
     
     if (!session?.user?.email) {

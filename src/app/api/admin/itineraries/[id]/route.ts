@@ -10,7 +10,11 @@ export async function DELETE(
   request: NextRequest,
   { params }: { params: { id: string } }
 ) {
-  try {
+  
+  if (!db) {
+    return NextResponse.json({ error: 'Database not available' }, { status: 503 });
+  }
+try {
     const session = await getServerSession(authOptions);
 
     if (!session?.user?.email) {

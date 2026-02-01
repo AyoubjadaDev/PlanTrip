@@ -4,7 +4,11 @@ import { subscribers } from '@/db/schema';
 
 export const dynamic = 'force-dynamic';
 export async function GET() {
-  try {
+  
+  if (!db) {
+    return NextResponse.json({ error: 'Database not available' }, { status: 503 });
+  }
+try {
     // Drizzle ORM .orderBy expects a column, not a function call
     const allSubscribers = await db.select().from(subscribers).orderBy(subscribers.subscribedAt);
     // If you want descending order, reverse the array in JS (or use SQL raw if needed)

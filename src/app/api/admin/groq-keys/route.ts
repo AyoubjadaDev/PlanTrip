@@ -8,7 +8,11 @@ import { authOptions } from '@/lib/auth';
 // GET: List all Groq API keys
 export const dynamic = 'force-dynamic';
 export async function GET() {
-  const session = await getServerSession(authOptions);
+  
+  if (!db) {
+    return NextResponse.json({ error: 'Database not available' }, { status: 503 });
+  }
+const session = await getServerSession(authOptions);
   if (!session?.user?.isAdmin) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }
@@ -18,7 +22,11 @@ export async function GET() {
 
 // POST: Add a new Groq API key
 export async function POST(req: Request) {
-  const session = await getServerSession(authOptions);
+  
+  if (!db) {
+    return NextResponse.json({ error: 'Database not available' }, { status: 503 });
+  }
+const session = await getServerSession(authOptions);
   if (!session?.user?.isAdmin) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }
@@ -32,7 +40,11 @@ export async function POST(req: Request) {
 
 // DELETE: Remove a Groq API key
 export async function DELETE(req: Request) {
-  const session = await getServerSession(authOptions);
+  
+  if (!db) {
+    return NextResponse.json({ error: 'Database not available' }, { status: 503 });
+  }
+const session = await getServerSession(authOptions);
   if (!session?.user?.isAdmin) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }

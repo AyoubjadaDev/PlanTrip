@@ -5,7 +5,11 @@ import { eq } from 'drizzle-orm';
 
 export const dynamic = 'force-dynamic';
 export async function GET() {
-  try {
+  
+  if (!db) {
+    return NextResponse.json({ error: 'Database not available' }, { status: 503 });
+  }
+try {
     const settings = await db.select().from(siteSettings).limit(1);
     return NextResponse.json({ settings: settings[0] || null });
   } catch (error) {
@@ -14,7 +18,11 @@ export async function GET() {
 }
 
 export async function POST(request: Request) {
-  try {
+  
+  if (!db) {
+    return NextResponse.json({ error: 'Database not available' }, { status: 503 });
+  }
+try {
     const data = await request.json();
     // Upsert: update if exists, else insert
     const existing = await db.select().from(siteSettings).limit(1);

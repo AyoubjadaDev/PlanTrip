@@ -9,7 +9,11 @@ import { eq, desc } from 'drizzle-orm';
 // GET all contact messages (admin only)
 export const dynamic = 'force-dynamic';
 export async function GET(request: NextRequest) {
-  try {
+  
+  if (!db) {
+    return NextResponse.json({ error: 'Database not available' }, { status: 503 });
+  }
+try {
     const session = await getServerSession(authOptions);
     
     // Check if user is authenticated and is admin

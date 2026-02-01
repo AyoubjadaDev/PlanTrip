@@ -7,7 +7,11 @@ import bcrypt from 'bcryptjs';
 
 export const dynamic = 'force-dynamic';
 export async function POST(request: NextRequest) {
-  try {
+  
+  if (!db) {
+    return NextResponse.json({ error: 'Database not available' }, { status: 503 });
+  }
+try {
     const { email, code, newPassword } = await request.json();
 
     if (!email || !code || !newPassword) {

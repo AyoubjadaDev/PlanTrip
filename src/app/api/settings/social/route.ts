@@ -5,6 +5,19 @@ import { siteSettings } from '@/db/schema';
 export const dynamic = 'force-dynamic';
 export async function GET() {
   try {
+    if (!db) {
+      return NextResponse.json({ 
+        settings: {
+          facebook: '',
+          twitter: '',
+          instagram: '',
+          linkedin: '',
+          youtube: '',
+          pinterest: '',
+          tiktok: '',
+        }
+      });
+    }
     const settings = await db.query.siteSettings.findFirst();
     
     if (!settings) {

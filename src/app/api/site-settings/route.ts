@@ -5,6 +5,9 @@ import { siteSettings } from '@/db/schema';
 export const dynamic = 'force-dynamic';
 export async function GET() {
   try {
+    if (!db) {
+      return NextResponse.json({ settings: null }, { status: 200 });
+    }
     const settings = await db.select().from(siteSettings).limit(1);
     
     // Only return public-facing settings

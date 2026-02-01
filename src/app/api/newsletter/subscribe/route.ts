@@ -6,7 +6,11 @@ import { rateLimiters, getClientIdentifier, rateLimitResponse } from '@/lib/rate
 
 export const dynamic = 'force-dynamic';
 export async function POST(request: Request) {
-  try {
+  
+  if (!db) {
+    return NextResponse.json({ error: 'Database not available' }, { status: 503 });
+  }
+try {
     // Rate limiting - prevent spam subscriptions
     const identifier = getClientIdentifier(request);
     const rateLimitResult = await rateLimiters.contact(identifier);

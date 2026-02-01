@@ -7,7 +7,11 @@ import bcrypt from 'bcryptjs';
 // This route should be protected or removed in production
 export const dynamic = 'force-dynamic';
 export async function POST(request: Request) {
-  try {
+  
+  if (!db) {
+    return NextResponse.json({ error: 'Database not available' }, { status: 503 });
+  }
+try {
     const { email, password, name, secretKey } = await request.json();
 
     // Add a secret key check for security
