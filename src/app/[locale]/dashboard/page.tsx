@@ -16,6 +16,10 @@ export default async function DashboardPage({ params }: { params: { locale: stri
     redirect(`/${params.locale}/auth/signin`);
   }
 
+  if (!db) {
+    redirect(`/${params.locale}`);
+  }
+
   // Check if user is admin
   const user = await db.query.users.findFirst({
     where: eq(users.id, session.user.id),

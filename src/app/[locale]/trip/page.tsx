@@ -28,6 +28,20 @@ export default async function MyTripsPage({ searchParams, params }: { searchPara
   const pageSize = 10;
   const offset = (page - 1) * pageSize;
 
+  if (!db) {
+    return (
+      <div className="min-h-screen flex flex-col">
+        <main className="flex-1 bg-gray-50 py-12">
+          <div className="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h1 className="text-2xl font-bold mb-8">My Trips</h1>
+            <div className="text-center py-8 text-gray-500">Database not available.</div>
+          </div>
+        </main>
+        <Footer locale={params.locale} />
+      </div>
+    );
+  }
+
   // Fetch total count for pagination
   const totalTrips = await db.select({ count: count() }).from(trips);
   const total = totalTrips[0]?.count || 0;

@@ -7,7 +7,7 @@ import { eq } from 'drizzle-orm';
 import bcrypt from 'bcryptjs';
 
 export const authOptions: NextAuthOptions = {
-  adapter: DrizzleAdapter(db) as any,
+  adapter: db ? (DrizzleAdapter(db) as any) : undefined,
   session: {
     strategy: 'jwt',
   },
@@ -25,6 +25,10 @@ export const authOptions: NextAuthOptions = {
       async authorize(credentials) {
         if (!credentials?.email || !credentials?.password) {
           throw new Error('Invalid credentials');
+        }
+
+        if (!db) {
+          throw new Error('Database not available');
         }
 
         const user = await db.query.users.findFirst({

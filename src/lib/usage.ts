@@ -31,6 +31,14 @@ export async function checkAnonymousLimit(ipAddress: string): Promise<{
   total: number;
 }> {
   try {
+    if (!db) {
+      return {
+        allowed: true,
+        remaining: MAX_ANONYMOUS_TRIPS,
+        total: MAX_ANONYMOUS_TRIPS,
+      };
+    }
+
     const usage = await db.query.usageTracking.findFirst({
       where: eq(usageTracking.ipAddress, ipAddress),
     });
@@ -59,6 +67,10 @@ export async function checkAnonymousLimit(ipAddress: string): Promise<{
  */
 export async function incrementAnonymousUsage(ipAddress: string): Promise<void> {
   try {
+    if (!db) {
+      return;
+    }
+
     const existing = await db.query.usageTracking.findFirst({
       where: eq(usageTracking.ipAddress, ipAddress),
     });

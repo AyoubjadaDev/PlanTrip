@@ -11,6 +11,10 @@ const TripSubscribeForm = nextDynamic(() => import('@/components/TripSubscribeFo
 export const dynamic = 'force-dynamic';
 
 export default async function TripPage({ params }: { params: { id: string; locale: string } }) {
+  if (!db) {
+    notFound();
+  }
+
   const trip = await db.query.trips.findFirst({
     where: eq(trips.id, params.id),
   });
