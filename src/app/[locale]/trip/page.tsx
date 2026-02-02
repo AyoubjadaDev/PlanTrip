@@ -37,7 +37,7 @@ export default async function MyTripsPage({ searchParams, params }: { searchPara
             <div className="text-center py-8 text-gray-500">Database not available.</div>
           </div>
         </main>
-        <Footer locale={params.locale} />
+        <Footer />
       </div>
     );
   }
