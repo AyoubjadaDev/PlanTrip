@@ -52,8 +52,9 @@ export async function getBlogPosts(locale: string): Promise<ExtendedBlogPost[]> 
     // Skip database query if DATABASE_URL is not configured
     let dbBlogPosts: ExtendedBlogPost[] = [];
     
-    if (locale === 'en' && process.env.DATABASE_URL) {
-      const dbPosts = await db
+    if (locale === 'en' && process.env.DATABASE_URL && db) {
+      const database = db as NonNullable<typeof db>;
+      const dbPosts = await database
         .select()
         .from(blogPostsTable)
         .where(eq(blogPostsTable.status, 'published'));
@@ -98,8 +99,9 @@ export async function getBlogPost(locale: string, slug: string): Promise<Extende
 
     // Try to find in database (only for English locale since DB posts don't have locale field)
     // Skip database query if DATABASE_URL is not configured
-    if (locale === 'en' && process.env.DATABASE_URL) {
-      const dbPost = await db
+    if (locale === 'en' && process.env.DATABASE_URL && db) {
+      const database = db as NonNullable<typeof db>;
+      const dbPost = await database
         .select()
         .from(blogPostsTable)
         .where(eq(blogPostsTable.slug, slug))
