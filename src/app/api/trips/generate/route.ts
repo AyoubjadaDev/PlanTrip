@@ -75,7 +75,13 @@ export async function POST(request: NextRequest) {
 
     // Save trip to database
     console.log('Saving to database...');
-    const [trip] = await db
+    if (!db) {
+      return NextResponse.json({ error: 'Database not available' }, { status: 503 });
+    }
+
+    const database = db as NonNullable<typeof db>;
+
+    const [trip] = await database
       .insert(trips)
       .values({
         userId: session?.user?.id || null,
