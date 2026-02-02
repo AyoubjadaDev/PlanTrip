@@ -8,13 +8,14 @@ import { eq } from 'drizzle-orm';
 export const dynamic = 'force-dynamic';
 export async function PATCH(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  context: { params: Promise<{ id: string }> }
 ) {
   
   if (!db) {
     return NextResponse.json({ error: 'Database not available' }, { status: 503 });
   }
 try {
+    const { id } = await context.params;
     const session = await getServerSession(authOptions);
     
     if (!session?.user?.email) {
@@ -46,7 +47,7 @@ try {
         isRead: isRead,
         updatedAt: new Date(),
       })
-      .where(eq(contactMessages.id, params.id))
+      .where(eq(contactMessages.id, id))
       .returning();
 
     return NextResponse.json({ message: updated[0] }, { status: 200 });
@@ -61,13 +62,14 @@ try {
 
 export async function DELETE(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  context: { params: Promise<{ id: string }> }
 ) {
   
   if (!db) {
     return NextResponse.json({ error: 'Database not available' }, { status: 503 });
   }
 try {
+    const { id } = await context.params;
     const session = await getServerSession(authOptions);
     
     if (!session?.user?.email) {
@@ -92,7 +94,7 @@ try {
     // Delete message
     await db
       .delete(contactMessages)
-      .where(eq(contactMessages.id, params.id));
+      .where(eq(contactMessages.id, id));
 
     return NextResponse.json(
       { success: true, message: 'Message deleted' },

@@ -9,13 +9,14 @@ import blogPostsData from '@/data/blogPosts';
 export const dynamic = 'force-dynamic';
 export async function GET(
   request: NextRequest,
-  { params }: { params: { locale: string; id: string } }
+  context: { params: Promise<{ locale: string; id: string }> }
 ) {
   
   if (!db) {
     return NextResponse.json({ error: 'Database not available' }, { status: 503 });
   }
 try {
+    const { locale, id } = await context.params;
     const session = await getServerSession(authOptions);
     
     if (!session?.user?.email) {
@@ -36,8 +37,6 @@ try {
         { status: 403 }
       );
     }
-
-    const { locale, id } = params;
 
     // Find the static post
     const posts = blogPostsData[locale] || blogPostsData.en;

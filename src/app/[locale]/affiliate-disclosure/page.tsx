@@ -4,9 +4,10 @@ import Footer from '@/components/Footer';
 import Link from 'next/link';
 import { FiInfo, FiExternalLink } from 'react-icons/fi';
 
-export async function generateMetadata({ params }: { params: { locale: string } }): Promise<Metadata> {
+export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> {
+  const { locale } = await params;
   const baseUrl = process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:5200';
-  const pageUrl = `${baseUrl}/${params.locale}/affiliate-disclosure`;
+  const pageUrl = `${baseUrl}/${locale}/affiliate-disclosure`;
 
   const titles: Record<string, string> = {
     en: 'Affiliate Program Disclosure | PlanMyNextTravel',
@@ -15,7 +16,7 @@ export async function generateMetadata({ params }: { params: { locale: string } 
   };
 
   return {
-    title: titles[params.locale] || titles.en,
+    title: titles[locale] || titles.en,
     description: 'Learn about our affiliate partnerships and how we earn commissions from booking platforms.',
     alternates: {
       canonical: pageUrl,
@@ -23,7 +24,8 @@ export async function generateMetadata({ params }: { params: { locale: string } 
   };
 }
 
-export default async function AffiliateDisclosurePage({ params }: { params: { locale: string } }) {
+export default async function AffiliateDisclosurePage({ params }: { params: Promise<{ locale: string }> }) {
+  const { locale } = await params;
   return (
     <>
       <div className="min-h-screen flex flex-col bg-gradient-to-br from-gray-50 to-blue-50">
@@ -140,7 +142,7 @@ export default async function AffiliateDisclosurePage({ params }: { params: { lo
                     If you have any questions about our affiliate partnerships or how we earn revenue, please don't hesitate to reach out to us.
                   </p>
                   <Link
-                    href={`/${params.locale}/contact`}
+                    href={`/${locale}/contact`}
                     className="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-blue-600 to-cyan-600 text-white rounded-xl font-bold hover:from-blue-700 hover:to-cyan-700 transition-all shadow-lg hover:shadow-xl"
                   >
                     Contact Us

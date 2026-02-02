@@ -7,18 +7,19 @@ import { eq } from 'drizzle-orm';
 
 export const dynamic = 'force-dynamic';
 interface RouteParams {
-  params: {
+  params: Promise<{
     id: string;
-  };
+  }>;
 }
 
-export async function GET(request: NextRequest, { params }: RouteParams) {
+export async function GET(request: NextRequest, context: RouteParams) {
   
   if (!db) {
     return NextResponse.json({ error: 'Database not available' }, { status: 503 });
   }
 try {
-    const postId = params.id;
+    const { id } = await context.params;
+    const postId = id;
 
     const post = await db.query.blogPosts.findFirst({
       where: eq(blogPosts.id, postId),
@@ -41,12 +42,13 @@ try {
   }
 }
 
-export async function PATCH(request: NextRequest, { params }: RouteParams) {
+export async function PATCH(request: NextRequest, context: RouteParams) {
   
   if (!db) {
     return NextResponse.json({ error: 'Database not available' }, { status: 503 });
   }
 try {
+    const { id } = await context.params;
     const session = await getServerSession(authOptions);
     
     if (!session?.user?.email) {
@@ -68,7 +70,7 @@ try {
       );
     }
 
-    const postId = params.id;
+    const postId = id;
     const body = await request.json();
     const { title, description, content, image, category, status, slug, locale, readTime, tags } = body;
 
@@ -136,12 +138,13 @@ try {
   }
 }
 
-export async function DELETE(request: NextRequest, { params }: RouteParams) {
+export async function DELETE(request: NextRequest, context: RouteParams) {
   
   if (!db) {
     return NextResponse.json({ error: 'Database not available' }, { status: 503 });
   }
 try {
+    const { id } = await context.params;
     const session = await getServerSession(authOptions);
     
     if (!session?.user?.email) {
@@ -163,7 +166,7 @@ try {
       );
     }
 
-    const postId = params.id;
+    const postId = id;
 
     // Check if post exists
     const post = await db.query.blogPosts.findFirst({

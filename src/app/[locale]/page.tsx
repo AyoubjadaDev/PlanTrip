@@ -10,21 +10,19 @@ import NewsletterSection from '@/components/NewsletterSection';
 
 // Dynamic imports for better performance
 const TripGeneratorWizard = dynamicImport(() => import('@/components/TripGeneratorWizard'), {
-  ssr: false,
   loading: () => <div className="min-h-[400px] flex items-center justify-center"><div className="animate-spin rounded-full h-12 w-12 border-b-2 border-orange-600"></div></div>
 });
 
-const AdDisplay = dynamicImport(() => import('@/components/AdDisplay'), {
-  ssr: false
-});
+const AdDisplay = dynamicImport(() => import('@/components/AdDisplay'));
 
 export const dynamic = "force-dynamic";
 export const revalidate = 3600; // Revalidate every hour
 
 // Generate metadata for SEO (2025 best practices)
-export async function generateMetadata({ params }: { params: { locale: string } }): Promise<Metadata> {
+export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> {
+  const { locale } = await params;
   const baseUrl = process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:5200';
-  const pageUrl = `${baseUrl}/${params.locale}`;
+  const pageUrl = `${baseUrl}/${locale}`;
 
   const titles: Record<string, string> = {
     en: 'AI Trip Planner - Plan Your Perfect Trip with AI | Free Itinerary Generator',
@@ -40,8 +38,8 @@ export async function generateMetadata({ params }: { params: { locale: string } 
 
 
   return {
-    title: titles[params.locale] || titles.en,
-    description: descriptions[params.locale] || descriptions.en,
+    title: titles[locale] || titles.en,
+    description: descriptions[locale] || descriptions.en,
     keywords: 'AI trip planner, travel itinerary generator, vacation planner, travel planning, AI travel assistant, budget travel, itinerary maker, travel recommendations, personalized travel, free trip planner',
     authors: [{ name: 'PlanYourNextTravel' }],
     creator: 'PlanYourNextTravel',
@@ -58,8 +56,8 @@ export async function generateMetadata({ params }: { params: { locale: string } 
       },
     },
     openGraph: {
-      title: titles[params.locale] || titles.en,
-      description: descriptions[params.locale] || descriptions.en,
+      title: titles[locale] || titles.en,
+      description: descriptions[locale] || descriptions.en,
       url: pageUrl,
       siteName: 'PlanYourNextTravel',
       images: [
@@ -70,13 +68,13 @@ export async function generateMetadata({ params }: { params: { locale: string } 
           alt: 'PlanYourNextTravel - AI Trip Planner',
         },
       ],
-      locale: params.locale,
+      locale: locale,
       type: 'website',
     },
     twitter: {
       card: 'summary_large_image',
-      title: titles[params.locale] || titles.en,
-      description: descriptions[params.locale] || descriptions.en,
+      title: titles[locale] || titles.en,
+      description: descriptions[locale] || descriptions.en,
       images: [`${baseUrl}/og-image.jpg`],
       creator: '@planyournexttravel',
     },
@@ -95,7 +93,8 @@ export async function generateMetadata({ params }: { params: { locale: string } 
 }
 
 
-export default async function Home({ params: { locale } }: { params: { locale: string } }) {
+export default async function Home({ params }: { params: Promise<{ locale: string }> }) {
+  const { locale } = await params;
   const t = await getTranslations({ locale });
   // Get first 6 blog posts for the locale
   const allPosts = await getBlogPosts(locale);

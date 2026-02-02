@@ -7,12 +7,13 @@ import { eq } from 'drizzle-orm';
 
 export const dynamic = 'force-dynamic';
 interface RouteParams {
-  params: {
+  params: Promise<{
     id: string;
-  };
+  }>;
 }
 
-export async function PATCH(request: NextRequest, { params }: RouteParams) {
+export async function PATCH(request: NextRequest, context: RouteParams) {
+  const { id } = await context.params;
   
   if (!db) {
     return NextResponse.json({ error: 'Database not available' }, { status: 503 });
@@ -46,7 +47,7 @@ try {
     const updated = await db
       .update(groqApiKeys)
       .set({ isActive })
-      .where(eq(groqApiKeys.id, params.id))
+      .where(eq(groqApiKeys.id, id))
       .returning();
 
     if (updated.length === 0) {
@@ -71,7 +72,8 @@ try {
   }
 }
 
-export async function DELETE(request: NextRequest, { params }: RouteParams) {
+export async function DELETE(request: NextRequest, context: RouteParams) {
+  const { id } = await context.params;
   
   if (!db) {
     return NextResponse.json({ error: 'Database not available' }, { status: 503 });
@@ -100,7 +102,7 @@ try {
 
     // Check if key exists
     const existingKey = await db.query.groqApiKeys.findFirst({
-      where: eq(groqApiKeys.id, params.id),
+      where: eq(groqApiKeys.id, id),
     });
 
     if (!existingKey) {
@@ -111,7 +113,7 @@ try {
     }
 
     // Delete API key
-    await db.delete(groqApiKeys).where(eq(groqApiKeys.id, params.id));
+    await db.delete(groqApiKeys).where(eq(groqApiKeys.id, id));
 
     return NextResponse.json(
       { success: true, message: 'API key deleted' },

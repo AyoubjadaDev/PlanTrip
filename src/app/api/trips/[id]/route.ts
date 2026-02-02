@@ -8,15 +8,16 @@ import { eq, and } from 'drizzle-orm';
 export const dynamic = 'force-dynamic';
 export async function GET(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  context: { params: Promise<{ id: string }> }
 ) {
+  const { id } = await context.params;
   
   if (!db) {
     return NextResponse.json({ error: 'Database not available' }, { status: 503 });
   }
 try {
     const trip = await db.query.trips.findFirst({
-      where: eq(trips.id, params.id),
+      where: eq(trips.id, id),
     });
 
     if (!trip) {
@@ -32,8 +33,9 @@ try {
 
 export async function DELETE(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  context: { params: Promise<{ id: string }> }
 ) {
+  const { id } = await context.params;
   
   if (!db) {
     return NextResponse.json({ error: 'Database not available' }, { status: 503 });
@@ -46,7 +48,7 @@ try {
     }
 
     const trip = await db.query.trips.findFirst({
-      where: eq(trips.id, params.id),
+      where: eq(trips.id, id),
     });
 
     if (!trip) {
@@ -57,7 +59,7 @@ try {
       return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
     }
 
-    await db.delete(trips).where(eq(trips.id, params.id));
+    await db.delete(trips).where(eq(trips.id, id));
 
     return NextResponse.json({ message: 'Trip deleted successfully' });
   } catch (error) {

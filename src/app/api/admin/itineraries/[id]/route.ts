@@ -8,13 +8,14 @@ import { eq } from 'drizzle-orm';
 export const dynamic = 'force-dynamic';
 export async function DELETE(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  context: { params: Promise<{ id: string }> }
 ) {
   
   if (!db) {
     return NextResponse.json({ error: 'Database not available' }, { status: 503 });
   }
 try {
+    const { id } = await context.params;
     const session = await getServerSession(authOptions);
 
     if (!session?.user?.email) {
@@ -29,7 +30,7 @@ try {
     }
 
     // Delete the trip
-    await db.delete(trips).where(eq(trips.id, params.id));
+    await db.delete(trips).where(eq(trips.id, id));
 
     return NextResponse.json({ success: true });
   } catch (error) {

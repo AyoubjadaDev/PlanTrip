@@ -2,9 +2,10 @@ import { Metadata } from 'next';
 import Footer from '@/components/Footer';
 
 // Generate metadata for SEO
-export async function generateMetadata({ params }: { params: { locale: string } }): Promise<Metadata> {
+export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> {
+  const { locale } = await params;
   const baseUrl = process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:5200';
-  const pageUrl = `${baseUrl}/${params.locale}/about`;
+  const pageUrl = `${baseUrl}/${locale}/about`;
 
   return {
     title: 'About Us - PlanMyNextTravel | AI-Powered Trip Planning',

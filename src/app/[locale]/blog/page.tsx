@@ -7,9 +7,10 @@ import { getBlogPosts } from '@/data/blog';
 import { FiCalendar, FiClock, FiTag, FiArrowRight } from 'react-icons/fi';
 
 // Generate metadata for SEO
-export async function generateMetadata({ params }: { params: { locale: string } }): Promise<Metadata> {
+export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> {
+  const { locale } = await params;
   const baseUrl = process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:5200';
-  const pageUrl = `${baseUrl}/${params.locale}/blog`;
+  const pageUrl = `${baseUrl}/${locale}/blog`;
 
   const titles: Record<string, string> = {
     en: 'Travel Blog - Expert Guides, Tips & Inspiration | PlanMyNextTravel',
@@ -24,8 +25,8 @@ export async function generateMetadata({ params }: { params: { locale: string } 
   };
 
   return {
-    title: titles[params.locale] || titles.en,
-    description: descriptions[params.locale] || descriptions.en,
+    title: titles[locale] || titles.en,
+    description: descriptions[locale] || descriptions.en,
     keywords: 'travel blog, travel guides, travel tips, destination guides, budget travel, travel inspiration, travel advice, vacation planning, travel stories',
     robots: {
       index: true,
@@ -39,17 +40,17 @@ export async function generateMetadata({ params }: { params: { locale: string } 
       },
     },
     openGraph: {
-      title: titles[params.locale] || titles.en,
-      description: descriptions[params.locale] || descriptions.en,
+      title: titles[locale] || titles.en,
+      description: descriptions[locale] || descriptions.en,
       url: pageUrl,
       siteName: 'PlanMyNextTravel',
       type: 'website',
-      locale: params.locale,
+      locale: locale,
     },
     twitter: {
       card: 'summary_large_image',
-      title: titles[params.locale] || titles.en,
-      description: descriptions[params.locale] || descriptions.en,
+      title: titles[locale] || titles.en,
+      description: descriptions[locale] || descriptions.en,
       creator: '@planmynexttravel',
     },
     alternates: {
@@ -66,9 +67,10 @@ export async function generateMetadata({ params }: { params: { locale: string } 
 export const dynamic = "force-dynamic";
 export const revalidate = 1800; // Revalidate every 30 minutes
 
-export default async function BlogPage({ params }: { params: { locale: string } }) {
+export default async function BlogPage({ params }: { params: Promise<{ locale: string }> }) {
+  const { locale } = await params;
   const t = await getTranslations('blog');
-  const blogPosts = await getBlogPosts(params.locale);
+  const blogPosts = await getBlogPosts(locale);
 
   const gradients = [
     'from-purple-500 via-pink-500 to-red-500',
@@ -87,7 +89,7 @@ export default async function BlogPage({ params }: { params: { locale: string } 
     '@type': 'Blog',
     name: 'PlanYourNextTravel Blog',
     description: 'Expert travel guides, tips, and inspiration for your next adventure',
-    url: `${baseUrl}/${params.locale}/blog`,
+    url: `${baseUrl}/${locale}/blog`,
     publisher: {
       '@type': 'Organization',
       name: 'PlanMyNextTravel',
@@ -106,7 +108,7 @@ export default async function BlogPage({ params }: { params: { locale: string } 
         '@type': 'Person',
         name: post.author,
       },
-      url: `${baseUrl}/${params.locale}/blog/${post.slug}`,
+      url: `${baseUrl}/${locale}/blog/${post.slug}`,
     })),
   };
 
@@ -168,7 +170,7 @@ export default async function BlogPage({ params }: { params: { locale: string } 
                   <div className="flex items-center gap-4 text-sm text-gray-500 mb-4">
                     <span className="flex items-center gap-1 font-medium">
                       <FiCalendar className="text-purple-600" />
-                      {new Date(post.date).toLocaleDateString(params.locale, { 
+                      {new Date(post.date).toLocaleDateString(locale, { 
                         year: 'numeric',
                         month: 'short',
                         day: 'numeric'
@@ -191,7 +193,7 @@ export default async function BlogPage({ params }: { params: { locale: string } 
                   <div className="flex items-center justify-between">
                     <span className="text-sm font-bold text-gray-500">{post.author}</span>
                     <Link
-                      href={`/${params.locale}/blog/${post.slug}`}
+                      href={`/${locale}/blog/${post.slug}`}
                       className="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-purple-600 to-pink-600 text-white rounded-xl font-bold hover:from-purple-700 hover:to-pink-700 transition-all shadow-lg hover:shadow-xl group"
                     >
                       {t('readMore')}

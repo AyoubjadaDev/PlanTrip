@@ -17,7 +17,7 @@ interface BlogPostForm {
   status: string;
 }
 
-export default function EditBlogPostPage({ params }: { params: { locale: string; id: string } }) {
+function EditBlogPostPageClient({ params }: { params: { locale: string; id: string } }) {
   const { data: session, status } = useSession();
   const router = useRouter();
   const [formData, setFormData] = useState<BlogPostForm>({
@@ -410,4 +410,10 @@ export default function EditBlogPostPage({ params }: { params: { locale: string;
       </div>
     </div>
   );
+}
+
+// Server component wrapper to handle async params
+export default async function EditBlogPostPage({ params }: { params: Promise<{ locale: string; id: string }> }) {
+  const resolvedParams = await params;
+  return <EditBlogPostPageClient params={resolvedParams} />;
 }

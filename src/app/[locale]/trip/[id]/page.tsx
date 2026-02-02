@@ -6,11 +6,13 @@ import Footer from '@/components/Footer';
 import TripDisplay from '@/components/TripDisplay';
 import nextDynamic from 'next/dynamic';
 
-const TripSubscribeForm = nextDynamic(() => import('@/components/TripSubscribeForm'), { ssr: false });
+const TripSubscribeForm = nextDynamic(() => import('@/components/TripSubscribeForm'));
 
 export const dynamic = 'force-dynamic';
 
-export default async function TripPage({ params }: { params: { id: string; locale: string } }) {
+export default async function TripPage({ params }: { params: Promise<{ id: string; locale: string }> }) {
+  const { id, locale } = await params;
+  
   if (!db) {
     notFound();
   }
@@ -18,7 +20,7 @@ export default async function TripPage({ params }: { params: { id: string; local
   const database = db as NonNullable<typeof db>;
 
   const trip = await database.query.trips.findFirst({
-    where: eq(trips.id, params.id),
+    where: eq(trips.id, id),
   });
 
   if (!trip) {
@@ -29,11 +31,11 @@ export default async function TripPage({ params }: { params: { id: string; local
     <div className="min-h-screen flex flex-col">
       <main className="flex-1 bg-gray-50 py-12">
         <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
-          <TripDisplay trip={trip} locale={params.locale} />
+          <TripDisplay trip={trip} locale={locale} />
           {/* New Buttons Section */}
           <div className="mt-12 flex flex-col md:flex-row items-center justify-between gap-6 border-t pt-8">
             <a
-              href={`/${params.locale}`}
+              href={`/${locale}`}
               className="group relative inline-flex items-center gap-3 px-8 py-4 bg-gradient-to-r from-orange-500 via-pink-500 to-purple-600 text-white font-bold rounded-2xl shadow-xl hover:shadow-2xl hover:scale-105 transition-all duration-300 text-lg overflow-hidden"
             >
               {/* Animated background effect */}

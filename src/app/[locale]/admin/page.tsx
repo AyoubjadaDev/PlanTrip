@@ -28,7 +28,7 @@ const TABS: { id: TabType; label: string; icon: string }[] = [
   { id: 'google', label: 'Google Integrations', icon: '🟦' },
 ];
 
-export default function AdminPage({ params }: { params: { locale: string } }) {
+function AdminPageClient({ params }: { params: { locale: string } }) {
   const { data: session, status } = useSession();
   const router = useRouter();
   const [activeTab, setActiveTab] = useState<TabType>('analytics');
@@ -234,4 +234,10 @@ export default function AdminPage({ params }: { params: { locale: string } }) {
       </div>
     </div>
   );
+}
+
+// Server component wrapper to handle async params
+export default async function AdminPage({ params }: { params: Promise<{ locale: string }> }) {
+  const resolvedParams = await params;
+  return <AdminPageClient params={resolvedParams} />;
 }

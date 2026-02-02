@@ -105,10 +105,16 @@ export async function incrementAnonymousUsage(ipAddress: string): Promise<void> 
  */
 export async function linkAnonymousTripsToUser(userId: string, ipAddress: string): Promise<number> {
   try {
+    if (!db) {
+      console.log('Database not available, skipping trip linking');
+      return 0;
+    }
+    const database = db as NonNullable<typeof db>;
+    
     console.log(`Linking anonymous trips for IP ${ipAddress} to user ${userId}`);
     
     // Update all trips with this IP and no userId
-    const result = await db
+    const result = await database
       .update(trips)
       .set({ 
         userId: userId,

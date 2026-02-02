@@ -23,7 +23,8 @@ function getPageParam(searchParams: { [key: string]: string | string[] | undefin
   return parseInt(page, 10) || 1;
 }
 
-export default async function MyTripsPage({ searchParams, params }: { searchParams: any; params: { locale: string } }) {
+export default async function MyTripsPage({ searchParams, params }: { searchParams: any; params: Promise<{ locale: string }> }) {
+  const { locale } = await params;
   const page = getPageParam(searchParams);
   const pageSize = 10;
   const offset = (page - 1) * pageSize;
@@ -73,7 +74,7 @@ export default async function MyTripsPage({ searchParams, params }: { searchPara
                 </div>
                 <div className="flex items-center gap-2 flex-shrink-0">
                   <Link
-                    href={`/${params.locale}/trip/${trip.id}`}
+                    href={`/${locale}/trip/${trip.id}`}
                     className="px-4 py-2 bg-blue-600 text-white rounded-lg font-medium hover:bg-blue-700 transition"
                   >
                     View

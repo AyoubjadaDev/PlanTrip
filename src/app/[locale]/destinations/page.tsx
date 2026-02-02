@@ -8,9 +8,10 @@ import { destinationsEn } from '@/data/destinations-en';
 import { destinationsFr } from '@/data/destinations-fr';
 import { destinationsAr } from '@/data/destinations-ar';
 
-export async function generateMetadata({ params }: { params: { locale: string } }): Promise<Metadata> {
+export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> {
+  const { locale } = await params;
   const baseUrl = process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:5200';
-  const pageUrl = `${baseUrl}/${params.locale}/destinations`;
+  const pageUrl = `${baseUrl}/${locale}/destinations`;
 
   const titles: Record<string, string> = {
     en: 'Travel Destinations & Itineraries | PlanMyNextTravel',
@@ -25,12 +26,12 @@ export async function generateMetadata({ params }: { params: { locale: string } 
   };
 
   return {
-    title: titles[params.locale] || titles.en,
-    description: descriptions[params.locale] || descriptions.en,
+    title: titles[locale] || titles.en,
+    description: descriptions[locale] || descriptions.en,
     keywords: 'travel destinations, itineraries, trip planning, destination guides, Bali itinerary, Paris guide, travel guides',
     openGraph: {
-      title: titles[params.locale] || titles.en,
-      description: descriptions[params.locale] || descriptions.en,
+      title: titles[locale] || titles.en,
+      description: descriptions[locale] || descriptions.en,
       url: pageUrl,
       siteName: 'PlanMyNextTravel',
       type: 'website',
@@ -147,9 +148,10 @@ const destinationDetails = [
   },
 ];
 
-export default async function DestinationsPage({ params }: { params: { locale: string } }) {
+export default async function DestinationsPage({ params }: { params: Promise<{ locale: string }> }) {
+  const { locale } = await params;
   const t = await getTranslations('destinations');
-  const localizedDestinations = getLocalizedDestinations(params.locale);
+  const localizedDestinations = getLocalizedDestinations(locale);
   
   // Merge localized text with images and details
   const destinations = localizedDestinations.map(dest => {
@@ -232,7 +234,7 @@ export default async function DestinationsPage({ params }: { params: { locale: s
                     </p>
 
                     <Link
-                      href={`/${params.locale}/destinations/${destination.slug}`}
+                      href={`/${locale}/destinations/${destination.slug}`}
                       className="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-blue-600 to-cyan-600 text-white rounded-xl font-bold hover:from-blue-700 hover:to-cyan-700 transition-all shadow-lg hover:shadow-xl group"
                     >
                       View Itinerary
@@ -254,7 +256,7 @@ export default async function DestinationsPage({ params }: { params: { locale: s
                 Let our AI create a personalized trip plan just for you
               </p>
               <Link
-                href={`/${params.locale}`}
+                href={`/${locale}`}
                 className="inline-block px-8 py-4 bg-white text-blue-600 rounded-xl font-bold hover:scale-105 transition-transform shadow-xl"
               >
                 Generate Your Trip Now

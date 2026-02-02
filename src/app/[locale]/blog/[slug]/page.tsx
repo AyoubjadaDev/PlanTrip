@@ -11,13 +11,14 @@ import ReactMarkdown from 'react-markdown';
 import AffiliateCards from '@/components/AffiliateCards';
 
 interface BlogPostPageProps {
-  params: { locale: string; slug: string };
+  params: Promise<{ locale: string; slug: string }>;
 }
 
 // Generate metadata for SEO (2025 best practices)
 export async function generateMetadata({ params }: BlogPostPageProps): Promise<Metadata> {
-  const decodedSlug = decodeURIComponent(params.slug);
-  const post = await getBlogPost(params.locale, decodedSlug);
+  const { locale, slug } = await params;
+  const decodedSlug = decodeURIComponent(slug);
+  const post = await getBlogPost(locale, decodedSlug);
 
   if (!post) {
     return {
@@ -26,7 +27,7 @@ export async function generateMetadata({ params }: BlogPostPageProps): Promise<M
   }
 
   const baseUrl = process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:5200';
-  const articleUrl = `${baseUrl}/${params.locale}/blog/${params.slug}`;
+  const articleUrl = `${baseUrl}/${locale}/blog/${slug}`;
 
   return {
     title: `${post.title} | PlanMyNextTravel Blog`,
@@ -59,7 +60,7 @@ export async function generateMetadata({ params }: BlogPostPageProps): Promise<M
           alt: post.title,
         },
       ],
-      locale: params.locale,
+      locale: locale,
       type: 'article',
       publishedTime: post.date,
       modifiedTime: post.date,
@@ -76,9 +77,9 @@ export async function generateMetadata({ params }: BlogPostPageProps): Promise<M
     alternates: {
       canonical: articleUrl,
       languages: {
-        'en-US': `${baseUrl}/en/blog/${params.slug}`,
-        'fr-FR': `${baseUrl}/fr/blog/${params.slug}`,
-        'ar-AR': `${baseUrl}/ar/blog/${params.slug}`,
+        'en-US': `${baseUrl}/en/blog/${slug}`,
+        'fr-FR': `${baseUrl}/fr/blog/${slug}`,
+        'ar-AR': `${baseUrl}/ar/blog/${slug}`,
       },
     },
   };
@@ -89,11 +90,10 @@ export const revalidate = 3600; // Revalidate every hour
 
 export default async function BlogPostPage({
   params,
-}: {
-  params: { locale: string; slug: string };
-}) {
-  const decodedSlug = decodeURIComponent(params.slug);
-  const post = await getBlogPost(params.locale, decodedSlug);
+}: BlogPostPageProps) {
+  const { locale, slug } = await params;
+  const decodedSlug = decodeURIComponent(slug);
+  const post = await getBlogPost(locale, decodedSlug);
   const t = await getTranslations('blog');
 
   if (!post) {
@@ -102,7 +102,7 @@ export default async function BlogPostPage({
 
   // JSON-LD structured data for SEO
   const baseUrl = process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:5200';
-  const articleUrl = `${baseUrl}/${params.locale}/blog/${params.slug}`;
+  const articleUrl = `${baseUrl}/${locale}/blog/${slug}`;
   
   const jsonLd = {
     '@context': 'https://schema.org',
@@ -130,7 +130,7 @@ export default async function BlogPostPage({
     },
     keywords: post.tags?.join(', '),
     articleSection: post.category || 'Travel',
-    inLanguage: params.locale,
+    inLanguage: locale,
   };
 
   const breadcrumbJsonLd = {
@@ -141,13 +141,13 @@ export default async function BlogPostPage({
         '@type': 'ListItem',
         position: 1,
         name: 'Home',
-        item: `${baseUrl}/${params.locale}`,
+        item: `${baseUrl}/${locale}`,
       },
       {
         '@type': 'ListItem',
         position: 2,
         name: 'Blog',
-        item: `${baseUrl}/${params.locale}/blog`,
+        item: `${baseUrl}/${locale}/blog`,
       },
       {
         '@type': 'ListItem',
@@ -197,7 +197,7 @@ export default async function BlogPostPage({
               <div className="flex items-center justify-center gap-6 text-white/90 font-medium">
                 <span className="flex items-center gap-2">
                   <FiCalendar />
-                  {new Date(post.date).toLocaleDateString(params.locale, {
+                  {new Date(post.date).toLocaleDateString(locale, {
                     year: 'numeric',
                     month: 'long',
                     day: 'numeric',
@@ -221,7 +221,7 @@ export default async function BlogPostPage({
             {/* Action Buttons */}
             <div className="flex items-center justify-between mb-12 pb-8 border-b-2 border-gray-100">
               <Link
-                href={`/${params.locale}/blog`}
+                href={`/${locale}/blog`}
                 className="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-gray-100 to-gray-200 text-gray-700 rounded-xl font-bold hover:from-gray-200 hover:to-gray-300 transition-all"
               >
                 <FiArrowLeft />
@@ -287,7 +287,7 @@ export default async function BlogPostPage({
               Use our AI-powered trip planner to create your perfect itinerary
             </p>
             <Link
-              href={`/${params.locale}#generator`}
+              href={`/${locale}#generator`}
               className="inline-block px-10 py-5 bg-white text-purple-600 rounded-2xl font-black text-lg hover:scale-105 transition-transform shadow-2xl"
             >
               Start Planning Now

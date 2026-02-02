@@ -1758,15 +1758,16 @@ const getyourguidePartnerId = process.env.NEXT_PUBLIC_GETYOURGUIDE_PARTNER_ID;
 const klookAffiliateId = process.env.NEXT_PUBLIC_KLOOK_AFFILIATE_ID;
 
 interface PageProps {
-  params: {
+  params: Promise<{
     locale: string;
     slug: string;
-  };
+  }>;
 }
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
-  const localizedDestinations = getLocalizedDestinations(params.locale);
-  const destination = localizedDestinations.find(d => d.slug === params.slug);
+  const { locale, slug } = await params;
+  const localizedDestinations = getLocalizedDestinations(locale);
+  const destination = localizedDestinations.find(d => d.slug === slug);
   if (!destination) return { title: 'Destination Not Found' };
   
   return {
@@ -1776,8 +1777,9 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 }
 
 export default async function DestinationDetailPage({ params }: PageProps) {
-  const localizedDestinations = getLocalizedDestinations(params.locale);
-  const destination = localizedDestinations.find(d => d.slug === params.slug);
+  const { locale, slug } = await params;
+  const localizedDestinations = getLocalizedDestinations(locale);
+  const destination = localizedDestinations.find(d => d.slug === slug);
   
   if (!destination) {
     notFound();
@@ -1829,7 +1831,7 @@ export default async function DestinationDetailPage({ params }: PageProps) {
               {/* Back Button */}
               <div className="mb-8">
                 <Link
-                  href={`/${params.locale}/destinations`}
+                  href={`/${locale}/destinations`}
                   className="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-gray-100 to-gray-200 text-gray-700 rounded-xl font-bold hover:from-gray-200 hover:to-gray-300 transition-all"
                 >
                   <FiArrowLeft />
@@ -2149,7 +2151,7 @@ export default async function DestinationDetailPage({ params }: PageProps) {
                   Let our AI create a personalized itinerary for your {destination.destination} adventure
                 </p>
                 <Link
-                  href={`/${params.locale}`}
+                  href={`/${locale}`}
                   className="inline-block px-8 py-4 bg-white text-blue-600 rounded-xl font-bold hover:scale-105 transition-transform shadow-xl"
                 >
                   Generate Custom Itinerary

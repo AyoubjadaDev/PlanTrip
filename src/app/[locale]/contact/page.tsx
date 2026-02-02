@@ -4,9 +4,10 @@ import ContactForm from '@/components/ContactForm';
 import { FiMail, FiMapPin, FiClock } from 'react-icons/fi';
 
 // Generate metadata for SEO
-export async function generateMetadata({ params }: { params: { locale: string } }): Promise<Metadata> {
+export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> {
+  const { locale } = await params;
   const baseUrl = process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:5200';
-  const pageUrl = `${baseUrl}/${params.locale}/contact`;
+  const pageUrl = `${baseUrl}/${locale}/contact`;
 
   return {
     title: 'Contact Us - PlanMyNextTravel | Get Support & Help',

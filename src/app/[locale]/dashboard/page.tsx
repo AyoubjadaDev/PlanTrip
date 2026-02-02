@@ -9,15 +9,16 @@ import DashboardContent from '@/components/DashboardContent';
 
 export const dynamic = "force-dynamic";
 
-export default async function DashboardPage({ params }: { params: { locale: string } }) {
+export default async function DashboardPage({ params }: { params: Promise<{ locale: string }> }) {
+  const { locale } = await params;
   const session = await getServerSession(authOptions);
 
   if (!session) {
-    redirect(`/${params.locale}/auth/signin`);
+    redirect(`/${locale}/auth/signin`);
   }
 
   if (!db) {
-    redirect(`/${params.locale}`);
+    redirect(`/${locale}`);
   }
 
   // TypeScript type assertion after null check
@@ -39,7 +40,7 @@ export default async function DashboardPage({ params }: { params: { locale: stri
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <DashboardContent 
             trips={userTrips} 
-            locale={params.locale} 
+            locale={locale} 
             userName={session.user.name || session.user.email}
             isAdmin={user?.isAdmin || false}
           />
