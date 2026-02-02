@@ -39,7 +39,9 @@ export async function checkAnonymousLimit(ipAddress: string): Promise<{
       };
     }
 
-    const usage = await db!.query.usageTracking.findFirst({
+    const database = db as NonNullable<typeof db>;
+
+    const usage = await database.query.usageTracking.findFirst({
       where: eq(usageTracking.ipAddress, ipAddress),
     });
 
@@ -71,12 +73,14 @@ export async function incrementAnonymousUsage(ipAddress: string): Promise<void> 
       return;
     }
 
-    const existing = await db!.query.usageTracking.findFirst({
+    const database = db as NonNullable<typeof db>;
+
+    const existing = await database.query.usageTracking.findFirst({
       where: eq(usageTracking.ipAddress, ipAddress),
     });
 
     if (existing) {
-      await db!
+      await database
         .update(usageTracking)
         .set({
           tripsGenerated: existing.tripsGenerated + 1,
@@ -84,7 +88,7 @@ export async function incrementAnonymousUsage(ipAddress: string): Promise<void> 
         })
         .where(eq(usageTracking.ipAddress, ipAddress));
     } else {
-      await db!.insert(usageTracking).values({
+      await database.insert(usageTracking).values({
         ipAddress,
         tripsGenerated: 1,
         lastUsedAt: new Date(),

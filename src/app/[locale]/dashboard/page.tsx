@@ -20,12 +20,15 @@ export default async function DashboardPage({ params }: { params: { locale: stri
     redirect(`/${params.locale}`);
   }
 
+  // TypeScript type assertion after null check
+  const database = db as NonNullable<typeof db>;
+
   // Check if user is admin
-  const user = await db!.query.users.findFirst({
+  const user = await database.query.users.findFirst({
     where: eq(users.id, session.user.id),
   });
 
-  const userTrips = await db!.query.trips.findMany({
+  const userTrips = await database.query.trips.findMany({
     where: eq(trips.userId, session.user.id),
     orderBy: [desc(trips.createdAt)],
   });

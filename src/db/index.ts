@@ -2,10 +2,13 @@ import { drizzle } from 'drizzle-orm/postgres-js';
 import postgres from 'postgres';
 import * as schema from './schema';
 
+// Define the DB type
+type DrizzleDB = ReturnType<typeof drizzle<typeof schema>>;
+
 // Make database optional - if DATABASE_URL is not set, db will be null
 // This allows the app to run without database access (useful for static content)
 let migrationClient: postgres.Sql | null = null;
-let db: ReturnType<typeof drizzle> | null = null;
+let db: DrizzleDB | null = null;
 
 if (process.env.DATABASE_URL) {
   const connectionString = process.env.DATABASE_URL;
@@ -26,3 +29,4 @@ if (process.env.DATABASE_URL) {
 }
 
 export { migrationClient, db };
+export type { DrizzleDB };
