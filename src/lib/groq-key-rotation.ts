@@ -7,8 +7,20 @@ let currentKeyIndex = 0;
 
 export async function getNextGroqApiKey(): Promise<string> {
   try {
+    // Check if database is available
+    if (!db) {
+      console.log('Database not available, using fallback from .env');
+      const envKey = process.env.GROQ_API_KEY;
+      if (!envKey || envKey.includes('YOUR_VALID')) {
+        throw new Error('No valid Groq API keys configured');
+      }
+      return envKey;
+    }
+
+    const database = db as NonNullable<typeof db>;
+
     // Get all active API keys from database
-    const keys = await db
+    const keys = await database
       .select()
       .from(groqApiKeys)
       .where(gte(groqApiKeys.isActive, true));
@@ -28,7 +40,7 @@ export async function getNextGroqApiKey(): Promise<string> {
     const key = keys[currentKeyIndex % keys.length];
     
     // Increment usage count for this key
-    await db
+    await database
       .update(groqApiKeys)
       .set({ usageCount: (key.usageCount || 0) + 1 })
       .where(eq(groqApiKeys.id, key.id));
