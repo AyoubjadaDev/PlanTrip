@@ -6,7 +6,13 @@ import { eq, desc } from 'drizzle-orm';
 export const dynamic = 'force-dynamic';
 export async function GET() {
   try {
-    const allSubscribers = await db
+    if (!db) {
+      return NextResponse.json({ error: 'Database not available' }, { status: 503 });
+    }
+
+    const database = db as NonNullable<typeof db>;
+
+    const allSubscribers = await database
       .select({
         id: subscribers.id,
         email: subscribers.email,
